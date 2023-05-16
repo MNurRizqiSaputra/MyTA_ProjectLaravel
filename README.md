@@ -14,7 +14,7 @@ MyTA (My Tugas Akhir) adalah sebuah aplikasi sistem informasi yang bertujuan unt
 - MySQL
 - Lucid chart
 - Trello
-=======
+
 ## Contributors Branch
 This branch is handled by: Rama Alfin Baehaqi
 
