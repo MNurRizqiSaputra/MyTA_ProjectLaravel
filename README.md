@@ -11,3 +11,6 @@ MyTA (My Tugas Akhir) adalah sebuah aplikasi sistem informasi yang bertujuan unt
 - Framework Laravel
 - PHP
 - Bootstrap
+- MySQL
+- Lucid chart
+- Trello
