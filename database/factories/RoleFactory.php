@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Jurusan>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Role>
  */
-class JurusanFactory extends Factory
+class RoleFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -16,9 +16,9 @@ class JurusanFactory extends Factory
      */
     public function definition(): array
     {
-        $daftar_jurusan = ['Sistem Informasi', 'Teknik Informatika', 'Multimedia'];
+        $daftar_role = ['mahasiswa', 'dosen'];
         return [
-            'nama' => $this->faker->unique()->randomElement($daftar_jurusan)
+            'nama' => $this->faker->randomElement($daftar_role),
         ];
     }
 }

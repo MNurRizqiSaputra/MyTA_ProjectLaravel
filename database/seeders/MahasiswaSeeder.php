@@ -2,17 +2,17 @@
 
 namespace Database\Seeders;
 
-use App\Models\Jurusan;
+use App\Models\Mahasiswa;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class JurusanSeeder extends Seeder
+class MahasiswaSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        Jurusan::factory()->count(3)->create();
+        Mahasiswa::factory()->count(3)->create();
     }
 }
