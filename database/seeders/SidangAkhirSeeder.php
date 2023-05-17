@@ -2,17 +2,17 @@
 
 namespace Database\Seeders;
 
-use App\Models\Dosen;
+use App\Models\SidangAkhir;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class DosenSeeder extends Seeder
+class SidangAkhirSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        Dosen::factory()->count(8)->create();
+        SidangAkhir::factory()->count(3)->create();
     }
 }

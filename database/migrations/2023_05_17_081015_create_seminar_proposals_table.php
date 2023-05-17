@@ -11,14 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('mahasiswas', function (Blueprint $table) {
+        Schema::create('seminar_proposals', function (Blueprint $table) {
             $table->id();
-            $table->char('nim', 10)->unique();
-            $table->text('foto')->nullable();
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('jurusan_id')->constrained('jurusans')->onDelete('cascade');
+            $table->string('tempat');
+            $table->date('tanggal');
+            $table->time('waktu');
+            $table->integer('nilai_akhir');
+            $table->foreignId('tugas_akhir_id')->constrained('tugas_akhirs')->onDelete('cascade');
             $table->timestamps();
-            $table->unique('user_id');
+            $table->unique('tugas_akhir_id');
         });
     }
 
@@ -27,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('mahasiswas');
+        Schema::dropIfExists('seminar_proposals');
     }
 };

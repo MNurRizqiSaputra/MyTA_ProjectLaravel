@@ -18,12 +18,12 @@ class DosenFactory extends Factory
      */
     public function definition(): array
     {
-        // ambil data user dengan role dosen (role_id = 1)
+        // ambil semua id unik dosen dengan role dosen (role_id = 1)
         $dosen = User::where('role_id', 1)->pluck('id')->unique()->toArray();
         return [
             'nip' => $this->faker->unique()->numerify('99########'),
             'foto' => 'default.png',
-            'user_id' => $this->faker->randomElement($dosen),
+            'user_id' => $this->faker->unique()->randomElement($dosen),
             'jurusan_id' => $this->faker->numberBetween(1, Jurusan::count()),
         ];
     }
