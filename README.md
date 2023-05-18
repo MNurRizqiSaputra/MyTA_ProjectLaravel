@@ -15,6 +15,3 @@ MyTA (My Tugas Akhir) adalah sebuah aplikasi sistem informasi yang bertujuan unt
 - Lucid chart
 - Trello
 
-## Contributors Branch
-This branch is handled by: M. Nur Rizqi Saputra
-
