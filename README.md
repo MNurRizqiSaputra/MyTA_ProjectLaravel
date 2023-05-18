@@ -16,5 +16,5 @@ MyTA (My Tugas Akhir) adalah sebuah aplikasi sistem informasi yang bertujuan unt
 - Trello
 
 ## Contributors Branch
-This branch is handled by: Rama Alfin Baehaqi
+This branch is handled by: M. Nur Rizqi Saputra
 
