@@ -9,4 +9,14 @@ class Jurusan extends Model
 {
     use HasFactory;
     protected $guarded = [];
+
+    public function mahasiswas()
+    {
+        return $this->hasMany(Mahasiswa::class);
+    }
+
+    public function dosens()
+    {
+        return $this->hasMany(Dosen::class);
+    }
 }
