@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('seminar_proposal_id')->constrained('seminar_proposals')->onDelete('cascade');
             $table->foreignId('dosen_penguji_id')->constrained('dosen_pengujis')->onDelete('cascade');
-            $table->integer('nilai');
+            $table->integer('nilai')->nullable();
             $table->timestamps();
         });
     }

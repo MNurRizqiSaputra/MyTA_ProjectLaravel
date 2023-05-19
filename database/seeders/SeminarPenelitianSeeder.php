@@ -13,6 +13,6 @@ class SeminarPenelitianSeeder extends Seeder
      */
     public function run(): void
     {
-        SeminarPenelitian::factory()->count(4)->create();
+        SeminarPenelitian::factory()->create();
     }
 }

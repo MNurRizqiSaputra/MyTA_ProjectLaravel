@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('tempat');
             $table->date('tanggal');
             $table->time('waktu');
-            $table->integer('nilai_akhir');
+            $table->integer('nilai_akhir')->nullable();
             $table->foreignId('tugas_akhir_id')->constrained('tugas_akhirs')->onDelete('cascade');
             $table->timestamps();
             $table->unique('tugas_akhir_id');

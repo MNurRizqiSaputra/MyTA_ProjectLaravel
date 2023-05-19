@@ -22,7 +22,7 @@ class SeminarPenelitianFactory extends Factory
             'tanggal' => $this->faker->date(),
             'waktu' => $this->faker->time(),
             'nilai_akhir' => $this->faker->numberBetween(1, 100),
-            'tugas_akhir_id' => TugasAkhir::pluck('id')->unique()->random(),
+            'tugas_akhir_id' => $this->faker->numberBetween(1, 10),
         ];
     }
 }

@@ -15,7 +15,7 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $faker = Factory::create('id_ID');
-        $faker->seed(200);
+        $faker->seed(15);
 
         $this->call(JurusanSeeder::class);
         $this->call(RoleSeeder::class);

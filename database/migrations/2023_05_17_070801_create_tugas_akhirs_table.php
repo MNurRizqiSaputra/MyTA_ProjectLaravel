@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('judul')->unique();
             $table->string('file');
             $table->enum('status_persetujuan', ['Disetujui', 'Tidak Disetujui'])->default('Tidak Disetujui');
-            $table->integer('total_nilai');
+            $table->integer('total_nilai')->nullable();
             $table->foreignId('mahasiswa_id')->constrained('mahasiswas')->onDelete('cascade');
             $table->foreignId('dosen_pembimbing_id')->constrained('dosen_pembimbings')->onDelete('cascade');
             $table->timestamps();
