@@ -13,6 +13,6 @@ class DosenPembimbingSeeder extends Seeder
      */
     public function run(): void
     {
-        DosenPembimbing::factory()->count(4)->create();
+        DosenPembimbing::factory()->count(5)->create();
     }
 }
