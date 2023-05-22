@@ -10,6 +10,7 @@ use App\Models\Dosen;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class DosenController extends Controller
 {
@@ -52,11 +53,18 @@ class DosenController extends Controller
                 throw new Exception('Dosen Not Found');
             }
 
+            // Update data dosen
+            if ($request->hasFile('foto')) {
+                $path = $request->file('foto')->store('public/fotos');
+            }
+            $dosen->update([
+                'foto' => $path,
+            ]);
+
+            // Update data user
             $user = $dosen->user;
             $user->update([
-                'nama' => $request->input('nama'),
-                'email' => $request->input('email'),
-                'foto' => $request->input('foto')
+                'nama' => $request->input('nama')
             ]);
 
             return ResponseFormatter::success($dosen, 'Dosen updated successfully');
@@ -64,7 +72,6 @@ class DosenController extends Controller
             return ResponseFormatter::error($e->getMessage(), 500);
         }
     }
-
 
     public function destroy($id)
     {

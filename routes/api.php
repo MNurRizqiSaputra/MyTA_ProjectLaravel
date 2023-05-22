@@ -3,6 +3,7 @@
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\DosenController;
 use App\Http\Controllers\API\JurusanController;
+use App\Http\Controllers\API\MahasiswaController;
 use App\Http\Controllers\API\RoleController;
 use App\Http\Controllers\API\UserController;
 use Illuminate\Http\Request;
@@ -49,6 +50,16 @@ Route::prefix('jurusan')->middleware('auth:sanctum')->name('jurusan.')->group(fu
 Route::prefix('dosen')->middleware('auth:sanctum')->name('dosen.')->group(function(){
     Route::get('', [DosenController::class, 'index'])->name('index');
     Route::get('{id}', [DosenController::class, 'show'])->name('show');
-    Route::put('{id}', [DosenController::class, 'update'])->name('update');
+    Route::post('update/{id}', [DosenController::class, 'update'])->name('update');
     Route::delete('{id}', [DosenController::class, 'destroy'])->name('destroy');
 });
+
+// Mahasiswa API
+Route::prefix('mahasiswa')->middleware('auth:sanctum')->name('mahasiswa.')->group(function(){
+    Route::get('', [MahasiswaController::class, 'index'])->name('index');
+    Route::get('{id}', [MahasiswaController::class, 'show'])->name('show');
+    Route::post('update/{id}', [MahasiswaController::class, 'update'])->name('update');
+    Route::delete('{id}', [MahasiswaController::class, 'destroy'])->name('destroy');
+});
+
+

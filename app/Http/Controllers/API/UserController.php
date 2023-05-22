@@ -107,14 +107,6 @@ class UserController extends Controller
     public function store(Request $request)
     {
         try {
-            // Validasi inputan
-            $request->validate([
-                'nama' => 'required',
-                'email' => 'required|email|unique:users',
-                'password' => 'required|min:8',
-                'role_id' => 'required',
-            ]);
-
             // Buat data user baru
             $user = User::create([
                 'nama' => $request->input('nama'),
@@ -162,7 +154,7 @@ class UserController extends Controller
 
             // Validasi inputan
             $validated = $request->validate([
-                'nama' => 'required',
+                'nama' => 'required|string|min:3',
                 'email' => 'required|email',
                 'role_id' => 'required',
             ]);
@@ -175,7 +167,7 @@ class UserController extends Controller
             if ($user->dosen) {
                 // Update data dosen
                 $validateDosen = $request->validate([
-                    'nip' => 'required|size:8|alpha_num|unique:dosens,nip,'.$user->dosen->id,
+                    'nip' => 'required|size:10|alpha_num|unique:dosens,nip,'.$user->dosen->id,
                     'foto' => 'required',
                     'jurusan_id' => 'required'
                 ]);
@@ -186,7 +178,7 @@ class UserController extends Controller
             if ($user->mahasiswa) {
                 // Update data mahasiswa
                 $validateMahasiswa = $request->validate([
-                    'nim' => 'required|size:8|alpha_num|unique:mahasiswas,nim,'.$user->mahasiswa->id,
+                    'nim' => 'required|size:10|alpha_num|unique:mahasiswas,nim,'.$user->mahasiswa->id,
                     'foto' => 'required',
                     'jurusan_id' => 'required'
                 ]);
