@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 
 class JurusanController extends Controller
 {
-    public function all()
+    public function index()
     {
         try {
             $jurusans = Jurusan::all();
@@ -77,7 +77,7 @@ class JurusanController extends Controller
         }
     }
 
-    public function getJurusanById($id)
+    public function show($id)
     {
         try {
             // get id jurusan

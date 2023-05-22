@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\API\DosenController;
 use App\Http\Controllers\API\JurusanController;
 use App\Http\Controllers\API\RoleController;
 use App\Http\Controllers\API\UserController;
@@ -20,8 +21,8 @@ Route::name('auth.')->group(function(){
 
 // User API
 Route::prefix('user')->middleware('auth:sanctum')->name('user.')->group(function(){
-    Route::get('', [UserController::class, 'all'])->name('all');
-    Route::get('{id}', [UserController::class, 'userById'])->name('user-id');
+    Route::get('', [UserController::class, 'index'])->name('index');
+    Route::get('{id}', [UserController::class, 'show'])->name('show');
     Route::post('', [UserController::class, 'store'])->name('store');
     Route::put('{id}', [UserController::class, 'update'])->name('update');
     Route::delete('{id}', [UserController::class, 'destroy'])->name('delete');
@@ -29,19 +30,25 @@ Route::prefix('user')->middleware('auth:sanctum')->name('user.')->group(function
 
 // Role API
 Route::prefix('role')->middleware('auth:sanctum')->name('role.')->group(function(){
-    Route::get('', [RoleController::class, 'all'])->name('all');
-    Route::get('{role}', [RoleController::class, 'getUsersByRole'])->name('role-name');
+    Route::get('', [RoleController::class, 'index'])->name('index');
+    Route::get('{id}', [RoleController::class, 'show'])->name('show');
     Route::post('', [RoleController::class, 'store'])->name('store');
     Route::put('{id}', [RoleController::class, 'update'])->name('update');
     Route::delete('{id}', [RoleController::class, 'destroy'])->name('destroy');
 });
 
-
 //  Jurusan API
 Route::prefix('jurusan')->middleware('auth:sanctum')->name('jurusan.')->group(function(){
-    Route::get('', [JurusanController::class, 'all'])->name('all');
+    Route::get('', [JurusanController::class, 'index'])->name('index');
+    Route::get('{id}', [JurusanController::class, 'show'])->name('show');
     Route::post('', [JurusanController::class, 'store'])->name('store');
     Route::put('{id}', [JurusanController::class, 'update'])->name('update');
     Route::delete('{id}', [JurusanController::class, 'destroy'])->name('destroy');
-    Route::get('{id}', [JurusanController::class, 'getJurusanById'])->name('jurusan-id');
+});
+
+// Dosen API
+Route::prefix('dosen')->middleware('auth:sanctum')->name('dosen.')->group(function(){
+    Route::get('', [DosenController::class, 'index'])->name('index');
+    Route::get('{id}', [DosenController::class, 'show'])->name('show');
+
 });

@@ -96,7 +96,7 @@ class UserController extends Controller
         // Return Response
         return ResponseFormatter::success($user, 'Fetch Success');
     }
-    public function all()
+    public function index()
     {
         // get all users
         try {
@@ -109,7 +109,7 @@ class UserController extends Controller
             return ResponseFormatter::error($e->getMessage(), 500);
         }
     }
-    public function userById($id)
+    public function show($id)
     {
         try {
             // Get User by id
