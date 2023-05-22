@@ -49,7 +49,7 @@ class JurusanController extends Controller
             // get jurusan by id
             $jurusan = Jurusan::findOrFail($id);
 
-            // Check if role exists
+            // Check if jurusan exists
             if (!$jurusan) {
                 throw new Exception('Jurusan Not Found');
             }
@@ -82,7 +82,7 @@ class JurusanController extends Controller
         try {
             // get id jurusan
             $jurusan = Jurusan::findOrFail($id);
-            // Check if role exists
+            // Check if jurusan exists
             if (!$jurusan) {
                 throw new Exception('Jurusan Not Found');
             }

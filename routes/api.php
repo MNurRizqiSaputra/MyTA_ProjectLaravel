@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\Route;
 // Auth API
 Route::name('auth.')->group(function(){
     Route::post('login', [UserController::class, 'login'])->name('login');
-    Route::post('register', [UserController::class, 'register'])->name('register');
 
     Route::middleware('auth:sanctum')->group(function(){
         Route::get('fetch', [UserController::class, 'fetch'])->name('fetch');
@@ -50,5 +49,6 @@ Route::prefix('jurusan')->middleware('auth:sanctum')->name('jurusan.')->group(fu
 Route::prefix('dosen')->middleware('auth:sanctum')->name('dosen.')->group(function(){
     Route::get('', [DosenController::class, 'index'])->name('index');
     Route::get('{id}', [DosenController::class, 'show'])->name('show');
-
+    Route::put('{id}', [DosenController::class, 'update'])->name('update');
+    Route::delete('{id}', [DosenController::class, 'destroy'])->name('destroy');
 });

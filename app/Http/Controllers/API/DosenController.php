@@ -4,7 +4,10 @@ namespace App\Http\Controllers\API;
 
 use App\Helpers\ResponseFormatter;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CreateDosenRequest;
+use App\Http\Requests\UpdateDosenRequest;
 use App\Models\Dosen;
+use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 
@@ -33,7 +36,42 @@ class DosenController extends Controller
             if (!$dosen) {
                 throw new Exception('Dosen Not Found');
             }
-            return ResponseFormatter::success($dosen, 'Dosen found');
+            return ResponseFormatter::success($dosen, 'Dosen ' . $dosen->user->nama . ' found');
+        } catch (Exception $e) {
+            return ResponseFormatter::error($e->getMessage(), 500);
+        }
+    }
+
+    public function update(UpdateDosenRequest $request, $id)
+    {
+        try {
+            // Get Id
+            $dosen = Dosen::findOrFail($id);
+            // Check if dosen exists
+            if (!$dosen) {
+                throw new Exception('Dosen Not Found');
+            }
+
+            $user = $dosen->user;
+            $user->update([
+                'nama' => $request->input('nama'),
+                'email' => $request->input('email'),
+                'foto' => $request->input('foto')
+            ]);
+
+            return ResponseFormatter::success($dosen, 'Dosen updated successfully');
+        } catch (Exception $e) {
+            return ResponseFormatter::error($e->getMessage(), 500);
+        }
+    }
+
+
+    public function destroy($id)
+    {
+        try {
+            $dosen = Dosen::findOrFail($id);
+            $dosen->delete();
+            return ResponseFormatter::success($dosen, 'Dosen deleted successfully');
         } catch (Exception $e) {
             return ResponseFormatter::error($e->getMessage(), 500);
         }

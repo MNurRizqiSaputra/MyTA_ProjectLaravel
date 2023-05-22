@@ -47,38 +47,6 @@ class UserController extends Controller
         }
     }
 
-    public function register(Request $request)
-    {
-        try {
-            // validate request
-            $request->validate([
-                'nama' => 'required|string|max:255',
-                'email' => 'required|email|max:255|unique:users',
-                'password' => 'required|string|min:8',
-                'role_id' => 'required'
-            ]);
-
-            // create user
-            $user = User::create([
-                'nama' => $request->nama,
-                'email' => $request->email,
-                'password' => Hash::make($request->password),
-                'role_id' => $request->role_id
-            ]);
-
-            // Generate token
-            $tokenResult = $user->createToken('authToken')->plainTextToken;
-
-            // Return Response
-            return ResponseFormatter::success([
-                'access_token' => $tokenResult,
-                'token_type' => 'Bearer',
-                'user' => $user
-            ], 'Register Success');
-        } catch (Exception $e) {
-            return ResponseFormatter::error($e->getMessage());
-        }
-    }
     public function logout(Request $request)
     {
         // revoke token
