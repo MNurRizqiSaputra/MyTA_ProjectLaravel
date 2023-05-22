@@ -45,7 +45,7 @@ class RoleController extends Controller
     {
         try {
             // Get Role by id
-            $role = Role::find($id);
+            $role = Role::findOrFail($id);
 
             // Check if role exists
             if (!$role) {
@@ -56,6 +56,7 @@ class RoleController extends Controller
             $role->update([
                 'nama' => $request->nama
             ]);
+
             return ResponseFormatter::success($role, 'Role Updated');
         } catch (Exception $e) {
             return ResponseFormatter::error($e->getMessage(), 500);

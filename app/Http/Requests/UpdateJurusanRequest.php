@@ -11,7 +11,7 @@ class UpdateJurusanRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,7 @@ class UpdateJurusanRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'nama' => 'required|string|min:3|max:255'
         ];
     }
 }

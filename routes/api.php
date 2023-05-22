@@ -30,9 +30,9 @@ Route::prefix('user')->middleware('auth:sanctum')->name('user.')->group(function
 // Role API
 Route::prefix('role')->middleware('auth:sanctum')->name('role.')->group(function(){
     Route::get('', [RoleController::class, 'all'])->name('all');
-    Route::get('{role}', [RoleController::class, 'getUsersByRole'])->name('users');
+    Route::get('{role}', [RoleController::class, 'getUsersByRole'])->name('role-name');
     Route::post('', [RoleController::class, 'store'])->name('store');
-    Route::put('update/{id}', [RoleController::class, 'update'])->name('update');
+    Route::put('{id}', [RoleController::class, 'update'])->name('update');
     Route::delete('{id}', [RoleController::class, 'destroy'])->name('destroy');
 });
 
@@ -40,4 +40,8 @@ Route::prefix('role')->middleware('auth:sanctum')->name('role.')->group(function
 //  Jurusan API
 Route::prefix('jurusan')->middleware('auth:sanctum')->name('jurusan.')->group(function(){
     Route::get('', [JurusanController::class, 'all'])->name('all');
+    Route::post('', [JurusanController::class, 'store'])->name('store');
+    Route::put('{id}', [JurusanController::class, 'update'])->name('update');
+    Route::delete('{id}', [JurusanController::class, 'destroy'])->name('destroy');
+    Route::get('{id}', [JurusanController::class, 'getUsersById'])->name('jurusan-id');
 });
