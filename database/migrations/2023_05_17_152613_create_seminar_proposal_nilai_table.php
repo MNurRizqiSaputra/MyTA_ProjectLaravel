@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('seminar_proposal_nilai', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('seminar_proposal_id')->constrained('seminar_proposals')->onDelete('cascade');
-            $table->foreignId('dosen_penguji_id')->constrained('dosen_pengujis')->onDelete('cascade');
+            $table->bigInteger('seminar_proposal_id')->unsigned();
+            $table->bigInteger('dosen_penguji_id')->unsigned();
             $table->integer('nilai')->nullable();
             $table->timestamps();
         });

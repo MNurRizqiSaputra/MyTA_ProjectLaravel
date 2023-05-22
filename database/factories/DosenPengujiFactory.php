@@ -18,7 +18,7 @@ class DosenPengujiFactory extends Factory
     public function definition(): array
     {
         return [
-            'dosen_id' => $this->faker->numberBetween(1, Dosen::count()),
+            'dosen_id' => $this->faker->unique()->numberBetween(1, Dosen::count()),
         ];
     }
 }

@@ -13,6 +13,6 @@ class SeminarProposalSeeder extends Seeder
      */
     public function run(): void
     {
-        SeminarProposal::factory()->create();
+        SeminarProposal::factory()->count(3)->create();
     }
 }
