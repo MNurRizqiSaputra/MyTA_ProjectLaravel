@@ -13,6 +13,6 @@ class SeminarProposalNilaiSeeder extends Seeder
      */
     public function run(): void
     {
-        SeminarProposalNilai::factory()->count(10)->create();
+        SeminarProposalNilai::factory()->count(3)->create();
     }
 }

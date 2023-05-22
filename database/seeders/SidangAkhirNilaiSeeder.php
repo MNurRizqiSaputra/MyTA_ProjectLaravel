@@ -13,6 +13,6 @@ class SidangAkhirNilaiSeeder extends Seeder
      */
     public function run(): void
     {
-        SidangAkhirNilai::factory()->count(6)->create();
+        SidangAkhirNilai::factory()->count(3)->create();
     }
 }
