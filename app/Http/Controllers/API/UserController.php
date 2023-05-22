@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\API;
 
+use Exception;
+use App\Models\User;
+use Illuminate\Http\Request;
 use App\Helpers\ResponseFormatter;
 use App\Http\Controllers\Controller;
-use App\Models\User;
-use Exception;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
@@ -194,10 +194,9 @@ class UserController extends Controller
 
             // Validasi inputan
             $validated = $request->validate([
-                'nama' => 'nullable',
-                'email' => 'nullable|email',
-                'password' => 'nullable|min:8',
-                'role_id' => 'nullable',
+                'nama' => 'required',
+                'email' => 'required|email',
+                'role_id' => 'required',
             ]);
 
             // Update data user
@@ -208,9 +207,9 @@ class UserController extends Controller
             if ($user->dosen) {
                 // Update data dosen
                 $validateDosen = $request->validate([
-                    'nip' => 'nullable|size:8|alpha_num|unique:dosens,nip,'.$user->dosen->id,
-                    'foto' => 'nullable',
-                    'jurusan_id' => 'nullable'
+                    'nip' => 'required|size:8|alpha_num|unique:dosens,nip,'.$user->dosen->id,
+                    'foto' => 'required',
+                    'jurusan_id' => 'required'
                 ]);
                 $user->dosen->update($validateDosen);
                 // return redirect()->route('dosen.index');
@@ -219,9 +218,9 @@ class UserController extends Controller
             if ($user->mahasiswa) {
                 // Update data mahasiswa
                 $validateMahasiswa = $request->validate([
-                    'nim' => 'nullable|size:8|alpha_num|unique:mahasiswas,nim,'.$user->mahasiswa->id,
-                    'foto' => 'nullable',
-                    'jurusan_id' => 'nullable'
+                    'nim' => 'required|size:8|alpha_num|unique:mahasiswas,nim,'.$user->mahasiswa->id,
+                    'foto' => 'required',
+                    'jurusan_id' => 'required'
                 ]);
                 $user->mahasiswa->update($validateMahasiswa);
                 // return redirect()->route('mahasiswa.index');

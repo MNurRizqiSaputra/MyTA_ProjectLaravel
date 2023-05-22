@@ -32,7 +32,7 @@ Route::prefix('role')->middleware('auth:sanctum')->name('role.')->group(function
     Route::get('', [RoleController::class, 'all'])->name('all');
     Route::get('{role}', [RoleController::class, 'getUsersByRole'])->name('users');
     Route::post('', [RoleController::class, 'store'])->name('store');
-    Route::post('update/{id}', [RoleController::class, 'update'])->name('update');
+    Route::put('update/{id}', [RoleController::class, 'update'])->name('update');
     Route::delete('{id}', [RoleController::class, 'destroy'])->name('destroy');
 });
 
