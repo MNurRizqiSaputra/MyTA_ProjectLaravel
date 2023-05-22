@@ -43,5 +43,5 @@ Route::prefix('jurusan')->middleware('auth:sanctum')->name('jurusan.')->group(fu
     Route::post('', [JurusanController::class, 'store'])->name('store');
     Route::put('{id}', [JurusanController::class, 'update'])->name('update');
     Route::delete('{id}', [JurusanController::class, 'destroy'])->name('destroy');
-    Route::get('{id}', [JurusanController::class, 'getUsersById'])->name('jurusan-id');
+    Route::get('{id}', [JurusanController::class, 'getJurusanById'])->name('jurusan-id');
 });

@@ -6,7 +6,9 @@ use App\Helpers\ResponseFormatter;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateJurusanRequest;
 use App\Http\Requests\UpdateJurusanRequest;
+use App\Models\Dosen;
 use App\Models\Jurusan;
+use App\Models\Mahasiswa;
 use Exception;
 use Illuminate\Http\Request;
 
@@ -75,7 +77,7 @@ class JurusanController extends Controller
         }
     }
 
-    public function getUsersById($id)
+    public function getJurusanById($id)
     {
         try {
             // get id jurusan
@@ -84,7 +86,19 @@ class JurusanController extends Controller
             if (!$jurusan) {
                 throw new Exception('Jurusan Not Found');
             }
-            return ResponseFormatter::success($jurusan, 'Jurusan ' . $jurusan->nama . ' found');
+            // Ambil semua data mahasiswa yang terkait dengan jurusan
+            $mahasiswa = Mahasiswa::where('jurusan_id', $jurusan->id)->get();
+
+            // Ambil semua data dosen yang terkait dengan jurusan
+            $dosen = Dosen::where('jurusan_id', $jurusan->id)->get();
+
+            // Gabungkan data jurusan, mahasiswa, dan dosen dalam satu respons
+            $data = [
+                'jurusan' => $jurusan,
+                'mahasiswa' => $mahasiswa,
+                'dosen' => $dosen
+            ];
+            return ResponseFormatter::success($data, 'Jurusan ' . $jurusan->nama . ' found');
         } catch (Exception $e) {
             return ResponseFormatter::error($e->getMessage(), 500);
         }
