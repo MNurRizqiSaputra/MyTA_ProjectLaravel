@@ -47,38 +47,6 @@ class UserController extends Controller
         }
     }
 
-    public function register(Request $request)
-    {
-        try {
-            // validate request
-            $request->validate([
-                'nama' => 'required|string|max:255',
-                'email' => 'required|email|max:255|unique:users',
-                'password' => 'required|string|min:8',
-                'role_id' => 'required'
-            ]);
-
-            // create user
-            $user = User::create([
-                'nama' => $request->nama,
-                'email' => $request->email,
-                'password' => Hash::make($request->password),
-                'role_id' => $request->role_id
-            ]);
-
-            // Generate token
-            $tokenResult = $user->createToken('authToken')->plainTextToken;
-
-            // Return Response
-            return ResponseFormatter::success([
-                'access_token' => $tokenResult,
-                'token_type' => 'Bearer',
-                'user' => $user
-            ], 'Register Success');
-        } catch (Exception $e) {
-            return ResponseFormatter::error($e->getMessage());
-        }
-    }
     public function logout(Request $request)
     {
         // revoke token
@@ -96,7 +64,7 @@ class UserController extends Controller
         // Return Response
         return ResponseFormatter::success($user, 'Fetch Success');
     }
-    public function all()
+    public function index()
     {
         // get all users
         try {
@@ -109,7 +77,7 @@ class UserController extends Controller
             return ResponseFormatter::error($e->getMessage(), 500);
         }
     }
-    public function userById($id)
+    public function show($id)
     {
         try {
             // Get User by id
@@ -139,14 +107,6 @@ class UserController extends Controller
     public function store(Request $request)
     {
         try {
-            // Validasi inputan
-            $request->validate([
-                'nama' => 'required',
-                'email' => 'required|email|unique:users',
-                'password' => 'required|min:8',
-                'role_id' => 'required',
-            ]);
-
             // Buat data user baru
             $user = User::create([
                 'nama' => $request->input('nama'),
@@ -194,7 +154,7 @@ class UserController extends Controller
 
             // Validasi inputan
             $validated = $request->validate([
-                'nama' => 'required',
+                'nama' => 'required|string|min:3',
                 'email' => 'required|email',
                 'role_id' => 'required',
             ]);
@@ -207,7 +167,7 @@ class UserController extends Controller
             if ($user->dosen) {
                 // Update data dosen
                 $validateDosen = $request->validate([
-                    'nip' => 'required|size:8|alpha_num|unique:dosens,nip,'.$user->dosen->id,
+                    'nip' => 'required|size:10|alpha_num|unique:dosens,nip,'.$user->dosen->id,
                     'foto' => 'required',
                     'jurusan_id' => 'required'
                 ]);
@@ -218,7 +178,7 @@ class UserController extends Controller
             if ($user->mahasiswa) {
                 // Update data mahasiswa
                 $validateMahasiswa = $request->validate([
-                    'nim' => 'required|size:8|alpha_num|unique:mahasiswas,nim,'.$user->mahasiswa->id,
+                    'nim' => 'required|size:10|alpha_num|unique:mahasiswas,nim,'.$user->mahasiswa->id,
                     'foto' => 'required',
                     'jurusan_id' => 'required'
                 ]);

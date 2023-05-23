@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateJurusanRequest extends FormRequest
+class UpdateDosenRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,7 +22,8 @@ class UpdateJurusanRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nama' => 'required|string|min:3|max:255'
+            'nama' => 'nullable|string|min:3',
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
         ];
     }
 }
