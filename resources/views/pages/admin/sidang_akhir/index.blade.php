@@ -1,0 +1,42 @@
+@extends('layouts.admin')
+
+@section('title')
+    Sidang Akhir Page
+@endsection
+
+@section('content')
+<div class="content">
+    <div class="row">
+        <div class="col-12">
+            <h2 class="content-title">MENU</h2>
+            <h5 class="content-desc mb-4">DATA SIDANG AKHIR</h5>
+        </div>
+
+        <table id="example" class="display" style="width:100%">
+            <thead>
+              <tr>
+                <th>No</th>
+                <th>Tugas Akhir</th>
+                <th>Tempat</th>
+                <th>Tanggal</th>
+                <th>Waktu</th>
+                <th>Nilai Akhir</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($sidang_akhirs as $sidang_akhir)
+            <tr>
+                <td>{{ $loop->iteration }}</td>
+                <td>{{ $sidang_akhir->tugas_akhir->judul }}</td>
+                <td>{{ $sidang_akhir->tempat }}</td>
+                <td>{{ $sidang_akhir->tanggal }}</td>
+                <td>{{ $sidang_akhir->waktu }}</td>
+                <td>{{ $sidang_akhir->nilai_akhir }}</td>
+            </tr>
+            @endforeach
+        </tbody>
+        </table>
+    </div>
+</div>
+@endsection
+
