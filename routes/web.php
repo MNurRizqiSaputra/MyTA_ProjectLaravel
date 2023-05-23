@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix("admin")
     ->group(function () {
-        Route::get("/", [DashboardController::class, "index"])->name(
+        Route::get("/overview", [DashboardController::class, "index"])->name(
             "admin-dashboard"
         );
         Route::resource("role", RoleController::class);

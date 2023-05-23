@@ -39,7 +39,7 @@
 
                 <h5 class="sidebar-title">General</h5>
 
-                <a href="{{ route('admin-dashboard') }}" class="sidebar-item {{ request()->is('/') ? 'active' : '' }}" onclick="toggleActive(this)">
+                <a href="{{ route('admin-dashboard') }}" class="sidebar-item {{ request()->is('admin/overview') ? 'active' : '' }}" onclick="toggleActive(this)">
                     <!-- <img src="./assets/img/global/grid.svg" alt=""> -->
 
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
