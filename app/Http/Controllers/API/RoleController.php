@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 
 class RoleController extends Controller
 {
-    public function all(Request $request)
+    public function index()
     {
         try {
             $roles = Role::all();
@@ -45,7 +45,7 @@ class RoleController extends Controller
     {
         try {
             // Get Role by id
-            $role = Role::find($id);
+            $role = Role::findOrFail($id);
 
             // Check if role exists
             if (!$role) {
@@ -56,24 +56,25 @@ class RoleController extends Controller
             $role->update([
                 'nama' => $request->nama
             ]);
+
             return ResponseFormatter::success($role, 'Role Updated');
         } catch (Exception $e) {
             return ResponseFormatter::error($e->getMessage(), 500);
         }
     }
 
-    public function getUsersByRole($roleName)
+    public function show($id)
     {
         try {
             // Get All Users by role
-            $role = Role::where('nama', $roleName)->first();
+            $role = Role::findOrFail($id);
 
             // Check if role exists
             if (!$role) {
                 throw new Exception('Role Not Found');
             }
             $users = $role->users;
-            return ResponseFormatter::success($users, 'User With Role ' . $roleName . ' found');
+            return ResponseFormatter::success($users, 'User With Role ' . $role->nama . ' found');
         } catch (Exception $e) {
             return ResponseFormatter::error($e->getMessage(), 500);
         }
