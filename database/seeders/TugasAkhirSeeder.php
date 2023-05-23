@@ -13,6 +13,6 @@ class TugasAkhirSeeder extends Seeder
      */
     public function run(): void
     {
-        TugasAkhir::factory()->count(8)->create();
+        TugasAkhir::factory()->count(10)->create();
     }
 }

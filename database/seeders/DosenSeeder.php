@@ -13,6 +13,6 @@ class DosenSeeder extends Seeder
      */
     public function run(): void
     {
-        Dosen::factory()->count(8)->create();
+        Dosen::factory()->count(15)->create();
     }
 }
