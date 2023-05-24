@@ -8,8 +8,8 @@
 <div class="content">
     <div class="row">
         <div class="col-12">
-            <h2 class="content-title">MENU</h2>
-            <h5 class="content-desc mb-4">DATA DOSEN</h5>
+            <h2 class="content-title">Dosen</h2>
+            <h5 class="content-desc mb-4">FOR ADMIN</h5>
         </div>
 
         <table id="example" class="display" style="width:100%">
@@ -18,6 +18,7 @@
                 <th>No</th>
                 <th>NIP</th>
                 <th>Nama</th>
+                <th>Email</th>
                 <th>Jurusan</th>
             </tr>
         </thead>
@@ -27,6 +28,7 @@
                 <td>{{ $loop->iteration }}</td>
                 <td>{{ $dosen->nip }}</td>
                 <td>{{ $dosen->user->nama }}</td>
+                <td>{{ $dosen->user->email }}</td>
                 <td>{{ $dosen->jurusan->nama }}</td>
             </tr>
             @endforeach

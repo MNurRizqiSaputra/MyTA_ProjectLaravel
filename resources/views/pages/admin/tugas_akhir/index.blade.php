@@ -8,8 +8,8 @@
 <div class="content">
     <div class="row">
         <div class="col-12">
-            <h2 class="content-title">MENU</h2>
-            <h5 class="content-desc mb-4">DATA TUGAS AKHIR</h5>
+            <h2 class="content-title">Tugas Akhir</h2>
+            <h5 class="content-desc mb-4">FOR ADMIN</h5>
         </div>
 
         <table id="example" class="display" style="width:100%">
