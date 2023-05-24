@@ -1,4 +1,4 @@
- <div class="screen-cover d-none d-xl-none"></div>
+ <div class="screen-cover d-none d-xl-none">
 
     <div class="row">
         <div class="col-12 col-lg-3 col-navbar d-none d-xl-block">
@@ -32,7 +32,7 @@
 
                 <!-- <a href="./employees.html" class="sidebar-item"> -->
                 <!-- <img src="./assets/img/global/users.svg" alt=""> -->
-                <a href="{{  }}" class="sidebar-item" onclick="toggleActive(this)">
+                <a href="#" class="sidebar-item" onclick="toggleActive(this)">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M23 21V19C22.9993 18.1137 22.7044 17.2528 22.1614 16.5523C21.6184 15.8519 20.8581 15.3516 20 15.13" stroke="#ABB3C4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         <path d="M17 21V19C17 17.9391 16.5786 16.9217 15.8284 16.1716C15.0783 15.4214 14.0609 15 13 15H5C3.93913 15 2.92172 15.4214 2.17157 16.1716C1.42143 16.9217 1 17.9391 1 19V21" stroke="#ABB3C4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -300,3 +300,4 @@
             </div>
         </div>
     </div>
+{{-- </div> --}}

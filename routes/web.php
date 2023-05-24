@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DosenController;
 use App\Http\Controllers\DosenPengujiController;
 use App\Http\Controllers\JurusanController;
@@ -71,3 +72,5 @@ Route::prefix('sidang-akhir')->name('sidang-akhir.')->group(function(){
 Route::prefix('sidang-akhir-nilai')->name('sidang-akhir-nilai.')->group(function(){
     Route::get('', [SidangAkhirNilaiController::class, 'index'])->name('index');
 });
+
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('index');
