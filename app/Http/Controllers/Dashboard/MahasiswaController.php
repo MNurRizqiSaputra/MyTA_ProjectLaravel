@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Models\Mahasiswa;
@@ -10,7 +10,7 @@ class MahasiswaController extends Controller
 {
     public function index()
     {
-        return view('pages.admin.mahasiswa.index', [
+        return view('pages.dashboard.mahasiswa.index', [
             'mahasiswas' => Mahasiswa::all(),
         ]);
     }

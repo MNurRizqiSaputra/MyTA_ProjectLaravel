@@ -12,7 +12,7 @@
 
     <h5 class="sidebar-title">General</h5>
 
-    <a href="{{ route('admin-dashboard') }}" class="sidebar-item {{ request()->is('admin/overview') ? 'active' : '' }}" onclick="toggleActive(this)">
+    <a href="{{ route('dashboard') }}" class="sidebar-item {{ request()->is('dashboard') ? 'active' : '' }}" onclick="toggleActive(this)">
         <!-- <img src="./assets/img/global/grid.svg" alt=""> -->
 
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -30,7 +30,7 @@
         <span>Overview</span>
     </a>
 
-    <a href="{{ route('user.index') }}" class="sidebar-item {{ request()->is('admin/user') ? 'active' : '' }}" onclick="toggleActive(this)">
+    <a href="{{ route('user.index') }}" class="sidebar-item {{ request()->is('dashboard/user') ? 'active' : '' }}" onclick="toggleActive(this)">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
             xmlns="http://www.w3.org/2000/svg">
             <path
@@ -50,7 +50,7 @@
         <span>User</span>
     </a>
 
-    <a href="{{ route('mahasiswa.index') }}" class="sidebar-item {{ request()->is('admin/mahasiswa') ? 'active' : '' }}" onclick="toggleActive(this)">
+    <a href="{{ route('mahasiswa.index') }}" class="sidebar-item {{ request()->is('dashboard/mahasiswa') ? 'active' : '' }}" onclick="toggleActive(this)">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
             xmlns="http://www.w3.org/2000/svg">
             <path
@@ -63,7 +63,7 @@
 
         <span>Mahasiswa</span>
     </a>
-    <a href="{{ route('dosen.index') }}" class="sidebar-item {{ request()->is('admin/dosen') ? 'active' : '' }}" onclick="toggleActive(this)">
+    <a href="{{ route('dosen.index') }}" class="sidebar-item {{ request()->is('dashboard/dosen') ? 'active' : '' }}" onclick="toggleActive(this)">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
             xmlns="http://www.w3.org/2000/svg">
             <path
@@ -77,7 +77,7 @@
         <span>Dosen</span>
     </a>
 
-    <a href="{{ route('dosen-pembimbing.index') }}" class="sidebar-item {{ request()->is('admin/dosen-pembimbing') ? 'active' : '' }}" onclick="toggleActive(this)">
+    <a href="{{ route('dosen-pembimbing.index') }}" class="sidebar-item {{ request()->is('dashboard/dosen-pembimbing') ? 'active' : '' }}" onclick="toggleActive(this)">
         <!-- <img src="./assets/img/global/dollar-sign.svg" alt=""> -->
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
             xmlns="http://www.w3.org/2000/svg">
@@ -91,7 +91,7 @@
         <span>Dosen Pembimbing</span>
     </a>
 
-    <a href="{{ route('dosen-penguji.index') }}" class="sidebar-item {{ request()->is('admin/dosen-penguji') ? 'active' : '' }}" onclick="toggleActive(this)">
+    <a href="{{ route('dosen-penguji.index') }}" class="sidebar-item {{ request()->is('dashboard/dosen-penguji') ? 'active' : '' }}" onclick="toggleActive(this)">
         <!-- <img src="./assets/img/global/dollar-sign.svg" alt=""> -->
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
             xmlns="http://www.w3.org/2000/svg">
@@ -105,7 +105,7 @@
         <span>Dosen Penguji</span>
     </a>
 
-    <a href="{{ route('tugas-akhir.index') }}" class="sidebar-item {{ request()->is('admin/dosen-penguji') ? 'active' : '' }}" onclick="toggleActive(this)">
+    <a href="{{ route('tugas-akhir.index') }}" class="sidebar-item {{ request()->is('dashboard/dosen-penguji') ? 'active' : '' }}" onclick="toggleActive(this)">
         <!-- <img src="./assets/img/global/dollar-sign.svg" alt=""> -->
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
             xmlns="http://www.w3.org/2000/svg">
@@ -121,7 +121,7 @@
 
     <h5 class="sidebar-title">Others</h5>
 
-    <a href="{{ route('seminar-proposal.index') }}" class="sidebar-item {{ request()->is('admin/seminar-proposal') ? 'active' : '' }}" onclick="toggleActive(this)">
+    <a href="{{ route('seminar-proposal.index') }}" class="sidebar-item {{ request()->is('dashboard/seminar-proposal') ? 'active' : '' }}" onclick="toggleActive(this)">
         <!-- <img src="./assets/img/global/box.svg" alt=""> -->
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
             xmlns="http://www.w3.org/2000/svg">
@@ -137,7 +137,7 @@
         <span>Seminar Proposal</span>
     </a>
 
-    <a href="{{ route('seminar-proposal-nilai.index') }}" class="sidebar-item {{ request()->is('admin/seminar-proposal-nilai') ? 'active' : '' }}" onclick="toggleActive(this)">
+    <a href="{{ route('seminar-proposal-nilai.index') }}" class="sidebar-item {{ request()->is('dashboard/seminar-proposal-nilai') ? 'active' : '' }}" onclick="toggleActive(this)">
         <!-- <img src="./assets/img/global/box.svg" alt=""> -->
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
             xmlns="http://www.w3.org/2000/svg">
@@ -153,7 +153,7 @@
         <span>Nilai Seminar Proposal</span>
     </a>
 
-    <a href="{{ route('seminar-penelitian.index') }}" class="sidebar-item {{ request()->is('admin/seminar-penelitian') ? 'active' : '' }}" onclick="toggleActive(this)">
+    <a href="{{ route('seminar-penelitian.index') }}" class="sidebar-item {{ request()->is('dashboard/seminar-penelitian') ? 'active' : '' }}" onclick="toggleActive(this)">
         <!-- <img src="./assets/img/global/home.svg" alt=""> -->
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
             xmlns="http://www.w3.org/2000/svg">
@@ -167,7 +167,7 @@
         <span>Seminar Penelitian</span>
     </a>
 
-    <a href="{{ route('seminar-penelitian-nilai.index') }}" class="sidebar-item {{ request()->is('admin/seminar-penelitian-nilai') ? 'active' : '' }}" onclick="toggleActive(this)">
+    <a href="{{ route('seminar-penelitian-nilai.index') }}" class="sidebar-item {{ request()->is('dashboard/seminar-penelitian-nilai') ? 'active' : '' }}" onclick="toggleActive(this)">
         <!-- <img src="./assets/img/global/home.svg" alt=""> -->
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
             xmlns="http://www.w3.org/2000/svg">
@@ -181,7 +181,7 @@
         <span>Nilai Seminar Penelitian</span>
     </a>
 
-    <a href="{{ route('sidang-akhir.index') }}" class="sidebar-item {{ request()->is('admin/sidang-akhir') ? 'active' : '' }}" onclick="toggleActive(this)">
+    <a href="{{ route('sidang-akhir.index') }}" class="sidebar-item {{ request()->is('dashboard/sidang-akhir') ? 'active' : '' }}" onclick="toggleActive(this)">
         <!-- <img src="./assets/img/global/gift.svg" alt=""> -->
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
             xmlns="http://www.w3.org/2000/svg">
@@ -202,7 +202,7 @@
         <span>Sidang Akhir</span>
     </a>
 
-    <a href="{{ route('sidang-akhir-nilai.index') }}" class="sidebar-item {{ request()->is('admin/sidang-akhir-nilai') ? 'active' : '' }}" onclick="toggleActive(this)">
+    <a href="{{ route('sidang-akhir-nilai.index') }}" class="sidebar-item {{ request()->is('dashboard/sidang-akhir-nilai') ? 'active' : '' }}" onclick="toggleActive(this)">
         <!-- <img src="./assets/img/global/gift.svg" alt=""> -->
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
             xmlns="http://www.w3.org/2000/svg">
@@ -223,7 +223,7 @@
         <span>Nilai Sidang Akhir</span>
     </a>
 
-    <a href="{{ route('jurusan.index') }}" class="sidebar-item {{ request()->is('admin/jurusan') ? 'active' : '' }}" onclick="toggleActive(this)">
+    <a href="{{ route('jurusan.index') }}" class="sidebar-item {{ request()->is('dashboard/jurusan') ? 'active' : '' }}" onclick="toggleActive(this)">
         <!-- <img src="./assets/img/global/settings.svg" alt=""> -->
 
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -239,7 +239,7 @@
         <span>Jurusan</span>
     </a>
 
-    <a href="{{ route('role.index') }}" class="sidebar-item {{ request()->is('admin/role') ? 'active' : '' }}" onclick="toggleActive(this)">
+    <a href="{{ route('role.index') }}" class="sidebar-item {{ request()->is('dashboard/role') ? 'active' : '' }}" onclick="toggleActive(this)">
         <!-- <img src="./assets/img/global/settings.svg" alt=""> -->
 
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
