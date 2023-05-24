@@ -15,15 +15,15 @@ use App\Http\Controllers\Dashboard\SeminarProposalNilaiController;
 use App\Http\Controllers\Dashboard\SidangAkhirController;
 use App\Http\Controllers\Dashboard\SidangAkhirNilaiController;
 use App\Http\Controllers\Dashboard\TugasAkhirController;
+use App\Http\Controllers\FrontendController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 
 Route::prefix("dashboard")
+    ->middleware(['auth', 'admin'])
     ->group(function () {
-        Route::get("/", [DashboardController::class, "index"])->name(
-            "dashboard"
-        );
+        Route::get("/overview", [DashboardController::class, "index"])->name("dashboard");
         Route::resource("role", RoleController::class);
         Route::resource("user", UserController::class);
         Route::resource("jurusan", JurusanController::class);
@@ -42,4 +42,5 @@ Route::prefix("dashboard")
 
 Auth::routes();
 
-Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/', [FrontendController::class, 'index'])->name('frontend.home');

@@ -12,7 +12,7 @@
 
     <h5 class="sidebar-title">General</h5>
 
-    <a href="{{ route('dashboard') }}" class="sidebar-item {{ request()->is('dashboard') ? 'active' : '' }}" onclick="toggleActive(this)">
+    <a href="{{ route('dashboard') }}" class="sidebar-item {{ request()->is('dashboard/overview') ? 'active' : '' }}" onclick="toggleActive(this)">
         <!-- <img src="./assets/img/global/grid.svg" alt=""> -->
 
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -105,7 +105,7 @@
         <span>Dosen Penguji</span>
     </a>
 
-    <a href="{{ route('tugas-akhir.index') }}" class="sidebar-item {{ request()->is('dashboard/dosen-penguji') ? 'active' : '' }}" onclick="toggleActive(this)">
+    <a href="{{ route('tugas-akhir.index') }}" class="sidebar-item {{ request()->is('dashboard/tugas-akhir') ? 'active' : '' }}" onclick="toggleActive(this)">
         <!-- <img src="./assets/img/global/dollar-sign.svg" alt=""> -->
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
             xmlns="http://www.w3.org/2000/svg">
@@ -252,7 +252,7 @@
                 stroke="#ABB3C4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
         </svg>
 
-        <span>ROLE</span>
+        <span>Role</span>
     </a>
 
     <a href="#" class="sidebar-item" onclick="toggleActive(this)">
