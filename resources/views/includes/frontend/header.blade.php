@@ -31,7 +31,7 @@
                         </form>
                     </li>
                 @else
-                    <li><a href="{{ route('login') }}">Login</a></li>
+                    <li><a href="{{ route('login') }}" class="getstarted scrollto">Login</a></></li>
                 @endif
             </ul>
             <i class="bi bi-list mobile-nav-toggle"></i>
