@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('mahasiswas', function (Blueprint $table) {
             $table->id();
-            $table->char('nim', 10)->unique();
+            $table->char('nim', 10)->nullable()->unique();
             $table->text('foto')->nullable();
             $table->foreignId('user_id')->constrained()->cascadeOnUpdate();
-            $table->foreignId('jurusan_id')->constrained()->cascadeOnUpdate();
+            $table->foreignId('jurusan_id')->nullable()->constrained()->cascadeOnUpdate();
             $table->timestamps();
             $table->unique('user_id');
         });

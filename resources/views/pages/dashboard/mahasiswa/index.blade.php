@@ -17,6 +17,7 @@
                 <th>No</th>
                 <th>NIM</th>
                 <th>Nama</th>
+                <th>Email</th>
                 <th>Jurusan</th>
             </tr>
         </thead>
@@ -24,9 +25,10 @@
             @foreach ($mahasiswas as $mahasiswa)
             <tr>
                 <td>{{ $loop->iteration }}</td>
-                <td>{{ $mahasiswa->nim }}</td>
+                <td>{{ $mahasiswa->nim ?? ''}}</td>
                 <td>{{ $mahasiswa->user->nama }}</td>
-                <td>{{ $mahasiswa->jurusan->nama }}</td>
+                <td>{{ $mahasiswa->user->email }}</td>
+                <td>{{ $mahasiswa->jurusan->nama ?? ''}}</td>
             </tr>
             @endforeach
         </tbody>

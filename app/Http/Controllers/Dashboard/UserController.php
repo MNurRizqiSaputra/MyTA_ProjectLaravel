@@ -30,35 +30,38 @@ class UserController extends Controller
         ]);
     }
 
-    public function store(CreateUserRequest $request)
+    public function store(Request $request)
     {
-        try {
-            // Buat data user baru
-            $user = User::create([
-                'nama' => $request->nama,
-                'email' => $request->email,
-                'password' => Hash::make($request->password),
-                'role_id' => $request->role_id,
+        $request->validate([
+            'nama' => 'required',
+            'email' => 'required|email|unique:users',
+            'password' => 'required',
+            'role_id' => 'required|exists:roles,id',
+        ]);
+
+        // Tambahkan data user
+        $user = User::create([
+            'nama' => $request->input('nama'),
+            'email' => $request->input('email'),
+            'password' => bcrypt($request->input('password')),
+            'role_id' => $request->input('role_id'),
+        ]);
+
+        // Cek nilai role_id
+        if ($user->role_id == 1) {
+            // Tambahkan data dosen
+            Dosen::create([
+                'user_id' => $user->id,
+                // tambahkan kolom lain sesuai kebutuhan
             ]);
-
-            // Jika role adalah dosen
-            if ($request->role_id == 1) {
-                // Buat data dosen terkait
-                Dosen::create([
-                    'user_id' => $user->id,
-                ]);
-            }
-
-            // Jika role adalah mahasiswa
-            if ($request->role_id == 2) {
-                // Buat data mahasiswa terkait
-                Mahasiswa::create([
-                    'user_id' => $user->id,
-                ]);
-            }
-            return redirect()->route('user.index')->with('success', 'Berhasil menambahkan user');
-        } catch (Exception $e) {
-            return redirect()->route('user.create')->with('error', 'Gagal menambahkan user');
+        } elseif ($user->role_id == 2) {
+            // Tambahkan data mahasiswa
+            Mahasiswa::create([
+                'user_id' => $user->id,
+                // tambahkan kolom lain sesuai kebutuhan
+            ]);
         }
+
+        return redirect()->back()->with('success', 'Data user berhasil ditambahkan.');
     }
 }
