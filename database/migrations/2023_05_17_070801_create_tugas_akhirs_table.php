@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('tugas_akhirs', function (Blueprint $table) {
             $table->id();
             $table->string('judul')->unique();
-            $table->string('file');
+            $table->binary('file');
             $table->enum('status_persetujuan', ['Disetujui', 'Tidak Disetujui', 'Pending'])->default('Pending');
             $table->integer('total_nilai')->nullable();
             $table->foreignId('mahasiswa_id')->constrained()->cascadeOnUpdate();
