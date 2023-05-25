@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('title')
-    User Page
+    User
 @endsection
 
 @section('content')
@@ -9,7 +9,7 @@
     <div class="row">
         <div class="col-12">
             <h2 class="content-title">Users</h2>
-            <h5 class="content-desc mb-4">FOR ADMIN</h5>
+            <a href="{{ route('user.create') }}">Tambah</a>
         </div>
 
         <table id="example" class="display" style="width:100%">

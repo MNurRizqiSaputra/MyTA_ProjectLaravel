@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('title')
-    Sidang Akhir Nilai Page
+Nilai Sidang Akhir
 @endsection
 
 @section('content')
@@ -9,7 +9,6 @@
     <div class="row">
         <div class="col-12">
             <h2 class="content-title">Nilai Sidang Akhir</h2>
-            <h5 class="content-desc mb-4">FOR ADMIN</h5>
         </div>
 
         <table id="example" class="display" style="width:100%">

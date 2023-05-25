@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('title')
-    Seminar Proposal Nilai Page
+Nilai Seminar Proposal
 @endsection
 
 @section('content')

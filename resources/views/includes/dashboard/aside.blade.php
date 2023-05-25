@@ -255,7 +255,7 @@
         <span>Role</span>
     </a>
 
-    <a href="#" class="sidebar-item" onclick="toggleActive(this)">
+    <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="sidebar-item">
         <!-- <img src="./assets/img/global/log-out.svg" alt=""> -->
 
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -270,6 +270,10 @@
         </svg>
 
         <span>Logout</span>
+
+        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+            @csrf
+        </form>
     </a>
 
 </aside>
