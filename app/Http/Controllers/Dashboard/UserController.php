@@ -47,7 +47,7 @@ class UserController extends Controller
             'role_id' => $request->input('role_id'),
         ]);
 
-        // Cek nilai role_id
+        // Cek role_id
         if ($user->role_id == 1) {
             // Tambahkan data dosen
             Dosen::create([
