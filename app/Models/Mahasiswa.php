@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Mahasiswa extends Model
 {
     use HasFactory;
-    protected $guarded = [];
+    protected $fillable = ['user_id', 'nim', 'foto', 'jurusan_id'];
+
     public function jurusan()
     {
         return $this->belongsTo(Jurusan::class);

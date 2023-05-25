@@ -17,7 +17,7 @@ return new class extends Migration
             $table->date('tanggal');
             $table->time('waktu');
             $table->integer('nilai_akhir')->nullable();
-            $table->bigInteger('tugas_akhir_id')->unsigned();
+            $table->foreignId('tugas_akhir_id')->constrained()->cascadeOnUpdate();
             $table->timestamps();
             $table->unique('tugas_akhir_id');
         });

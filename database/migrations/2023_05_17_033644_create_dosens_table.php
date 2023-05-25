@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->char('nip', 10)->unique();
             $table->text('foto')->nullable();
-            $table->bigInteger('user_id')->unsigned();
-            $table->bigInteger('jurusan_id')->unsigned();
+            $table->foreignId('user_id')->constrained()->cascadeOnUpdate();
+            $table->foreignId('jurusan_id')->constrained()->cascadeOnUpdate();
             $table->timestamps();
             $table->unique('user_id');
         });
