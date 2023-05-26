@@ -13,12 +13,19 @@ class TugasAkhirController extends Controller
     public function index()
     {
         if (Auth::user()->role->nama == 'mahasiswa') {
+            // get id mahasiswa yang login
             $mahasiswaId = Auth::user()->mahasiswa->id;
             $tugasAkhir = TugasAkhir::where('mahasiswa_id', $mahasiswaId)->get();
-        } elseif (Auth::user()->dosen->dosen_pembimbings) {
-            $dosenPembimbingId = Auth::user()->dosen->dosen_pembimbings;
+        }
+
+        elseif (Auth::user()->role->nama == 'dosen'){
+            // get id dosen pembimbing yang login
+            $dosenPembimbingId = Auth::user()->dosen->dosen_pembimbings->pluck('id');
             $tugasAkhir = TugasAkhir::where('dosen_pembimbing_id', $dosenPembimbingId)->get();
-        } elseif (Auth::user()->role->nama == 'admin') {
+        }
+
+        else {
+            // get id admin
             $tugasAkhir = TugasAkhir::all();
         }
 

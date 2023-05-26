@@ -49,6 +49,8 @@ Route::prefix("dashboard")
 
         Route::prefix('dosen-pembimbing')->name('dosen-pembimbing.')->group(function(){
             Route::get('', [DosenPembimbingController::class, 'index'])->name('index'); // all users
+            Route::get('create', [DosenPembimbingController::class, 'create'])->name('create')->middleware('admin'); // admin
+            Route::post('store', [DosenPembimbingController::class, 'store'])->name('store')->middleware('admin'); // admin
         });
 
         Route::prefix('mahasiswa')->name('mahasiswa.')->group(function(){
@@ -57,8 +59,8 @@ Route::prefix("dashboard")
 
         Route::prefix('tugas-akhir')->name('tugas-akhir.')->group(function(){
             Route::get('', [TugasAkhirController::class, 'index'])->name('index'); // all users
-            Route::get('create', [TugasAkhirController::class, 'create'])->name('create'); // all users
-            Route::post('store', [TugasAkhirController::class, 'store'])->name('store'); // all users
+            Route::get('create', [TugasAkhirController::class, 'create'])->name('create'); // admin, mahasiswa
+            Route::post('store', [TugasAkhirController::class, 'store'])->name('store'); // admin, mahasiswa
         });
 
         Route::prefix('seminar-proposal')->name('seminar-proposal.')->group(function(){
