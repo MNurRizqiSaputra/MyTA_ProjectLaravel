@@ -12,8 +12,18 @@ class TugasAkhirController extends Controller
 {
     public function index()
     {
+        if (Auth::user()->role->nama == 'mahasiswa') {
+            $mahasiswaId = Auth::user()->mahasiswa->id;
+            $tugasAkhir = TugasAkhir::where('mahasiswa_id', $mahasiswaId)->get();
+        } elseif (Auth::user()->dosen->dosen_pembimbings) {
+            $dosenPembimbingId = Auth::user()->dosen->dosen_pembimbings;
+            $tugasAkhir = TugasAkhir::where('dosen_pembimbing_id', $dosenPembimbingId)->get();
+        } elseif (Auth::user()->role->nama == 'admin') {
+            $tugasAkhir = TugasAkhir::all();
+        }
+
         return view('pages.dashboard.tugas_akhir.index', [
-            'tugas_akhirs' => TugasAkhir::all(),
+            'tugas_akhirs' => $tugasAkhir,
         ]);
     }
 
@@ -32,7 +42,7 @@ class TugasAkhirController extends Controller
         // Cek apakah mahasiswa sudah memiliki tugas akhir
         $mahasiswa = auth()->user()->mahasiswa;
         $existingTugasAkhir = TugasAkhir::where('mahasiswa_id', $mahasiswa->id)->first();
-        
+
         if ($mahasiswa && $existingTugasAkhir) {
             return redirect()->route('tugas-akhir.index')->with('error', 'Anda sudah memiliki tugas akhir.');
         }
