@@ -9,6 +9,7 @@
     <div class="row">
         <div class="col-12">
             <h2 class="content-title">Tugas Akhir</h2>
+            <a href="{{ route('tugas-akhir.create') }}">Tambah</a>
         </div>
 
         <table id="example" class="display" style="width:100%">

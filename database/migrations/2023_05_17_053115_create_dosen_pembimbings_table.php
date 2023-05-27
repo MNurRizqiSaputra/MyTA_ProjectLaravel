@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('dosen_pembimbings', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('dosen_id')->unsigned();
+            $table->foreignId('dosen_id')->constrained()->cascadeOnUpdate();
             $table->timestamps();
             $table->unique('dosen_id');
         });

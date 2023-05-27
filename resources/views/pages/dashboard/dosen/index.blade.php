@@ -25,10 +25,10 @@
             @foreach ($dosens as $dosen)
             <tr>
                 <td>{{ $loop->iteration }}</td>
-                <td>{{ $dosen->nip }}</td>
+                <td>{{ $dosen->nip ?? ''}}</td>
                 <td>{{ $dosen->user->nama }}</td>
                 <td>{{ $dosen->user->email }}</td>
-                <td>{{ $dosen->jurusan->nama }}</td>
+                <td>{{ $dosen->jurusan->nama ?? '' }}</td>
             </tr>
             @endforeach
         </tbody>

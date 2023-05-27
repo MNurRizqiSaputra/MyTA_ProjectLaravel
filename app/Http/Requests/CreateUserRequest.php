@@ -22,14 +22,10 @@ class CreateUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nama' => 'required|string|min:3',
+            'nama' => 'required',
             'email' => 'required|email|unique:users',
             'password' => 'required|min:8',
-            'role_id' => 'required',
-            'foto' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-            'nim' => 'nullable|integer',
-            'nip' => 'nullable|integer',
-            'jurusan_id' => 'required'
+            'role_id' => 'required|exists:roles,id',
         ];
     }
 }

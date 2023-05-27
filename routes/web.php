@@ -57,6 +57,8 @@ Route::prefix("dashboard")
 
         Route::prefix('tugas-akhir')->name('tugas-akhir.')->group(function(){
             Route::get('', [TugasAkhirController::class, 'index'])->name('index'); // all users
+            Route::get('create', [TugasAkhirController::class, 'create'])->name('create'); // all users
+            Route::post('store', [TugasAkhirController::class, 'store'])->name('store'); // all users
         });
 
         Route::prefix('seminar-proposal')->name('seminar-proposal.')->group(function(){

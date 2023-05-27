@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Route;
 // Auth API
 // Route::name('auth.')->group(function(){
 //     Route::post('login', [UserController::class, 'login'])->name('login');
+//     Route::post('register', [UserController::class, 'register'])->name('register');
 
 //     Route::middleware('auth:sanctum')->group(function(){
 //         Route::get('fetch', [UserController::class, 'fetch'])->name('fetch');
@@ -20,7 +21,7 @@ use Illuminate\Support\Facades\Route;
 //     });
 // });
 
-// // User API
+// User API
 // Route::prefix('user')->middleware('auth:sanctum')->name('user.')->group(function(){
 //     Route::get('', [UserController::class, 'index'])->name('index');
 //     Route::get('{id}', [UserController::class, 'show'])->name('show');
@@ -29,7 +30,7 @@ use Illuminate\Support\Facades\Route;
 //     Route::delete('{id}', [UserController::class, 'destroy'])->name('delete');
 // });
 
-// // Role API
+// Role API
 // Route::prefix('role')->middleware('auth:sanctum')->name('role.')->group(function(){
 //     Route::get('', [RoleController::class, 'index'])->name('index');
 //     Route::get('{id}', [RoleController::class, 'show'])->name('show');
