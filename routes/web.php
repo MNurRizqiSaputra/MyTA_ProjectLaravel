@@ -61,6 +61,8 @@ Route::prefix("dashboard")
             Route::get('', [TugasAkhirController::class, 'index'])->name('index'); // all users
             Route::get('create', [TugasAkhirController::class, 'create'])->name('create'); // admin, mahasiswa
             Route::post('store', [TugasAkhirController::class, 'store'])->name('store'); // admin, mahasiswa
+            Route::get('{tugasAkhir}', [TugasAkhirController::class, 'show'])->name('show'); // admin, mahasiswa
+            Route::post('update', [TugasAkhirController::class, 'update'])->name('update'); // admin, dosen-pembimbing
         });
 
         Route::prefix('seminar-proposal')->name('seminar-proposal.')->group(function(){

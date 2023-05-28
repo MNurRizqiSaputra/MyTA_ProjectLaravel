@@ -30,7 +30,14 @@ class TugasAkhirController extends Controller
         }
 
         return view('pages.dashboard.tugas_akhir.index', [
-            'tugas_akhirs' => $tugasAkhir,
+            'tugasAkhirs' => $tugasAkhir,
+        ]);
+    }
+
+    public function show(TugasAkhir $tugasAkhir)
+    {
+        return view('pages.dashboard.tugas_akhir.show', [
+            'tugasAkhir' => $tugasAkhir
         ]);
     }
 
@@ -41,9 +48,9 @@ class TugasAkhirController extends Controller
 
     public function store(Request $request)
     {
-        $data = $request->validate([
+        $request->validate([
             'judul' => 'required|string|min:3',
-            'file' => 'required|mimes:pdf',
+            'file' => 'required|mimes:pdf|max:2048',
         ]);
 
         // Cek apakah mahasiswa sudah memiliki tugas akhir
@@ -52,24 +59,26 @@ class TugasAkhirController extends Controller
 
         if ($mahasiswa && $existingTugasAkhir) {
             return redirect()->route('tugas-akhir.index')->with('error', 'Anda sudah memiliki tugas akhir.');
+        } else {
+            // menambahkan data dosen pembimbing secara acak
+            $dosenPembimbingCount = DosenPembimbing::count();
+            $dosenId = rand(1, $dosenPembimbingCount);
+
+            // Simpan file tugas akhir
+            // $path = $request->file('file')->store('tugas-akhir', 'public');
+            $file = $request->file('file');
+            $fileName = time() . '_' . $file->getClientOriginalName();
+            $filePath = $file->storeAs('public/tugas-akhir/' . $mahasiswa->id . '/', $fileName);
+
+            // Buat data tugas akhir baru
+            TugasAkhir::create([
+                'judul' => $request->judul,
+                'file' => $filePath,
+                'dosen_pembimbing_id' => $dosenId, // Kolom dosen_pembimbing_id tidak diisi pada saat pembuatan tugas akhir
+                'mahasiswa_id' => $mahasiswa->id,
+            ]);
         }
 
-        // menambahkan data dosen pembimbing secara acak
-        $dosenPembimbingCount = DosenPembimbing::count();
-        $dosenId = rand(1, $dosenPembimbingCount);
-
-        // Simpan file tugas akhir
-        $file = $request->file('file');
-        $fileName = time() . '_' . $file->getClientOriginalName();
-        $filePath = $file->storeAs('public/tugas-akhir', $fileName);
-
-        // Buat data tugas akhir baru
-        $tugasAkhir = TugasAkhir::create([
-            'judul' => $request->judul,
-            'file' => $filePath,
-            'dosen_pembimbing_id' => $dosenId, // Kolom dosen_pembimbing_id tidak diisi pada saat pembuatan tugas akhir
-            'mahasiswa_id' => $mahasiswa->id,
-        ]);
 
         return redirect()->route('tugas-akhir.index')->with('success', 'Berhasil ditambahkan.');
     }
