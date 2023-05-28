@@ -68,7 +68,7 @@ class TugasAkhirController extends Controller
             // $path = $request->file('file')->store('tugas-akhir', 'public');
             $file = $request->file('file');
             $fileName = time() . '_' . $file->getClientOriginalName();
-            $filePath = $file->storeAs('public/tugas-akhir/' . $mahasiswa->id . '/', $fileName);
+            $filePath = $file->storeAs('public/tugas-akhir/' . $mahasiswa->id, $fileName);
 
             // Buat data tugas akhir baru
             TugasAkhir::create([
@@ -78,7 +78,6 @@ class TugasAkhirController extends Controller
                 'mahasiswa_id' => $mahasiswa->id,
             ]);
         }
-
 
         return redirect()->route('tugas-akhir.index')->with('success', 'Berhasil ditambahkan.');
     }

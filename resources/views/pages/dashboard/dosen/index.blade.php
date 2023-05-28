@@ -19,6 +19,7 @@
                 <th>Nama</th>
                 <th>Email</th>
                 <th>Jurusan</th>
+                <th>Aksi</th>
             </tr>
         </thead>
         <tbody>
@@ -26,9 +27,10 @@
             <tr>
                 <td>{{ $loop->iteration }}</td>
                 <td>{{ $dosen->nip ?? ''}}</td>
-                <td>{{ $dosen->user->nama }}</td>
-                <td>{{ $dosen->user->email }}</td>
+                <td>{{ $dosen->user->nama ?? '' }}</td>
+                <td>{{ $dosen->user->email ?? '' }}</td>
                 <td>{{ $dosen->jurusan->nama ?? '' }}</td>
+                <td><a href="{{ route('dosen.show', ['dosen' => $dosen->id]) }}">Edit</a></td>
             </tr>
             @endforeach
         </tbody>

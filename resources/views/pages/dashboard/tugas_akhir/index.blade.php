@@ -10,7 +10,8 @@
         <div class="col-12 d-flex align-items-center justify-content-between">
             <h2 class="content-title">Tugas Akhir</h2>
             @auth
-            @if (Auth::user()->mahasiswa)
+            {{-- @if (!Auth::user()->mahasiswa->tugas_akhir) --}}
+            @if (Auth::user()->role->nama == 'admin' || (Auth::user()->role->nama == 'mahasiswa' && !Auth::user()->mahasiswa->tugas_akhir))
             <a href="{{ route('tugas-akhir.create') }}">Tambah</a>
             @endif
             @endauth

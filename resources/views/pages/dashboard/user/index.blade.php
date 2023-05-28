@@ -9,7 +9,11 @@
     <div class="row">
         <div class="col-12">
             <h2 class="content-title">Users</h2>
+            @auth
+            @if (Auth::user()->role == 'admin')
             <a href="{{ route('user.create') }}">Tambah</a>
+            @endif
+            @endauth
         </div>
 
         <table id="example" class="display" style="width:100%">
