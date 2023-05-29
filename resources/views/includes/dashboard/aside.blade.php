@@ -141,7 +141,7 @@
     </a>
 
     @auth
-        @if (Auth::user()->role->nama === 'dosen' && Auth::user()->dosen->dosen_pembimbings->pluck('id')->toArray() || Auth::user()->role->nama == 'admin')
+        @if (Auth::user()->role->nama === 'dosen' && Auth::user()->dosen->dosen_pembimbings->pluck('id')->toArray() || Auth::user()->role->nama == 'admin' || !Auth::user()->mahasiswa->tugas_akhir)
         <a href="{{ route('tugas-akhir.index') }}" class="sidebar-item {{ request()->is('dashboard/tugas-akhir') ? 'active' : '' }}" onclick="toggleActive(this)">
             <!-- <img src="./assets/img/global/dollar-sign.svg" alt=""> -->
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -155,7 +155,7 @@
 
             <span>Tugas Akhir</span>
         </a>
-        @else
+        @elseif(Auth::user()->mahasiswa->tugas_akhir->id)
         <a href="{{ route('tugas-akhir.show', ['tugasAkhir' => Auth::user()->mahasiswa->tugas_akhir->id]) }}" class="sidebar-item {{ request()->is('dashboard/tugas-akhir') ? 'active' : '' }}" onclick="toggleActive(this)">
             <!-- <img src="./assets/img/global/dollar-sign.svg" alt=""> -->
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"

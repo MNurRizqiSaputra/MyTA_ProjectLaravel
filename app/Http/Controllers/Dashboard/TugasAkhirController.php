@@ -88,7 +88,7 @@ class TugasAkhirController extends Controller
             // $path = $request->file('file')->store('tugas-akhir', 'public');
             $file = $request->file('file');
             $fileName = time() . '_' . $file->getClientOriginalName();
-            $filePath = $file->storeAs('public/tugas-akhir' . $mahasiswa->id, $fileName);
+            $filePath = $file->storeAs('public/tugas-akhir/' . $mahasiswa->id, $fileName);
 
             // Buat data tugas akhir baru
             TugasAkhir::create([
@@ -109,8 +109,8 @@ class TugasAkhirController extends Controller
             'file' => 'nullable|mimes:pdf|max:2048',
         ]);
 
-        $mahasiswa_id = auth()->user()->mahasiswa->id;
-        if ($mahasiswa_id === $tugasAkhir->mahasiswa_id) {
+        $user = auth()->user();
+        if ($user->mahasiswa && $user->mahasiswa->id === $tugasAkhir->mahasiswa_id) {
 
             $tugasAkhir->judul = $request->judul;
 
@@ -123,12 +123,21 @@ class TugasAkhirController extends Controller
 
                 $file = $request->file('file');
                 $fileName = time() . '_' . $file->getClientOriginalName();
-                $filePath = $file->storeAs('public/tugas-akhir/' . $mahasiswa_id, $fileName);
+                $filePath = $file->storeAs('public/tugas-akhir/' . $user->mahasiswa->id, $fileName);
 
                 $tugasAkhir->file = $filePath;
             }
             $tugasAkhir->save();
             return redirect()->route('tugas-akhir.show', ['tugasAkhir' => $tugasAkhir])->with('success', 'Berhasil mengubah data tugas akhir.');
+        }
+        elseif ($user->dosen->dosen_pembimbings->pluck('id')->first() === $tugasAkhir->dosen_pembimbing_id) {
+            $request->validate([
+                'status_persetujuan' => 'required|in:Disetujui,Tidak Disetujui'
+            ]);
+            $tugasAkhir->status_persetujuan = $request->status_persetujuan;
+            $tugasAkhir->save();
+
+            return redirect()->route('tugas-akhir.index')->with('success', 'Berhasil mengubah status persetujuan');
         }
         return redirect()->back()->with('error', 'Anda tidak memiliki akses untuk mengubah data tugas akhir ini.');
     }
