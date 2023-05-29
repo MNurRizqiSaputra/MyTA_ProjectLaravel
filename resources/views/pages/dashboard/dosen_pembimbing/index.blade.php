@@ -7,8 +7,12 @@
 @section('content')
 <div class="content">
     <div class="row">
-        <div class="col-12">
+        <div class="col-12 d-flex align-items-center justify-content-between">
             <h2 class="content-title">Dosen Pembimbing</h2>
+            @auth
+
+            @endauth
+            <a href="{{ route('dosen-pembimbing.create') }} " class=btn btn-primary mb-2>Tambah</a>
         </div>
 
         <table id="example" class="display" style="width:100%">
@@ -26,9 +30,9 @@
             <tr>
                 <td>{{ $loop->iteration }}</td>
                 <td>{{ $dosen_pembimbing->dosen->nip }}</td>
-                <td>{{ $dosen_pembimbing->dosen->user->nama }}</td>
-                <td>{{ $dosen_pembimbing->dosen->user->email }}</td>
-                <td>{{ $dosen_pembimbing->dosen->jurusan->nama }}</td>
+                <td>{{ $dosen_pembimbing->dosen->user->nama ?? '' }}</td>
+                <td>{{ $dosen_pembimbing->dosen->user->email ?? '' }}</td>
+                <td>{{ $dosen_pembimbing->dosen->jurusan->nama ?? '' }}</td>
             </tr>
             @endforeach
         </tbody>

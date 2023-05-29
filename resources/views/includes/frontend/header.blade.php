@@ -16,6 +16,7 @@
                 <li><a class="nav-link   scrollto" href="#layanan">Layanan</a></li>
                 <li><a class="nav-link scrollto" href="#team">Team</a></li>
                 <li><a class="nav-link scrollto" href="#faq">FAQ</a></li>
+                <li><a class="nav-link scrollto" href="{{ route('dashboard') }}">Dashboard</a></li>
                 @if (Auth::check())
                     <li class="d-flex">
                         <a class="py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 lg:hover:bg-transparent lg:hover:text-blue-700 lg:p-0"
@@ -31,7 +32,7 @@
                         </form>
                     </li>
                 @else
-                    <li><a href="{{ route('login') }}" class="getstarted scrollto">Login</a></li>
+                    <li><a href="{{ route('login') }}" class="getstarted scrollto">Login</a></></li>
                 @endif
             </ul>
             <i class="bi bi-list mobile-nav-toggle"></i>
