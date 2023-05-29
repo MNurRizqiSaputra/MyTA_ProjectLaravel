@@ -15,7 +15,7 @@ class AdminMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (auth()->check() && auth()->user()->role->nama == 'admin') {
+        if (auth()->user()->role->nama == 'admin') {
             return $next($request);
         }
         return redirect('/dashboard/overview');
