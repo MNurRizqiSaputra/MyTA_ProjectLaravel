@@ -7,6 +7,7 @@ use App\Models\Mahasiswa;
 use App\Models\TugasAkhir;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class TugasAkhirController extends Controller
 {
@@ -36,10 +37,29 @@ class TugasAkhirController extends Controller
 
     public function show(TugasAkhir $tugasAkhir)
     {
-        return view('pages.dashboard.tugas_akhir.show', [
-            'tugasAkhir' => $tugasAkhir
-        ]);
+        if (Auth::user()->role->nama === 'dosen') {
+            // Pemeriksaan apakah dosen pembimbing yang terkait dengan tugas akhir tersebut
+            $dosenPembimbingId = Auth::user()->dosen->dosen_pembimbings->pluck('id')->toArray();
+            if (in_array($tugasAkhir->dosen_pembimbing_id, $dosenPembimbingId)) {
+                return view('pages.dashboard.tugas_akhir.show', [
+                    'tugasAkhir' => $tugasAkhir,
+                ]);
+            }
+        } elseif (Auth::user()->role->nama === 'mahasiswa') {
+            if ($tugasAkhir->mahasiswa_id === Auth::user()->mahasiswa->id) {
+                return view('pages.dashboard.tugas_akhir.show', [
+                    'tugasAkhir' => $tugasAkhir,
+                ]);
+            }
+        } elseif (Auth::user()->role->nama === 'admin') {
+            return view('pages.dashboard.tugas_akhir.show', [
+                'tugasAkhir' => $tugasAkhir,
+            ]);
+        }
+
+        return redirect()->route('tugas-akhir.index')->with('error', 'Anda tidak memiliki izin untuk mengakses tugas akhir ini.');
     }
+
 
     public function create()
     {
@@ -68,7 +88,7 @@ class TugasAkhirController extends Controller
             // $path = $request->file('file')->store('tugas-akhir', 'public');
             $file = $request->file('file');
             $fileName = time() . '_' . $file->getClientOriginalName();
-            $filePath = $file->storeAs('public/tugas-akhir/' . $mahasiswa->id, $fileName);
+            $filePath = $file->storeAs('public/tugas-akhir' . $mahasiswa->id, $fileName);
 
             // Buat data tugas akhir baru
             TugasAkhir::create([
@@ -80,5 +100,36 @@ class TugasAkhirController extends Controller
         }
 
         return redirect()->route('tugas-akhir.index')->with('success', 'Berhasil ditambahkan.');
+    }
+
+    public function update(Request $request, TugasAkhir $tugasAkhir)
+    {
+        $request->validate([
+            'judul' => 'required|string|min:3',
+            'file' => 'nullable|mimes:pdf|max:2048',
+        ]);
+
+        $mahasiswa_id = auth()->user()->mahasiswa->id;
+        if ($mahasiswa_id === $tugasAkhir->mahasiswa_id) {
+
+            $tugasAkhir->judul = $request->judul;
+
+            // Cek apakah ada file file yang diunggah
+            if ($request->hasFile('file')) {
+                // Hapus file lama jika ada
+                if ($tugasAkhir->file) {
+                    Storage::delete($tugasAkhir->file);
+                }
+
+                $file = $request->file('file');
+                $fileName = time() . '_' . $file->getClientOriginalName();
+                $filePath = $file->storeAs('public/tugas-akhir/' . $mahasiswa_id, $fileName);
+
+                $tugasAkhir->file = $filePath;
+            }
+            $tugasAkhir->save();
+            return redirect()->route('tugas-akhir.show', ['tugasAkhir' => $tugasAkhir])->with('success', 'Berhasil mengubah data tugas akhir.');
+        }
+        return redirect()->back()->with('error', 'Anda tidak memiliki akses untuk mengubah data tugas akhir ini.');
     }
 }

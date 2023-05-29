@@ -9,7 +9,7 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb ms-2 mb-4">
                     <li class="breadcrumb-item">
-                        <a href="{{ route('tugas-akhir.index') }}">Tugas Akhir</a>
+                        <p>Tugas Akhir</p>
                     </li>
                     <li class="breadcrumb-item active">Tambah Data</li>
                 </ol>
