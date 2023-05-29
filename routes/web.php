@@ -36,13 +36,13 @@ Route::prefix("dashboard")
         });
 
         Route::prefix('jurusan')->name('jurusan.')->group(function(){
-            Route::get('', [JurusanController::class, 'index'])->name('index'); // all users
+            Route::get('', [JurusanController::class, 'index'])->name('index')->middleware('admin'); // all admin
         });
 
         Route::prefix('dosen')->name('dosen.')->group(function(){
-            Route::get('', [DosenController::class, 'index'])->name('index')->middleware('admin'); // all users
-            Route::get('{dosen}', [DosenController::class, 'show'])->name('show'); // admin, dosen
-            Route::put('{dosen}', [DosenController::class, 'update'])->name('update'); // admin, dosen
+            Route::get('', [DosenController::class, 'index'])->name('index')->middleware('admin'); //admin
+            Route::get('{dosen}', [DosenController::class, 'show'])->name('show')->middleware(['admin', 'dosen']); // admin, dosen
+            Route::put('{dosen}', [DosenController::class, 'update'])->name('update')->middleware(['admin', 'dosen']); // admin, dosen
         });
 
         Route::prefix('dosen-penguji')->name('dosen-penguji.')->group(function(){
@@ -56,17 +56,17 @@ Route::prefix("dashboard")
         });
 
         Route::prefix('mahasiswa')->name('mahasiswa.')->group(function(){
-            Route::get('', [MahasiswaController::class, 'index'])->name('index')->middleware('admin'); // all users
-            Route::get('{mahasiswa}', [MahasiswaController::class, 'show'])->name('show'); // admin, mahasiswa
-            Route::put('{mahasiswa}', [MahasiswaController::class, 'update'])->name('update'); // admin, mahasiswa
+            Route::get('', [MahasiswaController::class, 'index'])->name('index')->middleware('admin'); // admin
+            Route::get('{mahasiswa}', [MahasiswaController::class, 'show'])->name('show')->middleware(['admin', 'mahasiswa']); // admin, mahasiswa
+            Route::put('{mahasiswa}', [MahasiswaController::class, 'update'])->name('update')->middleware(['admin', 'mahasiswa']); // admin, mahasiswa
         });
 
         Route::prefix('tugas-akhir')->name('tugas-akhir.')->group(function(){
             Route::get('', [TugasAkhirController::class, 'index'])->name('index'); // all users
-            Route::get('create', [TugasAkhirController::class, 'create'])->name('create'); // admin, mahasiswa
-            Route::post('store', [TugasAkhirController::class, 'store'])->name('store'); // admin, mahasiswa
-            Route::get('{tugasAkhir}', [TugasAkhirController::class, 'show'])->name('show'); // admin, mahasiswa
-            Route::put('{tugasAkhir}', [TugasAkhirController::class, 'update'])->name('update'); // admin, mahasiswa
+            Route::get('create', [TugasAkhirController::class, 'create'])->name('create')->middleware(['admin', 'mahasiswa']); // admin, mahasiswa
+            Route::post('store', [TugasAkhirController::class, 'store'])->name('store')->middleware(['admin', 'mahasiswa']); // admin, mahasiswa
+            Route::get('{tugasAkhir}', [TugasAkhirController::class, 'show'])->name('show')->middleware(['admin', 'mahasiswa']); // admin, mahasiswa
+            Route::put('{tugasAkhir}', [TugasAkhirController::class, 'update'])->name('update')->middleware(['admin', 'mahasiswa']); // admin, mahasiswa
         });
 
         Route::prefix('seminar-proposal')->name('seminar-proposal.')->group(function(){
