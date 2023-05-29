@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('seminar_penelitian_nilai', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('seminar_penelitian_id')->unsigned();
-            $table->bigInteger('dosen_penguji_id')->unsigned();
+            $table->foreignId('seminar_penelitian_id')->constrained()->cascadeOnUpdate();
+            $table->foreignId('dosen_penguji_id')->constrained()->cascadeOnUpdate();
             $table->integer('nilai')->nullable();
             $table->timestamps();
         });

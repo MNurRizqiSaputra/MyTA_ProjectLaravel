@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('tugas_akhirs', function (Blueprint $table) {
             $table->id();
             $table->string('judul')->unique();
-            $table->string('file');
-            $table->enum('status_persetujuan', ['Disetujui', 'Tidak Disetujui'])->default('Tidak Disetujui');
+            $table->binary('file');
+            $table->enum('status_persetujuan', ['Disetujui', 'Tidak Disetujui', 'Pending'])->default('Pending');
             $table->integer('total_nilai')->nullable();
-            $table->bigInteger('mahasiswa_id')->unsigned();
-            $table->bigInteger('dosen_pembimbing_id')->unsigned();
+            $table->foreignId('mahasiswa_id')->constrained()->cascadeOnUpdate();
+            $table->foreignId('dosen_pembimbing_id')->constrained()->cascadeOnUpdate();
             $table->timestamps();
             $table->unique('mahasiswa_id'); // Menambahkan indeks unik pada kolom mahasiswa_id
         });

@@ -1,40 +1,92 @@
 <?php
 
-use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Admin\DosenController;
-use App\Http\Controllers\Admin\DosenPengujiController;
-use App\Http\Controllers\Admin\JurusanController;
-use App\Http\Controllers\Admin\MahasiswaController;
-use App\Http\Controllers\Admin\RoleController;
-use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\Admin\DosenPembimbingController;
-use App\Http\Controllers\Admin\SeminarPenelitianController;
-use App\Http\Controllers\Admin\SeminarPenelitianNilaiController;
-use App\Http\Controllers\Admin\SeminarProposalController;
-use App\Http\Controllers\Admin\SeminarProposalNilaiController;
-use App\Http\Controllers\Admin\SidangAkhirController;
-use App\Http\Controllers\Admin\SidangAkhirNilaiController;
-use App\Http\Controllers\Admin\TugasAkhirController;
+use App\Http\Controllers\Dashboard\DashboardController;
+use App\Http\Controllers\Dashboard\DosenController;
+use App\Http\Controllers\Dashboard\DosenPengujiController;
+use App\Http\Controllers\Dashboard\JurusanController;
+use App\Http\Controllers\Dashboard\MahasiswaController;
+use App\Http\Controllers\Dashboard\RoleController;
+use App\Http\Controllers\Dashboard\UserController;
+use App\Http\Controllers\Dashboard\DosenPembimbingController;
+use App\Http\Controllers\Dashboard\SeminarPenelitianController;
+use App\Http\Controllers\Dashboard\SeminarPenelitianNilaiController;
+use App\Http\Controllers\Dashboard\SeminarProposalController;
+use App\Http\Controllers\Dashboard\SeminarProposalNilaiController;
+use App\Http\Controllers\Dashboard\SidangAkhirController;
+use App\Http\Controllers\Dashboard\SidangAkhirNilaiController;
+use App\Http\Controllers\Dashboard\TugasAkhirController;
+use App\Http\Controllers\FrontendController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 
-Route::prefix("admin")
+Route::prefix("dashboard")
+    ->middleware('auth')
     ->group(function () {
-        Route::get("/overview", [DashboardController::class, "index"])->name(
-            "admin-dashboard"
-        );
-        Route::resource("role", RoleController::class);
-        Route::resource("user", UserController::class);
-        Route::resource("jurusan", JurusanController::class);
-        Route::resource("dosen", DosenController::class);
-        Route::resource("dosen-penguji", DosenPengujiController::class);
-        Route::resource("dosen-pembimbing", DosenPembimbingController::class);
-        Route::resource("mahasiswa", MahasiswaController::class);
-        Route::resource("tugas-akhir", TugasAkhirController::class);
-        Route::resource("seminar-proposal", SeminarProposalController::class);
-        Route::resource("seminar-proposal-nilai", SeminarProposalNilaiController::class);
-        Route::resource("seminar-penelitian", SeminarPenelitianController::class);
-        Route::resource("seminar-penelitian-nilai", SeminarPenelitianNilaiController::class);
-        Route::resource("sidang-akhir", SidangAkhirController::class);
-        Route::resource("sidang-akhir-nilai", SidangAkhirNilaiController::class);
+        Route::get("/overview", [DashboardController::class, "index"])->name("dashboard");
+
+        Route::prefix('role')->name('role.')->group(function(){
+            Route::get('', [RoleController::class, 'index'])->name('index'); // all users
+        });
+
+        Route::prefix('user')->name('user.')->group(function(){
+            Route::get('', [UserController::class, 'index'])->name('index'); // all users
+            Route::get('create', [UserController::class, 'create'])->name('create')->middleware('admin'); // admin
+            Route::post('store', [UserController::class, 'store'])->name('store')->middleware('admin'); // admin
+        });
+
+        Route::prefix('jurusan')->name('jurusan.')->group(function(){
+            Route::get('', [JurusanController::class, 'index'])->name('index'); // all users
+        });
+
+        Route::prefix('dosen')->name('dosen.')->group(function(){
+            Route::get('', [DosenController::class, 'index'])->name('index'); // all users
+        });
+
+        Route::prefix('dosen-penguji')->name('dosen-penguji.')->group(function(){
+            Route::get('', [DosenPengujiController::class, 'index'])->name('index'); // all users
+        });
+
+        Route::prefix('dosen-pembimbing')->name('dosen-pembimbing.')->group(function(){
+            Route::get('', [DosenPembimbingController::class, 'index'])->name('index'); // all users
+        });
+
+        Route::prefix('mahasiswa')->name('mahasiswa.')->group(function(){
+            Route::get('', [MahasiswaController::class, 'index'])->name('index'); // all users
+        });
+
+        Route::prefix('tugas-akhir')->name('tugas-akhir.')->group(function(){
+            Route::get('', [TugasAkhirController::class, 'index'])->name('index'); // all users
+            Route::get('create', [TugasAkhirController::class, 'create'])->name('create'); // all users
+            Route::post('store', [TugasAkhirController::class, 'store'])->name('store'); // all users
+        });
+
+        Route::prefix('seminar-proposal')->name('seminar-proposal.')->group(function(){
+            Route::get('', [SeminarProposalController::class, 'index'])->name('index'); // all users
+        });
+
+        Route::prefix('seminar-proposal-nilai')->name('seminar-proposal-nilai.')->group(function(){
+            Route::get('', [SeminarProposalNilaiController::class, 'index'])->name('index'); // all users
+        });
+
+        Route::prefix('seminar-penelitian')->name('seminar-penelitian.')->group(function(){
+            Route::get('', [SeminarPenelitianController::class, 'index'])->name('index'); // all users
+        });
+
+        Route::prefix('seminar-penelitian-nilai')->name('seminar-penelitian-nilai.')->group(function(){
+            Route::get('', [SeminarPenelitianNilaiController::class, 'index'])->name('index'); // all users
+        });
+
+        Route::prefix('sidang-akhir')->name('sidang-akhir.')->group(function(){
+            Route::get('', [SidangAkhirController::class, 'index'])->name('index'); // all users
+        });
+
+        Route::prefix('sidang-akhir-nilai')->name('sidang-akhir-nilai.')->group(function(){
+            Route::get('', [SidangAkhirNilaiController::class, 'index'])->name('index'); // all users
+        });
 });
+
+Auth::routes();
+
+// Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/', [FrontendController::class, 'index'])->name('frontend.home');

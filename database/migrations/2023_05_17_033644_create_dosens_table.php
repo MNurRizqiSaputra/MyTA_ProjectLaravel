@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('dosens', function (Blueprint $table) {
             $table->id();
-            $table->char('nip', 10)->unique();
+            $table->char('nip', 10)->nullable()->unique();
             $table->text('foto')->nullable();
-            $table->bigInteger('user_id')->unsigned();
-            $table->bigInteger('jurusan_id')->unsigned();
+            $table->foreignId('user_id')->constrained()->cascadeOnUpdate();
+            $table->foreignId('jurusan_id')->nullable()->constrained()->cascadeOnUpdate();
             $table->timestamps();
             $table->unique('user_id');
         });
