@@ -47,6 +47,8 @@ Route::prefix("dashboard")
 
         Route::prefix('dosen-penguji')->name('dosen-penguji.')->group(function(){
             Route::get('', [DosenPengujiController::class, 'index'])->name('index'); // all users
+            Route::get('create', [DosenPengujiController::class, 'create'])->name('create')->middleware('admin'); // admin
+            Route::post('store', [DosenPengujiController::class, 'store'])->name('store')->middleware('admin'); // admin
         });
 
         Route::prefix('dosen-pembimbing')->name('dosen-pembimbing.')->group(function(){
