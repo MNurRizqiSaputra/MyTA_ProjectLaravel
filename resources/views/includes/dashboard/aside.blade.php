@@ -51,6 +51,7 @@
 
             <span>User</span>
         </a>
+
         <a href="{{ route('mahasiswa.index') }}" class="sidebar-item {{ request()->is('dashboard/mahasiswa') ? 'active' : '' }}" onclick="toggleActive(this)">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                 xmlns="http://www.w3.org/2000/svg">
@@ -141,7 +142,7 @@
     </a>
 
     @auth
-        @if (Auth::user()->role->nama === 'dosen' && Auth::user()->dosen->dosen_pembimbings->pluck('id')->toArray() || Auth::user()->role->nama == 'admin' || !Auth::user()->mahasiswa->tugas_akhir)
+        @if (Auth::user()->dosen && Auth::user()->dosen->dosen_pembimbings->pluck('id')->toArray() || Auth::user()->role->nama == 'admin' || !Auth::user()->mahasiswa->tugas_akhir)
         <a href="{{ route('tugas-akhir.index') }}" class="sidebar-item {{ request()->is('dashboard/tugas-akhir') ? 'active' : '' }}" onclick="toggleActive(this)">
             <!-- <img src="./assets/img/global/dollar-sign.svg" alt=""> -->
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -173,22 +174,61 @@
     @endauth
 
     <h5 class="sidebar-title">Others</h5>
+    @auth
+        @if (Auth::user()->dosen || Auth::user()->role->nama == 'admin')
+        {{-- arahkan ke halaman index --}}
+        <a href="{{ route('seminar-proposal.index') }}" class="sidebar-item {{ request()->is('dashboard/seminar-proposal') ? 'active' : '' }}" onclick="toggleActive(this)">
+            <!-- <img src="./assets/img/global/box.svg" alt=""> -->
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M21 16V8C20.9996 7.64927 20.9071 7.30481 20.7315 7.00116C20.556 6.69751 20.3037 6.44536 20 6.27L13 2.27C12.696 2.09446 12.3511 2.00205 12 2.00205C11.6489 2.00205 11.304 2.09446 11 2.27L4 6.27C3.69626 6.44536 3.44398 6.69751 3.26846 7.00116C3.09294 7.30481 3.00036 7.64927 3 8V16C3.00036 16.3507 3.09294 16.6952 3.26846 16.9988C3.44398 17.3025 3.69626 17.5546 4 17.73L11 21.73C11.304 21.9055 11.6489 21.9979 12 21.9979C12.3511 21.9979 12.696 21.9055 13 21.73L20 17.73C20.3037 17.5546 20.556 17.3025 20.7315 16.9988C20.9071 16.6952 20.9996 16.3507 21 16Z"
+                    stroke="#ABB3C4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M3.27002 6.96L12 12.01L20.73 6.96" stroke="#ABB3C4" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M12 22.08V12" stroke="#ABB3C4" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" />
+            </svg>
 
-    <a href="{{ route('seminar-proposal.index') }}" class="sidebar-item {{ request()->is('dashboard/seminar-proposal') ? 'active' : '' }}" onclick="toggleActive(this)">
-        <!-- <img src="./assets/img/global/box.svg" alt=""> -->
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-            xmlns="http://www.w3.org/2000/svg">
-            <path
-                d="M21 16V8C20.9996 7.64927 20.9071 7.30481 20.7315 7.00116C20.556 6.69751 20.3037 6.44536 20 6.27L13 2.27C12.696 2.09446 12.3511 2.00205 12 2.00205C11.6489 2.00205 11.304 2.09446 11 2.27L4 6.27C3.69626 6.44536 3.44398 6.69751 3.26846 7.00116C3.09294 7.30481 3.00036 7.64927 3 8V16C3.00036 16.3507 3.09294 16.6952 3.26846 16.9988C3.44398 17.3025 3.69626 17.5546 4 17.73L11 21.73C11.304 21.9055 11.6489 21.9979 12 21.9979C12.3511 21.9979 12.696 21.9055 13 21.73L20 17.73C20.3037 17.5546 20.556 17.3025 20.7315 16.9988C20.9071 16.6952 20.9996 16.3507 21 16Z"
-                stroke="#ABB3C4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-            <path d="M3.27002 6.96L12 12.01L20.73 6.96" stroke="#ABB3C4" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round" />
-            <path d="M12 22.08V12" stroke="#ABB3C4" stroke-width="2" stroke-linecap="round"
-                stroke-linejoin="round" />
-        </svg>
+            <span>Seminar Proposal</span>
+        </a>
+        @elseif (Auth::user()->mahasiswa || !Auth::user()->mahasiswa->tugas_akhir->seminar_proposal)
+        {{-- arahkan ke halaman create --}}
+        <a href="{{ route('seminar-proposal.create') }}" class="sidebar-item {{ request()->is('dashboard/seminar-proposal/create') ? 'active' : '' }}" onclick="toggleActive(this)">
+            <!-- <img src="./assets/img/global/box.svg" alt=""> -->
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M21 16V8C20.9996 7.64927 20.9071 7.30481 20.7315 7.00116C20.556 6.69751 20.3037 6.44536 20 6.27L13 2.27C12.696 2.09446 12.3511 2.00205 12 2.00205C11.6489 2.00205 11.304 2.09446 11 2.27L4 6.27C3.69626 6.44536 3.44398 6.69751 3.26846 7.00116C3.09294 7.30481 3.00036 7.64927 3 8V16C3.00036 16.3507 3.09294 16.6952 3.26846 16.9988C3.44398 17.3025 3.69626 17.5546 4 17.73L11 21.73C11.304 21.9055 11.6489 21.9979 12 21.9979C12.3511 21.9979 12.696 21.9055 13 21.73L20 17.73C20.3037 17.5546 20.556 17.3025 20.7315 16.9988C20.9071 16.6952 20.9996 16.3507 21 16Z"
+                    stroke="#ABB3C4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M3.27002 6.96L12 12.01L20.73 6.96" stroke="#ABB3C4" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M12 22.08V12" stroke="#ABB3C4" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" />
+            </svg>
 
-        <span>Seminar Proposal</span>
-    </a>
+            <span>Seminar Proposal</span>
+        </a>
+        @elseif (Auth::user()->mahasiswa->tugas_akhir->seminar_proposal->id)
+        {{-- arahkan ke halaman show --}}
+        <a href="{{ route('seminar-proposal.show', ['seminarProposal' => Auth::user()->mahasiswa->tugas_akhir->seminar_proposal->id]) }}" class="sidebar-item {{ request()->is('dashboard/seminar-proposal') ? 'active' : '' }}" onclick="toggleActive(this)">
+            <!-- <img src="./assets/img/global/box.svg" alt=""> -->
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M21 16V8C20.9996 7.64927 20.9071 7.30481 20.7315 7.00116C20.556 6.69751 20.3037 6.44536 20 6.27L13 2.27C12.696 2.09446 12.3511 2.00205 12 2.00205C11.6489 2.00205 11.304 2.09446 11 2.27L4 6.27C3.69626 6.44536 3.44398 6.69751 3.26846 7.00116C3.09294 7.30481 3.00036 7.64927 3 8V16C3.00036 16.3507 3.09294 16.6952 3.26846 16.9988C3.44398 17.3025 3.69626 17.5546 4 17.73L11 21.73C11.304 21.9055 11.6489 21.9979 12 21.9979C12.3511 21.9979 12.696 21.9055 13 21.73L20 17.73C20.3037 17.5546 20.556 17.3025 20.7315 16.9988C20.9071 16.6952 20.9996 16.3507 21 16Z"
+                    stroke="#ABB3C4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M3.27002 6.96L12 12.01L20.73 6.96" stroke="#ABB3C4" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M12 22.08V12" stroke="#ABB3C4" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" />
+            </svg>
+
+            <span>Seminar Proposal</span>
+        </a>
+        @endif
+    @endauth
+
 
     <a href="{{ route('seminar-penelitian.index') }}" class="sidebar-item {{ request()->is('dashboard/seminar-penelitian') ? 'active' : '' }}" onclick="toggleActive(this)">
         <!-- <img src="./assets/img/global/home.svg" alt=""> -->

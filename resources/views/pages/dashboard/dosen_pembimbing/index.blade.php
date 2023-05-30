@@ -10,9 +10,11 @@
         <div class="col-12 d-flex align-items-center justify-content-between">
             <h2 class="content-title">Dosen Pembimbing</h2>
             @auth
-
-            @endauth
+            @if (Auth::user()->role->nama == 'admin')
             <a href="{{ route('dosen-pembimbing.create') }}">Tambah</a>
+
+            @endif
+            @endauth
         </div>
 
         <table id="example" class="display" style="width:100%">

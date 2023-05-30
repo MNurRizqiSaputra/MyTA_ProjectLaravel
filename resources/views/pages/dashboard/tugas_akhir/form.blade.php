@@ -45,18 +45,20 @@
         <div class="col mb-3">
             <label for="status_persetujuan" class="form-label">Status Persetujuan</label>
             @auth
-                @if ((!isset($tugasAkhir) || !$tugasAkhir->id) || (Auth::user()->mahasiswa && Auth::user()->mahasiswa->tugas_akhir && Auth::user()->mahasiswa->id === ($tugasAkhir->mahasiswa_id ?? null)))
-                <input class="form-control" type="text" name="status_persetujuan" id="status_persetujuan" readonly>
-                @else
-                    @if (Auth::user()->role->nama == 'dosen' && Auth::user()->dosen->dosen_pembimbings->pluck('id')->toArray())
-                        <select class="form-select" name="status_persetujuan" id="status_persetujuan" required>
-                            <option value="Disetujui" {{ $tugasAkhir->status_persetujuan == 'Disetujui' ? 'selected' : '' }}>Disetujui</option>
-                            <option value="Tidak Disetujui" {{ $tugasAkhir->status_persetujuan == 'Tidak Disetujui' ? 'selected' : '' }}>Tidak Disetujui</option>
-                        </select>
-                    @elseif(Auth::user()->role->nama == 'mahasiswa' || Auth::user()->role->nama == 'admin')
-                        <input class="form-control" type="text" name="status_persetujuan" id="status_persetujuan" value="{{ $tugasAkhir->status_persetujuan }}" readonly>
-                    @endif
+
+                @if (Auth::user()->role->nama == 'admin' || Auth::user()->mahasiswa && Auth::user()->mahasiswa->id === ($tugasAkhir->mahasiswa_id ?? null))
+                    <input class="form-control" type="text" name="status_persetujuan" id="status_persetujuan" value="{{ $tugasAkhir->status_persetujuan }}" readonly>
+
+                @elseif ((!isset($tugasAkhir) || !$tugasAkhir->id) || (Auth::user()->mahasiswa && Auth::user()->mahasiswa->tugas_akhir && Auth::user()->mahasiswa->id === ($tugasAkhir->mahasiswa_id ?? null)))
+                    <input class="form-control" type="text" name="status_persetujuan" id="status_persetujuan" readonly>
+
+                @elseif (Auth::user()->role->nama == 'dosen' && Auth::user()->dosen && Auth::user()->dosen->dosen_pembimbings->contains('id', $tugasAkhir->dosen_pembimbing_id))
+                    <select class="form-select" name="status_persetujuan" id="status_persetujuan" required>
+                        <option value="Disetujui" {{ $tugasAkhir->status_persetujuan == 'Disetujui' ? 'selected' : '' }}>Disetujui</option>
+                        <option value="Tidak Disetujui" {{ $tugasAkhir->status_persetujuan == 'Tidak Disetujui' ? 'selected' : '' }}>Tidak Disetujui</option>
+                    </select>
                 @endif
+
             @endauth
             @error('status_persetujuan')
                 <span class="invalid-feedback" role="alert">
@@ -82,6 +84,8 @@
 
     @auth
         @if ((Auth::user()->dosen && Auth::user()->dosen->dosen_pembimbings->contains('id', $tugasAkhir->dosen_pembimbing_id)) || (Auth::user()->mahasiswa && Auth::user()->mahasiswa->tugas_akhir))
+        <button type="submit" class="btn btn-primary">{{ $tombol }}</button>
+        @elseif (Auth::user()->mahasiswa)
         <button type="submit" class="btn btn-primary">{{ $tombol }}</button>
         @elseif(Auth::user()->role->nama == 'admin' || !Auth::user()->mahasiswa)
         <input type="hidden" name="">
