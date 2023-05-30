@@ -13,4 +13,14 @@ class SeminarProposalController extends Controller
             'seminar_proposals' => SeminarProposal::all(),
         ]);
     }
+
+    public function create()
+    {
+        return view('pages.dashboard.seminar_proposal.create');
+    }
+
+    public function show(Request $request, SeminarProposal $seminarProposal)
+    {
+        return view('pages.dashboard.seminar_proposal.show');
+    }
 }
