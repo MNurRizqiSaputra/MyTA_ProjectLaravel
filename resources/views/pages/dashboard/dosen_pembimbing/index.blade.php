@@ -12,7 +12,7 @@
             @auth
 
             @endauth
-            <a href="{{ route('dosen-pembimbing.create') }}">Tambah</a>
+            <a href="{{ route('dosen-pembimbing.create') }} " class=btn btn-primary mb-2>Tambah</a>
         </div>
 
         <table id="example" class="display" style="width:100%">
@@ -40,4 +40,3 @@
     </div>
 </div>
 @endsection
-

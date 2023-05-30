@@ -33,6 +33,9 @@ Route::prefix("dashboard")
             Route::get('', [UserController::class, 'index'])->name('index'); // all users
             Route::get('create', [UserController::class, 'create'])->name('create')->middleware('admin'); // admin
             Route::post('store', [UserController::class, 'store'])->name('store')->middleware('admin'); // admin
+            Route::get('edit/{id}', [UserController::class, 'edit'])->name('edit')->middleware('admin'); //admin
+            Route::put('update/{id}', [UserController::class, 'update'])->name('update')->middleware('admin'); //admin
+            Route::delete('destroy/{id}', [UserController::class, 'destroy'])->name('destroy')->middleware('admin'); // admin
         });
 
         Route::prefix('jurusan')->name('jurusan.')->group(function(){
