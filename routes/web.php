@@ -16,8 +16,10 @@ use App\Http\Controllers\Dashboard\SidangAkhirController;
 use App\Http\Controllers\Dashboard\SidangAkhirNilaiController;
 use App\Http\Controllers\Dashboard\TugasAkhirController;
 use App\Http\Controllers\FrontendController;
+use App\Http\Controllers\Frontend\MenuProfileController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
 
 
 Route::prefix("dashboard")
@@ -30,7 +32,7 @@ Route::prefix("dashboard")
         });
 
         Route::prefix('user')->name('user.')->group(function(){
-            Route::get('', [UserController::class, 'index'])->name('index')->middleware('admin'); // all users
+            Route::get('', [UserController::class, 'index'])->name('index'); // all users
             Route::get('create', [UserController::class, 'create'])->name('create')->middleware('admin'); // admin
             Route::post('store', [UserController::class, 'store'])->name('store')->middleware('admin'); // admin
             Route::get('edit/{id}', [UserController::class, 'edit'])->name('edit')->middleware('admin'); //admin
@@ -103,3 +105,4 @@ Auth::routes();
 
 // Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/', [FrontendController::class, 'index'])->name('frontend.home');
+Route::get('/profile', [MenuProfileController::class, 'index'])->name('frontend.menuprofile.index');
