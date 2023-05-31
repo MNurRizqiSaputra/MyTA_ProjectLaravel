@@ -40,6 +40,12 @@ Route::prefix("dashboard")
 
         Route::prefix('jurusan')->name('jurusan.')->group(function(){
             Route::get('', [JurusanController::class, 'index'])->name('index'); // all users
+            Route::get('create', [JurusanController::class, 'create'])->name('create')->middleware('admin'); //admin
+            Route::post('store', [JurusanController::class, 'store'])->name('store')->middleware('admin'); //admin
+            Route::get('edit/{id}', [JurusanController::class, 'edit'])->name('edit')->middleware('admin'); //admin
+            Route::put('update/{id}', [JurusanController::class, 'update'])->name('update')->middleware('admin'); //admin
+            Route::delete('destroy/{id}', [JurusanController::class, 'destroy'])->name('destroy')->middleware('admin'); //admin
+
         });
 
         Route::prefix('dosen')->name('dosen.')->group(function(){

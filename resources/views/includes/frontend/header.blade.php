@@ -13,17 +13,19 @@
                 <li><a class="nav-link scrollto active" href="#hero">Home</a></li>
                 <li><a class="nav-link scrollto" href="#about">About</a></li>
                 <li><a class="nav-link scrollto" href="#mekanisme">Mekanisme</a></li>
-                <li><a class="nav-link   scrollto" href="#layanan">Layanan</a></li>
+                <li><a class="nav-link scrollto" href="#layanan">Layanan</a></li>
                 <li><a class="nav-link scrollto" href="#team">Team</a></li>
                 <li><a class="nav-link scrollto" href="#faq">FAQ</a></li>
-                <li><a class="nav-link scrollto" href="{{ route('dashboard') }}">Dashboard</a></li>
+                @if (Auth::check())
+                <li><a class="nav-link scrollto" href="{{ route('dashboard') }}">Dashboard</a><li>
+                @endif
                 @if (Auth::check())
                     <li class="d-flex">
-                        <a class="py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 lg:hover:bg-transparent lg:hover:text-blue-700 lg:p-0"
+                        <a class="getstarted scrollto"
                             href="{{ route('logout') }}"
                             onclick="event.preventDefault();
                      document.getElementById('logout-form').submit();">
-                            <i class="bx bx-power-off "></i>
+                            <i class="bx bx-power-off"></i>
                             {{ __('Logout') }}
                         </a>
 
