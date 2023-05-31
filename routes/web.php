@@ -73,7 +73,7 @@ Route::prefix("dashboard")
 
         Route::prefix('seminar-proposal')->name('seminar-proposal.')->group(function(){
             Route::get('', [SeminarProposalController::class, 'index'])->name('index')->middleware('adminOrDosen'); //
-            Route::get('create', [SeminarProposalController::class, 'create'])->name('create'); //
+            Route::get('create', [SeminarProposalController::class, 'create'])->name('create')->middleware('mahasiswa'); //
             Route::get('{seminarProposal}', [SeminarProposalController::class, 'show'])->name('show'); //
             Route::post('store', [SeminarProposalController::class, 'store'])->name('store'); //
             Route::put('{seminarProposal}', [SeminarProposalController::class, 'update'])->name('update'); //

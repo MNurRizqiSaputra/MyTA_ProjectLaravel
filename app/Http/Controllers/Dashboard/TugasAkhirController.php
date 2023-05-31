@@ -26,7 +26,6 @@ class TugasAkhirController extends Controller
         }
 
         else {
-            // get id admin
             $tugasAkhir = TugasAkhir::all();
         }
 
