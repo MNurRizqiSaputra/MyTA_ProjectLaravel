@@ -30,7 +30,7 @@ Route::prefix("dashboard")
         });
 
         Route::prefix('user')->name('user.')->group(function(){
-            Route::get('', [UserController::class, 'index'])->name('index'); // all users
+            Route::get('', [UserController::class, 'index'])->name('index')->middleware('admin'); // all users
             Route::get('create', [UserController::class, 'create'])->name('create')->middleware('admin'); // admin
             Route::post('store', [UserController::class, 'store'])->name('store')->middleware('admin'); // admin
             Route::get('edit/{id}', [UserController::class, 'edit'])->name('edit')->middleware('admin'); //admin

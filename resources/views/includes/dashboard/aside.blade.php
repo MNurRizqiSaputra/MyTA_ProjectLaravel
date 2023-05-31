@@ -44,6 +44,7 @@
         <span>Overview</span>
     </a>
 
+    @if (Auth::user()->role_id == 3)
     <a href="{{ route('user.index') }}" class="sidebar-item {{ request()->is('dashboard/user') ? 'active' : '' }}" onclick="toggleActive(this)">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
             xmlns="http://www.w3.org/2000/svg">
@@ -63,7 +64,9 @@
 
         <span>User</span>
     </a>
+    @endif
 
+    @if (Auth::user()->role_id == 3)
     <a href="{{ route('mahasiswa.index') }}" class="sidebar-item {{ request()->is('dashboard/mahasiswa') ? 'active' : '' }}" onclick="toggleActive(this)">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
             xmlns="http://www.w3.org/2000/svg">
@@ -77,6 +80,9 @@
 
         <span>Mahasiswa</span>
     </a>
+    @endif
+
+    @if (Auth::user()->role_id == 3)
     <a href="{{ route('dosen.index') }}" class="sidebar-item {{ request()->is('dashboard/dosen') ? 'active' : '' }}" onclick="toggleActive(this)">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
             xmlns="http://www.w3.org/2000/svg">
@@ -90,6 +96,7 @@
 
         <span>Dosen</span>
     </a>
+    @endif
 
     <a href="{{ route('dosen-pembimbing.index') }}" class="sidebar-item {{ request()->is('dashboard/dosen-pembimbing') ? 'active' : '' }}" onclick="toggleActive(this)">
         <!-- <img src="./assets/img/global/dollar-sign.svg" alt=""> -->
@@ -237,6 +244,7 @@
         <span>Nilai Sidang Akhir</span>
     </a>
 
+    @if (Auth::user()->role_id == 3)
     <a href="{{ route('jurusan.index') }}" class="sidebar-item {{ request()->is('dashboard/jurusan') ? 'active' : '' }}" onclick="toggleActive(this)">
         <!-- <img src="./assets/img/global/settings.svg" alt=""> -->
 
@@ -252,7 +260,9 @@
 
         <span>Jurusan</span>
     </a>
+    @endif
 
+    @if (Auth::user()->role_id == 3)
     <a href="{{ route('role.index') }}" class="sidebar-item {{ request()->is('dashboard/role') ? 'active' : '' }}" onclick="toggleActive(this)">
         <!-- <img src="./assets/img/global/settings.svg" alt=""> -->
 
@@ -268,7 +278,7 @@
 
         <span>Role</span>
     </a>
-
+    @endif
 
     <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="sidebar-item">
         <!-- <img src="./assets/img/global/log-out.svg" alt=""> -->
