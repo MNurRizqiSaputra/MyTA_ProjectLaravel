@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class AdminMiddleware
+class adminOrMahasiswaMiddleware
 {
     /**
      * Handle an incoming request.
@@ -15,9 +15,12 @@ class AdminMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (auth()->user()->role->nama == 'admin') {
+        $user = auth()->user();
+
+        if ($user->role->nama == 'admin' || $user->mahasiswa) {
             return $next($request);
         }
+
         return redirect('/dashboard/overview');
     }
 }

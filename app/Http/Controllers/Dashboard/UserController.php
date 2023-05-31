@@ -2,17 +2,19 @@
 
 namespace App\Http\Controllers\Dashboard;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\CreateRoleRequest;
-use App\Http\Requests\CreateUserRequest;
+use Exception;
+use App\Models\Role;
+use App\Models\User;
 use App\Models\Dosen;
 use App\Models\Jurusan;
 use App\Models\Mahasiswa;
-use App\Models\Role;
-use App\Models\User;
-use Exception;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Requests\CreateRoleRequest;
+use App\Http\Requests\CreateUserRequest;
+use App\Http\Requests\UpdateUserRequest;
+use App\Http\Requests\DeleteUserRequest;
 
 class UserController extends Controller
 {
@@ -34,7 +36,7 @@ class UserController extends Controller
     {
         $request->validate([
             'nama' => 'required',
-            'email' => 'required|email|unique:users',
+            'email' => 'required|email|unique:users,email',
             'password' => 'required',
             'role_id' => 'required|exists:roles,id',
         ]);
@@ -63,5 +65,51 @@ class UserController extends Controller
         }
 
         return redirect()->back()->with('success', 'Data user berhasil ditambahkan.');
+    }
+
+    public function edit($id)
+    {
+        $user = User::findOrFail($id);
+        $roles = Role::all();
+
+        return view('pages.dashboard.user.edit', compact('user' ,'roles'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+
+        $request->validate([
+            'nama' => 'required',
+            'email' => 'required|email|unique:users,email,' . $id,
+            'password' => 'nullable|min:8',
+            'role_id' => 'required|exists:roles,id',
+        ]);
+
+        $user->update([
+            'nama' => $request->input('nama'),
+            'email' => $request->input('email'),
+            'password' => $request->input('password') ? bcrypt($request->input('password')) : $user->password,
+            'role_id' => $request->input('role_id'),
+        ]);
+
+        return redirect()->back()->with('success', 'Data berhasil diperbarui');
+    }
+
+    public function destroy(Request $request)
+    {
+        $userId = $request->input('user_id');
+        $user = User::findOrFail($userId);
+
+        // Menghapus user
+        if ($user->role->nama === 'dosen'){
+            $user->dosen->delete();
+        } else if ($user->role->nama === 'mahasiswa'){
+            $user->mahasiswa->delete();
+        } else {
+            $user->delete();
+        }
+
+        return redirect()->back()->with('success', 'Pengguna berhasil dihapus.');
     }
 }

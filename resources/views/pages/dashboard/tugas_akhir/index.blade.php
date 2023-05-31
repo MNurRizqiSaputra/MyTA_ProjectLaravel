@@ -10,12 +10,15 @@
         <div class="col-12 d-flex align-items-center justify-content-between">
             <h2 class="content-title">Tugas Akhir</h2>
             @auth
-            @if (Auth::user()->mahasiswa)
-            <a href="{{ route('tugas-akhir.create') }}">Tambah</a>
-            @endif
+            @if (!Auth::user()->role->nama == 'admin' || (Auth::user()->role->nama == 'mahasiswa' && !Auth::user()->mahasiswa->tugas_akhir))
+                <a href="{{ route('tugas-akhir.create') }}" class="btn btn-primary">Tambah</a>
+                @endif
             @endauth
         </div>
 
+        @if (Auth::user()->role->nama == 'mahasiswa' && !Auth::user()->mahasiswa->tugas_akhir)
+            <p>Tambahkan Tugas Akhir</p>
+        @else
         <table id="example" class="display" style="width:100%">
             <thead>
               <tr>
@@ -40,7 +43,7 @@
             @endforeach
         </tbody>
         </table>
+        @endif
     </div>
 </div>
 @endsection
-
