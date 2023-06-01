@@ -229,7 +229,7 @@
 
         {{-- arahkan ke halaman show --}}
         @elseif (Auth::user()->mahasiswa && Auth::user()->mahasiswa->tugas_akhir && Auth::user()->mahasiswa->tugas_akhir->seminar_proposal)
-        <a href="{{ route('seminar-proposal.show', ['seminarProposal' => Auth::user()->mahasiswa->tugas_akhir->seminar_proposal->id]) }}" class="sidebar-item {{ request()->is('dashboard/seminar-proposal/detail/' . $seminarProposal->id) ? 'active' : '' }}" onclick="toggleActive(this)">
+        <a href="{{ route('seminar-proposal.show', ['seminarProposal' => Auth::user()->mahasiswa->tugas_akhir->seminar_proposal->id]) }}" class="sidebar-item {{ request()->is('dashboard/seminar-proposal/detail/' . Auth::user()->mahasiswa->tugas_akhir->seminar_proposal->id) ? 'active' : '' }}" onclick="toggleActive(this)">
             <!-- <img src="./assets/img/global/box.svg" alt=""> -->
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                 xmlns="http://www.w3.org/2000/svg">
@@ -282,7 +282,7 @@
 
         {{-- arahkan ke halaman show --}}
         @elseif (Auth::user()->mahasiswa && Auth::user()->mahasiswa->tugas_akhir && Auth::user()->mahasiswa->tugas_akhir->seminar_penelitian)
-        <a href="{{ route('seminar-penelitian.show', ['seminarPenelitian' => Auth::user()->mahasiswa->tugas_akhir->seminar_penelitian->id]) }}" class="sidebar-item {{ request()->is('dashboard/seminar-penelitian/detail/' . $seminarPenelitian->id) ? 'active' : '' }}" onclick="toggleActive(this)">
+        <a href="{{ route('seminar-penelitian.show', ['seminarPenelitian' => Auth::user()->mahasiswa->tugas_akhir->seminar_penelitian->id]) }}" class="sidebar-item {{ request()->is('dashboard/seminar-penelitian/detail/' . Auth::user()->mahasiswa->tugas_akhir->seminar_penelitian->id) ? 'active' : '' }}" onclick="toggleActive(this)">
             <!-- <img src="./assets/img/global/home.svg" alt=""> -->
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                 xmlns="http://www.w3.org/2000/svg">
@@ -347,7 +347,7 @@
 
         {{-- arahkan ke halaman show --}}
         @elseif (Auth::user()->mahasiswa && Auth::user()->mahasiswa->tugas_akhir && Auth::user()->mahasiswa->tugas_akhir->sidang_akhir)
-        <a href="{{ route('seminar-penelitian.show', ['seminarPenelitian' => Auth::user()->mahasiswa->tugas_akhir->sidang_akhir->id]) }}" class="sidebar-item {{ request()->is('dashboard/sidang-akhir/detail/' . $sidangAkhir->id) ? 'active' : '' }}" onclick="toggleActive(this)">
+        <a href="{{ route('sidang-akhir.show', ['sidangAkhir' => Auth::user()->mahasiswa->tugas_akhir->sidang_akhir->id]) }}" class="sidebar-item {{ request()->is('dashboard/sidang-akhir/detail/' . Auth::user()->mahasiswa->tugas_akhir->sidang_akhir->id) ? 'active' : '' }}" onclick="toggleActive(this)">
             <!-- <img src="./assets/img/global/home.svg" alt=""> -->
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                 xmlns="http://www.w3.org/2000/svg">

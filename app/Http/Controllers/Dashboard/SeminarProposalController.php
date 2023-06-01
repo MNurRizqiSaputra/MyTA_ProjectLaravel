@@ -14,7 +14,7 @@ class SeminarProposalController extends Controller
 {
     public function index()
     {
-        if (Auth::user()->role->nama == 'dosen' && Auth::user()->dosen->dosen_pengujis->pluck('id')) {
+        if (Auth::user()->dosen && Auth::user()->dosen->dosen_pengujis->pluck('id')) {
             // get id dosen pembimbing yang login
             $dosenPengujiId = Auth::user()->dosen->dosen_pengujis->pluck('id');
 
@@ -38,14 +38,25 @@ class SeminarProposalController extends Controller
 
     public function show(SeminarProposal $seminarProposal)
     {
-        $daftarDosenPenguji = DosenPenguji::with('dosen.user')->get();
-        $selectedDosenPenguji = $seminarProposal->seminar_proposal_nilais->pluck('dosen_penguji_id')->all();
+        if (Auth::user()->role->nama == 'admin') {
+            $dosenSeminarProposals = DosenPenguji::with('dosen.user')->get();
+            $selectedDosenProposal = $seminarProposal->seminar_proposal_nilais->pluck('dosen_penguji_id')->all();
 
-        return view('pages.dashboard.seminar_proposal.show', [
-            'seminarProposal' => $seminarProposal,
-            'daftarDosenPenguji' => $daftarDosenPenguji,
-            'selectedDosenPenguji' => $selectedDosenPenguji
-        ]);
+            return view('pages.dashboard.seminar_proposal.show', [
+                'seminarProposal' => $seminarProposal,
+                'dosenSeminarProposals' => $dosenSeminarProposals,
+                'selectedDosenProposal' => $selectedDosenProposal
+            ]);
+        } else {
+            $dosenSeminarProposals = $seminarProposal->seminar_proposal_nilais()->with('dosen_penguji.dosen.user')->get();
+            $selectedDosenProposal = $seminarProposal->seminar_proposal_nilais()->pluck('dosen_penguji_id')->all();
+
+            return view('pages.dashboard.seminar_proposal.show', [
+                'seminarProposal' => $seminarProposal,
+                'dosenSeminarProposals' => $dosenSeminarProposals,
+                'selectedDosenProposal' => $selectedDosenProposal
+            ]);
+        }
     }
 
     public function create()

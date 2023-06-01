@@ -67,7 +67,7 @@ Route::prefix("dashboard")
         });
 
         Route::prefix('tugas-akhir')->name('tugas-akhir.')->group(function(){
-            Route::get('', [TugasAkhirController::class, 'index'])->name('index'); // all users
+            Route::get('', [TugasAkhirController::class, 'index'])->name('index')->middleware('adminOrDosen'); // all users
             Route::get('create', [TugasAkhirController::class, 'create'])->name('create')->middleware('adminOrMahasiswa'); // admin, mahasiswa
             Route::post('store', [TugasAkhirController::class, 'store'])->name('store')->middleware('adminOrMahasiswa'); // admin, mahasiswa
             Route::get('{tugasAkhir}', [TugasAkhirController::class, 'show'])->name('show'); // admin, mahasiswa

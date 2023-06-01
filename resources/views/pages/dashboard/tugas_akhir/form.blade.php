@@ -1,5 +1,4 @@
 @csrf
-
 <div class="p-2">
     <div class="row">
         <div class="col mb-3">
