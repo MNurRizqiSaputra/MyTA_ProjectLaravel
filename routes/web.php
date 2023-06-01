@@ -90,6 +90,12 @@ Route::prefix("dashboard")
 
         Route::prefix('seminar-penelitian')->name('seminar-penelitian.')->group(function(){
             Route::get('', [SeminarPenelitianController::class, 'index'])->name('index'); // all users
+            Route::get('detail/{seminarPenelitian}', [SeminarPenelitianController::class, 'show'])->name('show'); //
+            Route::get('create', [SeminarPenelitianController::class, 'create'])->name('create')->middleware('mahasiswa'); //
+            Route::post('store', [SeminarPenelitianController::class, 'store'])->name('store'); //
+            Route::get('edit/{seminarPenelitian}', [SeminarPenelitianController::class, 'edit'])->name('edit'); //
+            Route::put('{seminarPenelitian}', [SeminarPenelitianController::class, 'update'])->name('update'); //
+            Route::get('detail/{seminarPenelitian}/nilai', [SeminarPenelitianController::class, 'nilai'])->name('nilai'); //
         });
 
         Route::prefix('seminar-penelitian-nilai')->name('seminar-penelitian-nilai.')->group(function(){
@@ -98,6 +104,12 @@ Route::prefix("dashboard")
 
         Route::prefix('sidang-akhir')->name('sidang-akhir.')->group(function(){
             Route::get('', [SidangAkhirController::class, 'index'])->name('index'); // all users
+            Route::get('detail/{sidangAkhir}', [SidangAkhirController::class, 'show'])->name('show'); //
+            Route::get('create', [SidangAkhirController::class, 'create'])->name('create')->middleware('mahasiswa'); //
+            Route::post('store', [SidangAkhirController::class, 'store'])->name('store'); //
+            Route::get('edit/{sidangAkhir}', [SidangAkhirController::class, 'edit'])->name('edit'); //
+            Route::put('{sidangAkhir}', [SidangAkhirController::class, 'update'])->name('update'); //
+            Route::get('detail/{sidangAkhir}/nilai', [SidangAkhirController::class, 'nilai'])->name('nilai'); //
         });
 
         Route::prefix('sidang-akhir-nilai')->name('sidang-akhir-nilai.')->group(function(){
