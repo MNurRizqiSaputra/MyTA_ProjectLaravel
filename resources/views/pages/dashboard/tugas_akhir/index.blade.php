@@ -11,7 +11,7 @@
             <h2 class="content-title">Tugas Akhir</h2>
             @auth
             @if (!Auth::user()->role->nama == 'admin' || (Auth::user()->role->nama == 'mahasiswa' && !Auth::user()->mahasiswa->tugas_akhir))
-                <a href="{{ route('tugas-akhir.create') }}">Tambah</a>
+                <a href="{{ route('tugas-akhir.create') }}" class="btn btn-primary">Tambah</a>
                 @endif
             @endauth
         </div>
@@ -47,4 +47,3 @@
     </div>
 </div>
 @endsection
-
