@@ -19,7 +19,7 @@ class TugasAkhirController extends Controller
             $tugasAkhir = TugasAkhir::where('mahasiswa_id', $mahasiswaId)->get();
         }
 
-        elseif (Auth::user()->role->nama == 'dosen'){
+        elseif (Auth::user()->role->nama == 'dosen' && Auth::user()->dosen->dosen_pembimbings->pluck('id')){
             // get id dosen pembimbing yang login
             $dosenPembimbingId = Auth::user()->dosen->dosen_pembimbings->pluck('id');
             $tugasAkhir = TugasAkhir::where('dosen_pembimbing_id', $dosenPembimbingId)->get();

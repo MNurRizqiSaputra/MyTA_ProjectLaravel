@@ -15,22 +15,26 @@
             <thead>
               <tr>
                 <th>No</th>
-                <th>Tugas Akhir</th>
+                <th>Mahasiswa</th>
+                <th>Judul</th>
                 <th>Tempat</th>
                 <th>Tanggal</th>
                 <th>Waktu</th>
-                <th>Nilai Akhir</th>
+                <th>Aksi</th>
             </tr>
         </thead>
         <tbody>
-            @foreach ($seminar_proposals as $seminar_proposal)
+            @foreach ($seminarProposals as $seminarProposal)
             <tr>
                 <td>{{ $loop->iteration }}</td>
-                <td>{{ $seminar_proposal->tugas_akhir->judul }}</td>
-                <td>{{ $seminar_proposal->tempat }}</td>
-                <td>{{ $seminar_proposal->tanggal }}</td>
-                <td>{{ $seminar_proposal->waktu }}</td>
-                <td>{{ $seminar_proposal->nilai_akhir }}</td>
+                {{-- <td><a href="{{ route('seminar-proposal.show', ['seminarProposal' => $seminarProposal->id]) }}">{{ $seminarProposal->tugas_akhir->mahasiswa->user->nama }}</a></td> --}}
+                <td>{{ $seminarProposal->tugas_akhir->mahasiswa->user->nama }}</a></td>
+                <td>{{ $seminarProposal->tugas_akhir->judul }}</td>
+                <td>{{ $seminarProposal->tempat }}</td>
+                <td>{{ $seminarProposal->tanggal }}</td>
+                <td>{{ $seminarProposal->waktu }}</td>
+                {{-- <td><a href="{{ route('seminar-proposal.edit', ['seminarProposal' => $seminarProposal->id]) }}">Edit</a></td> --}}
+                <td><a href="{{ route('seminar-proposal.show', ['seminarProposal' => $seminarProposal->id]) }}">Edit</a></td>
             </tr>
             @endforeach
         </tbody>
