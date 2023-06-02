@@ -34,7 +34,10 @@
             </nav>
         </div>
         <div class="col-12">
-
+            <form action="{{ route('seminar-proposal-nilai.update', ['seminarProposal' => $seminarProposal->id]) }}" method="POST" enctype="multipart/form-data">
+                @method('PUT')
+                @include('pages.dashboard.seminar_proposal_nilai.form-nilai', ['tombol' => 'Nilai'])
+            </form>
         </div>
     </div>
 </div>

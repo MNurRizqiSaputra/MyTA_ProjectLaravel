@@ -190,19 +190,19 @@
             <label for="dosen_penguji_id" class="form-label">Dosen Penguji:</label>
             @if (Auth::user()->role->nama == 'admin')
                 <!-- Loop untuk menampilkan daftar dosen penguji -->
-                @foreach ($daftarDosenPenguji as $dosenPenguji)
+                @foreach ($dosenSeminarProposals as $dosenSeminarProposal)
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="dosen_penguji_id[]"  value="{{ $dosenPenguji->id }}" {{ in_array($dosenPenguji->id, $selectedDosenPenguji) ? 'checked' : '' }}>
+                        <input class="form-check-input" type="checkbox" name="dosen_penguji_id[]"  value="{{ $dosenSeminarProposal->id }}" {{ in_array($dosenSeminarProposal->id, $selectedDosenProposal) ? 'checked' : '' }}>
 
-                        <label class="form-check-label" for="dosen_penguji_{{ $dosenPenguji->id }}">{{ $dosenPenguji->dosen->user->nama }}</label>
+                        <label class="form-check-label" for="dosen_penguji_{{ $dosenSeminarProposal->id }}">{{ $dosenSeminarProposal->dosen->user->nama }}</label>
                     </div>
                 @endforeach
             @else
-                @foreach ($daftarDosenPenguji as $dosenPenguji)
+                @foreach ($dosenSeminarProposals as $dosenSeminarProposal)
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="dosen_penguji_id[]"  value="{{ $dosenPenguji->id }}" {{ in_array($dosenPenguji->id, $selectedDosenPenguji) ? 'checked' : '' }}>
+                        <input class="form-check-input" type="checkbox" name="dosen_penguji_id[]"  value="{{ $dosenSeminarProposal->id }}" {{ in_array($dosenSeminarProposal->dosen_penguji->id, $selectedDosenProposal) ? 'checked' : '' }}>
 
-                        <label class="form-check-label" for="dosen_penguji_{{ $dosenPenguji->id }}">{{ $dosenPenguji->dosen->user->nama }}</label>
+                        <label class="form-check-label" for="dosen_penguji_{{ $dosenSeminarProposal->id }}">{{ $dosenSeminarProposal->dosen_penguji->dosen->user->nama }}</label>
                     </div>
                 @endforeach
             @endif
@@ -221,14 +221,13 @@
         </div>
     </div>
 
-
     @if (Auth::user()->role->nama == 'admin')
         <button type="submit" id="edit" class="btn btn-primary">{{ $tombol }}</button>
     @endif
 
     {{-- menampilkan tombol jika login sebagai dosen penguji --}}
     @if (Auth::user()->dosen && Auth::user()->dosen->dosen_pengujis->count() > 0)
-        <a href="{{ route('seminar-proposal.nilai', ['seminarProposal' => $seminarProposal->id]) }}" class="btn btn-primary">Berikan Nilai</a>
+        <a href="{{ route('seminar-proposal-nilai.nilai', ['seminarProposal' => $seminarProposal->id]) }}" class="btn btn-primary">Berikan Nilai</a>
     @endif
 </div>
 @endif
