@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: May 28, 2023 at 06:07 AM
+-- Generation Time: Jun 02, 2023 at 07:59 AM
 -- Server version: 8.0.30
 -- PHP Version: 8.1.10
 
@@ -57,8 +57,9 @@ INSERT INTO `dosens` (`id`, `nip`, `foto`, `user_id`, `jurusan_id`, `created_at`
 (13, '9935699026', 'default.png', 11, 1, '2023-05-25 11:16:40', '2023-05-25 11:16:40'),
 (14, '9996588682', 'default.png', 38, 3, '2023-05-25 11:16:40', '2023-05-25 11:16:40'),
 (15, '9922183331', 'default.png', 43, 3, '2023-05-25 11:16:40', '2023-05-25 11:16:40'),
-(16, NULL, NULL, 59, NULL, '2023-05-25 11:59:26', '2023-05-25 11:59:26'),
-(17, NULL, NULL, 60, NULL, '2023-05-25 11:59:39', '2023-05-25 11:59:39');
+(16, '999123345', 'public/fotos/dosen//1685286699_rama.png', 59, 2, '2023-05-25 11:59:26', '2023-05-28 08:11:39'),
+(17, '9991233456', 'public/fotos/dosen//1685431284_rama.png', 60, 3, '2023-05-25 11:59:39', '2023-05-30 00:21:24'),
+(18, '999912345', NULL, 61, 2, '2023-06-02 00:01:35', '2023-06-02 00:19:24');
 
 -- --------------------------------------------------------
 
@@ -109,7 +110,9 @@ INSERT INTO `dosen_pengujis` (`id`, `dosen_id`, `created_at`, `updated_at`) VALU
 (2, 3, '2023-05-25 11:16:40', '2023-05-25 11:16:40'),
 (3, 14, '2023-05-25 11:16:40', '2023-05-25 11:16:40'),
 (4, 11, '2023-05-25 11:16:40', '2023-05-25 11:16:40'),
-(5, 1, '2023-05-25 11:16:40', '2023-05-25 11:16:40');
+(5, 1, '2023-05-25 11:16:40', '2023-05-25 11:16:40'),
+(6, 17, '2023-05-30 00:36:28', '2023-05-30 00:36:28'),
+(7, 18, '2023-06-02 00:01:55', '2023-06-02 00:01:55');
 
 -- --------------------------------------------------------
 
@@ -190,7 +193,7 @@ INSERT INTO `mahasiswas` (`id`, `nim`, `foto`, `user_id`, `jurusan_id`, `created
 (18, '1703597196', 'default.png', 33, 2, '2023-05-25 11:16:40', '2023-05-25 11:16:40'),
 (19, '1755317378', 'default.png', 49, 1, '2023-05-25 11:16:40', '2023-05-25 11:16:40'),
 (20, '1771239425', 'default.png', 47, 2, '2023-05-25 11:16:40', '2023-05-25 11:16:40'),
-(21, NULL, NULL, 58, NULL, '2023-05-25 11:55:18', '2023-05-25 11:55:18');
+(21, '17200478', 'public/fotos/mahasiswa//1685273467_rama.png', 58, 3, '2023-05-25 11:55:18', '2023-05-28 04:37:46');
 
 -- --------------------------------------------------------
 
@@ -226,7 +229,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (15, '2023_05_17_185028_create_seminar_penelitians_table', 1),
 (16, '2023_05_17_185525_create_seminar_penelitian_nilai_table', 1),
 (17, '2023_05_17_190435_create_sidang_akhirs_table', 1),
-(18, '2023_05_17_190914_create_sidang_akhir_nilai_table', 1);
+(18, '2023_05_17_190914_create_sidang_akhir_nilai_table', 1),
+(19, '2023_05_31_024413_update_column_nullable_in_seminar_proposals_table', 2);
 
 -- --------------------------------------------------------
 
@@ -318,15 +322,6 @@ CREATE TABLE `seminar_penelitians` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `seminar_penelitians`
---
-
-INSERT INTO `seminar_penelitians` (`id`, `tempat`, `tanggal`, `waktu`, `nilai_akhir`, `tugas_akhir_id`, `created_at`, `updated_at`) VALUES
-(1, 'Bukittinggi', '2021-02-14', '01:29:26', 69, 4, '2023-05-25 11:16:41', '2023-05-25 11:16:41'),
-(2, 'Palangka Raya', '1983-06-06', '08:53:37', 37, 1, '2023-05-25 11:16:41', '2023-05-25 11:16:41'),
-(3, 'Sungai Penuh', '1970-07-01', '18:00:21', 22, 5, '2023-05-25 11:16:41', '2023-05-25 11:16:41');
-
 -- --------------------------------------------------------
 
 --
@@ -342,15 +337,6 @@ CREATE TABLE `seminar_penelitian_nilai` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `seminar_penelitian_nilai`
---
-
-INSERT INTO `seminar_penelitian_nilai` (`id`, `seminar_penelitian_id`, `dosen_penguji_id`, `nilai`, `created_at`, `updated_at`) VALUES
-(1, 2, 3, 21, '2023-05-25 11:16:41', '2023-05-25 11:16:41'),
-(2, 1, 1, 25, '2023-05-25 11:16:41', '2023-05-25 11:16:41'),
-(3, 3, 5, 58, '2023-05-25 11:16:41', '2023-05-25 11:16:41');
-
 -- --------------------------------------------------------
 
 --
@@ -359,9 +345,9 @@ INSERT INTO `seminar_penelitian_nilai` (`id`, `seminar_penelitian_id`, `dosen_pe
 
 CREATE TABLE `seminar_proposals` (
   `id` bigint UNSIGNED NOT NULL,
-  `tempat` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `tanggal` date NOT NULL,
-  `waktu` time NOT NULL,
+  `tempat` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `tanggal` date DEFAULT NULL,
+  `waktu` time DEFAULT NULL,
   `nilai_akhir` int DEFAULT NULL,
   `tugas_akhir_id` bigint UNSIGNED NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -373,9 +359,7 @@ CREATE TABLE `seminar_proposals` (
 --
 
 INSERT INTO `seminar_proposals` (`id`, `tempat`, `tanggal`, `waktu`, `nilai_akhir`, `tugas_akhir_id`, `created_at`, `updated_at`) VALUES
-(1, 'Singkawang', '2017-03-17', '03:05:05', 54, 3, '2023-05-25 11:16:41', '2023-05-25 11:16:41'),
-(2, 'Tomohon', '1991-04-27', '01:15:07', 83, 6, '2023-05-25 11:16:41', '2023-05-25 11:16:41'),
-(3, 'Medan', '1998-01-16', '23:13:18', 63, 9, '2023-05-25 11:16:41', '2023-05-25 11:16:41');
+(16, 'Gedung A', '2023-06-01', '20:40:00', 88, 59, '2023-06-01 06:26:06', '2023-06-02 00:46:34');
 
 -- --------------------------------------------------------
 
@@ -397,9 +381,8 @@ CREATE TABLE `seminar_proposal_nilai` (
 --
 
 INSERT INTO `seminar_proposal_nilai` (`id`, `seminar_proposal_id`, `dosen_penguji_id`, `nilai`, `created_at`, `updated_at`) VALUES
-(1, 3, 5, 25, '2023-05-25 11:16:41', '2023-05-25 11:16:41'),
-(2, 1, 2, 39, '2023-05-25 11:16:41', '2023-05-25 11:16:41'),
-(3, 1, 2, 3, '2023-05-25 11:16:41', '2023-05-25 11:16:41');
+(50, 16, 6, 85, '2023-06-01 06:38:23', '2023-06-01 23:46:27'),
+(54, 16, 7, 90, '2023-06-02 00:05:09', '2023-06-02 00:20:17');
 
 -- --------------------------------------------------------
 
@@ -418,15 +401,6 @@ CREATE TABLE `sidang_akhirs` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `sidang_akhirs`
---
-
-INSERT INTO `sidang_akhirs` (`id`, `tempat`, `tanggal`, `waktu`, `nilai_akhir`, `tugas_akhir_id`, `created_at`, `updated_at`) VALUES
-(1, 'Bandar Lampung', '2023-03-10', '05:49:54', 84, 10, '2023-05-25 11:16:41', '2023-05-25 11:16:41'),
-(2, 'Bima', '1983-05-07', '13:09:05', 42, 3, '2023-05-25 11:16:41', '2023-05-25 11:16:41'),
-(3, 'Bandung', '1977-09-23', '02:15:41', 77, 6, '2023-05-25 11:16:41', '2023-05-25 11:16:41');
-
 -- --------------------------------------------------------
 
 --
@@ -441,15 +415,6 @@ CREATE TABLE `sidang_akhir_nilai` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `sidang_akhir_nilai`
---
-
-INSERT INTO `sidang_akhir_nilai` (`id`, `sidang_akhir_id`, `dosen_penguji_id`, `nilai`, `created_at`, `updated_at`) VALUES
-(1, 3, 4, 15, '2023-05-25 11:16:41', '2023-05-25 11:16:41'),
-(2, 2, 2, 77, '2023-05-25 11:16:41', '2023-05-25 11:16:41'),
-(3, 1, 5, 8, '2023-05-25 11:16:41', '2023-05-25 11:16:41');
 
 -- --------------------------------------------------------
 
@@ -474,17 +439,7 @@ CREATE TABLE `tugas_akhirs` (
 --
 
 INSERT INTO `tugas_akhirs` (`id`, `judul`, `file`, `status_persetujuan`, `total_nilai`, `mahasiswa_id`, `dosen_pembimbing_id`, `created_at`, `updated_at`) VALUES
-(1, 'Odit non sit labore cumque.', 'Salman Marpaung.pdf', 'Tidak Disetujui', 70, 4, 1, '2023-05-25 11:16:41', '2023-05-25 11:16:41'),
-(2, 'Qui maxime et atque aspernatur.', 'Cawisono Budiyanto S.Gz.pdf', 'Disetujui', 89, 5, 1, '2023-05-25 11:16:41', '2023-05-25 11:16:41'),
-(3, 'Iste provident laudantium autem enim.', 'Ciaobella Haryanti S.Farm.pdf', 'Disetujui', 58, 2, 3, '2023-05-25 11:16:41', '2023-05-25 11:16:41'),
-(4, 'Odit possimus et aliquid sed laborum sit sint labore.', 'Cawisono Mansur.pdf', 'Tidak Disetujui', 87, 17, 1, '2023-05-25 11:16:41', '2023-05-25 11:16:41'),
-(5, 'Esse dicta sapiente suscipit similique laboriosam voluptatem qui.', 'Kamidin Nababan.pdf', 'Disetujui', 88, 9, 3, '2023-05-25 11:16:41', '2023-05-25 11:16:41'),
-(6, 'Pariatur et officia dolorem omnis et et pariatur.', 'Kenari Omar Jailani.pdf', 'Tidak Disetujui', 3, 20, 5, '2023-05-25 11:16:41', '2023-05-25 11:16:41'),
-(7, 'Rerum quam ratione nostrum ut blanditiis.', 'Amalia Usyi Susanti.pdf', 'Tidak Disetujui', 46, 16, 2, '2023-05-25 11:16:41', '2023-05-25 11:16:41'),
-(8, 'Corporis quam optio corporis ullam beatae corporis.', 'Maida Laras Sudiati.pdf', 'Tidak Disetujui', 22, 12, 5, '2023-05-25 11:16:41', '2023-05-25 11:16:41'),
-(9, 'Est amet autem quod soluta libero atque.', 'Dina Hartati.pdf', 'Disetujui', 35, 19, 3, '2023-05-25 11:16:41', '2023-05-25 11:16:41'),
-(10, 'Iste aspernatur accusantium ipsam dicta quo.', 'Paiman Saptono.pdf', 'Tidak Disetujui', 45, 18, 4, '2023-05-25 11:16:41', '2023-05-25 11:16:41'),
-(26, 'tugas', 'public/tugas-akhir/21//1685249138_Rama Alfin Baehaqi.pdf', 'Pending', NULL, 21, 6, '2023-05-27 21:45:38', '2023-05-27 21:45:38');
+(59, 'tugas akhir rizki', 'public/tugas-akhir/21/1685624469_Rama Alfin Baehaqi.pdf', 'Disetujui', NULL, 21, 6, '2023-06-01 06:01:09', '2023-06-01 18:01:03');
 
 -- --------------------------------------------------------
 
@@ -560,9 +515,10 @@ INSERT INTO `users` (`id`, `nama`, `email`, `password`, `role_id`, `email_verifi
 (49, 'Maida Yolanda', 'cahyono.riyanti@example.org', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 2, '2023-05-25 11:16:40', 'b1G1cQfFo6', '2023-05-25 11:16:40', '2023-05-25 11:16:40'),
 (50, 'Lanjar Latupono', 'amalia.siregar@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 1, '2023-05-25 11:16:40', 'cl7qlxsJZE', '2023-05-25 11:16:40', '2023-05-25 11:16:40'),
 (51, 'admin', 'admin@gmail.com', '$2y$10$uAj4KoDxWJRUtF3ML.z/u.37amN5rBC80NW1Vp1XOyeQnxZq4Ee.y', 3, NULL, NULL, '2023-05-25 11:27:19', '2023-05-25 11:27:19'),
-(58, 'rizki', 'rizki@gmail.com', '$2y$10$hZjC5189x/r1a5x1V1z8I.6GitXKUW0OCqf8.6I.nBk051uuiMT1.', 2, NULL, NULL, '2023-05-25 11:55:18', '2023-05-25 11:55:18'),
+(58, 'rizki', 'rizki@gmail.com', '$2y$10$hZjC5189x/r1a5x1V1z8I.6GitXKUW0OCqf8.6I.nBk051uuiMT1.', 2, NULL, NULL, '2023-05-25 11:55:18', '2023-05-29 21:59:49'),
 (59, 'Agus, S.Kom', 'agus@gmail.com', '$2y$10$v8PAO/rscD/ZH/KZELzONOGuKxDKXIS9pCDIxXU.WVPhXy8Mo8092', 1, NULL, NULL, '2023-05-25 11:59:26', '2023-05-25 11:59:26'),
-(60, 'Budi, S.T', 'budi@gmail.com', '$2y$10$IyoCt2x7tVJfpoth6Oq79.VWzbvtLYWXTOwWZrYSiG0SLASDlza6a', 1, NULL, NULL, '2023-05-25 11:59:39', '2023-05-25 11:59:39');
+(60, 'Budi, S.T', 'budi@gmail.com', '$2y$10$IyoCt2x7tVJfpoth6Oq79.VWzbvtLYWXTOwWZrYSiG0SLASDlza6a', 1, NULL, NULL, '2023-05-25 11:59:39', '2023-05-25 11:59:39'),
+(61, 'Eka, S.T', 'eka@gmail.com', '$2y$10$FkHQFUMiwwYbbjb/lV21m.NkPkMDF6oTwHq1gJpGIra5FdvTrkDjO', 1, NULL, NULL, '2023-06-02 00:01:35', '2023-06-02 00:01:35');
 
 --
 -- Indexes for dumped tables
@@ -715,7 +671,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `dosens`
 --
 ALTER TABLE `dosens`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `dosen_pembimbings`
@@ -727,7 +683,7 @@ ALTER TABLE `dosen_pembimbings`
 -- AUTO_INCREMENT for table `dosen_pengujis`
 --
 ALTER TABLE `dosen_pengujis`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -751,7 +707,7 @@ ALTER TABLE `mahasiswas`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
@@ -781,13 +737,13 @@ ALTER TABLE `seminar_penelitian_nilai`
 -- AUTO_INCREMENT for table `seminar_proposals`
 --
 ALTER TABLE `seminar_proposals`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `seminar_proposal_nilai`
 --
 ALTER TABLE `seminar_proposal_nilai`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
 
 --
 -- AUTO_INCREMENT for table `sidang_akhirs`
@@ -805,13 +761,13 @@ ALTER TABLE `sidang_akhir_nilai`
 -- AUTO_INCREMENT for table `tugas_akhirs`
 --
 ALTER TABLE `tugas_akhirs`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
 
 --
 -- Constraints for dumped tables
