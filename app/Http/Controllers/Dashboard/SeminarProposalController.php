@@ -70,7 +70,7 @@ class SeminarProposalController extends Controller
                 'tugasAkhir' => $mahasiswa->tugas_akhir
             ]);
         }
-        return redirect()->route('tugas-akhir.show', ['tugasAkhir' => $tugasAkhir->id])->with('error', 'Tugas Akhir belum disetujui, tidak dapat mendaftar ke Seminar Proposal.');
+        return redirect()->back()->with('error', 'Mohon Maaf, Harap lengkapi Tugas Akhir Anda');
 
     }
 

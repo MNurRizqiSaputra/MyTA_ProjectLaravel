@@ -13,7 +13,7 @@ class SidangAkhir extends Model
     {
         return $this->belongsTo(TugasAkhir::class);
     }
-    public function sidang_akhir_nilai()
+    public function sidang_akhir_nilais()
     {
         return $this->hasMany(SidangAkhirNilai::class);
     }
