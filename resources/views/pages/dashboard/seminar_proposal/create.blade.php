@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 @section('title')
-    Tambah Tugas Akhir
+    Tambah Seminar Proposal
 @endsection
 @section('content')
 <div class="content">
@@ -9,15 +9,15 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb ms-2 mb-4">
                     <li class="breadcrumb-item">
-                        <p>Tugas Akhir</p>
+                        <p>Seminar Proposal</p>
                     </li>
                     <li class="breadcrumb-item active">Tambah Data</li>
                 </ol>
             </nav>
         </div>
         <div class="col-12">
-            <form action="{{ route('tugas-akhir.store') }}" method="POST" enctype="multipart/form-data">
-                @include('pages.dashboard.tugas_akhir.form', ['tombol' => 'Add'])
+            <form action="{{ route('seminar-proposal.store') }}" method="POST" enctype="multipart/form-data">
+                @include('pages.dashboard.seminar_proposal.form', ['tombol' => 'Add'])
             </form>
         </div>
     </div>

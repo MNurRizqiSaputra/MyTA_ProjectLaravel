@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 @section('title')
-    Tambah Tugas Akhir
+    Tambah Dosen Penguji
 @endsection
 @section('content')
 <div class="content">
@@ -9,15 +9,15 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb ms-2 mb-4">
                     <li class="breadcrumb-item">
-                        <p>Tugas Akhir</p>
+                        <a href="{{ route('dosen-penguji.index') }}">Dosen Penguji</a>
                     </li>
                     <li class="breadcrumb-item active">Tambah Data</li>
                 </ol>
             </nav>
         </div>
         <div class="col-12">
-            <form action="{{ route('tugas-akhir.store') }}" method="POST" enctype="multipart/form-data">
-                @include('pages.dashboard.tugas_akhir.form', ['tombol' => 'Add'])
+            <form action="{{ route('dosen-penguji.store') }}" method="POST" enctype="multipart/form-data">
+                @include('pages.dashboard.dosen_penguji.form', ['tombol' => 'Add'])
             </form>
         </div>
     </div>

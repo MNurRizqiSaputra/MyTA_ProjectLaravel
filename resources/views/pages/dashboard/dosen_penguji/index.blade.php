@@ -7,8 +7,13 @@
 @section('content')
 <div class="content">
     <div class="row">
-        <div class="col-12">
+        <div class="col-12 d-flex align-items-center justify-content-between">
             <h2 class="content-title">Dosen Penguji</h2>
+            @auth
+                @if (Auth::user()->role->nama == 'admin')
+                    <a href="{{ route('dosen-penguji.create') }}">Tambah</a>
+                @endif
+            @endauth
         </div>
 
         <table id="example" class="display" style="width:100%">
