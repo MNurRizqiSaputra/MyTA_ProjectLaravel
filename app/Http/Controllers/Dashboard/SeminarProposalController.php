@@ -1,8 +1,11 @@
 <?php
 
 namespace App\Http\Controllers\Dashboard;
+
 use App\Http\Controllers\Controller;
+use App\Models\DosenPenguji;
 use App\Models\SeminarProposal;
+use App\Models\SeminarProposalNilai;
 use App\Models\TugasAkhir;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -11,27 +14,118 @@ class SeminarProposalController extends Controller
 {
     public function index()
     {
-        // if (Auth::user()->role->nama == 'dosen') {
-        //     // get id dosen penguji yang login
-        //     $dosenPengujiId = Auth::user()->dosen->seminar_proposals->pluck('id');
-        //     $seminarProposal = SeminarProposal::where('seminar_proposal_id', $dosenPengujiId)->get();
-        // } else {
-        //     $seminarProposal = SeminarProposal::all();
-        // }
-        // dump(Auth::user()->mahasiswa);
-        return view('pages.dashboard.seminar_proposal.index', [
-            'seminar_proposals' => SeminarProposal::all(),
-            // 'tugasAkhir' => SeminarProposal::where('tugas_akhir_id', Auth::user()->mahasiswa->tugas_akhir->id)->get()
+        if (Auth::user()->role->nama == 'dosen' && Auth::user()->dosen->dosen_pengujis->pluck('id')) {
+            // get id dosen pembimbing yang login
+            $dosenPengujiId = Auth::user()->dosen->dosen_pengujis->pluck('id');
+
+            // Ambil daftar seminar proposal yang terkait dengan dosen penguji
+            $seminarProposalIds = SeminarProposalNilai::whereIn('dosen_penguji_id', $dosenPengujiId)->pluck('seminar_proposal_id');
+
+            // Tampilkan daftar seminar proposal yang terkait
+            $seminarProposals = SeminarProposal::whereIn('id', $seminarProposalIds)->get();
+
+            return view('pages.dashboard.seminar_proposal.index', [
+                'seminarProposals' => $seminarProposals,
+            ]);
+        } else {
+            $seminarProposals = SeminarProposal::all();
+
+            return view('pages.dashboard.seminar_proposal.index', [
+                'seminarProposals' => $seminarProposals,
+            ]);
+        }
+    }
+
+    public function show(SeminarProposal $seminarProposal)
+    {
+        $daftarDosenPenguji = DosenPenguji::with('dosen.user')->get();
+        $selectedDosenPenguji = $seminarProposal->seminar_proposal_nilais->pluck('dosen_penguji_id')->all();
+
+        return view('pages.dashboard.seminar_proposal.show', [
+            'seminarProposal' => $seminarProposal,
+            'daftarDosenPenguji' => $daftarDosenPenguji,
+            'selectedDosenPenguji' => $selectedDosenPenguji
         ]);
     }
 
     public function create()
     {
-        return view('pages.dashboard.seminar_proposal.create');
+        $mahasiswa = auth()->user()->mahasiswa;
+        $tugasAkhir = $mahasiswa->tugas_akhir;
+
+        // Periksa status persetujuan tugas akhir
+        if ($tugasAkhir->status_persetujuan == 'Disetujui') {
+            return view('pages.dashboard.seminar_proposal.create', [
+                'tugasAkhir' => $mahasiswa->tugas_akhir
+            ]);
+        }
+        return redirect()->route('tugas-akhir.show', ['tugasAkhir' => $tugasAkhir->id])->with('error', 'Tugas Akhir belum disetujui, tidak dapat mendaftar ke Seminar Proposal.');
+
     }
 
-    public function show(Request $request, SeminarProposal $seminarProposal)
+    public function store(Request $request)
     {
-        return view('pages.dashboard.seminar_proposal.show');
+        $request->validate([
+            'tempat' => 'nullable',
+            'tanggal' => 'nullable',
+            'waktu' => 'nullable',
+            'tugas_akhir_id' => 'required|exists:tugas_akhirs,id'
+        ]);
+        $seminarProposal = SeminarProposal::create([
+            'tugas_akhir_id' => $request->tugas_akhir_id
+        ]);
+        return redirect()->route('seminar-proposal.show', ['seminarProposal' => $seminarProposal->id])
+            ->with('success', 'Seminar Proposal berhasil ditambahkan.');
+    }
+
+    // public function edit(SeminarProposal $seminarProposal)
+    // {
+    //     $daftarDosenPenguji = DosenPenguji::with('dosen.user')->get();
+    //     $selectedDosenPenguji = $seminarProposal->seminar_proposal_nilais->pluck('dosen_penguji_id')->all();
+
+    //     return view('pages.dashboard.seminar_proposal.edit', [
+    //         'seminarProposal' => $seminarProposal,
+    //         'daftarDosenPenguji' => $daftarDosenPenguji,
+    //         'selectedDosenPenguji' => $selectedDosenPenguji
+    //     ]);
+    // }
+
+    public function update(Request $request, SeminarProposal $seminarProposal)
+    {
+        $request->validate([
+            'tanggal' => 'required|date',
+            'waktu' => 'required',
+            'tempat' => 'required',
+        ]);
+
+        // Update data seminar proposal
+        $seminarProposal->tanggal = $request->tanggal;
+        $seminarProposal->waktu = $request->waktu;
+        $seminarProposal->tempat = $request->tempat;
+        $seminarProposal->save();
+
+        // Ambil daftar dosen penguji yang dipilih
+        $selectedDosenPengujiIds = $request->input('dosen_penguji_id', []);
+
+        // hapus data dosen penguji yang tidak dipilih pada tabel seminar_proposal_nilai
+        $seminarProposal->seminar_proposal_nilais()->whereNotIn('dosen_penguji_id', $selectedDosenPengujiIds)->delete();
+
+        // Tambahkan data seminar proposal nilai baru untuk dosen penguji terpilih
+        foreach ($selectedDosenPengujiIds as $dosenPengujiId) {
+            $seminarProposalNilai = SeminarProposalNilai::firstOrNew([
+                'seminar_proposal_id' => $seminarProposal->id,
+                'dosen_penguji_id' => $dosenPengujiId,
+            ]);
+            $seminarProposalNilai->save();
+        }
+
+        return redirect()->route('seminar-proposal.show', ['seminarProposal' => $seminarProposal->id])->with('success', 'Data Seminar Proposal berhasil diperbarui.');
+    }
+
+    public function nilai(SeminarProposal $seminarProposal)
+    {
+        return view('pages.dashboard.seminar_proposal.nilai', [
+            'seminarProposal' => $seminarProposal
+        ]);
     }
 }
