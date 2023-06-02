@@ -44,7 +44,7 @@
         <span>Overview</span>
     </a>
 
-    @if (Auth::user()->role_id == 3)
+    @if (Auth::user()->role->nama == 'admin')
     <a href="{{ route('user.index') }}" class="sidebar-item {{ request()->is('dashboard/user') ? 'active' : '' }}" onclick="toggleActive(this)">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
             xmlns="http://www.w3.org/2000/svg">
@@ -66,7 +66,7 @@
     </a>
     @endif
 
-    @if (Auth::user()->role_id == 3)
+    @if (Auth::user()->role->nama == 'admin')
     <a href="{{ route('mahasiswa.index') }}" class="sidebar-item {{ request()->is('dashboard/mahasiswa') ? 'active' : '' }}" onclick="toggleActive(this)">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
             xmlns="http://www.w3.org/2000/svg">
@@ -82,7 +82,7 @@
     </a>
     @endif
 
-    @if (Auth::user()->role_id == 3)
+    @if (Auth::user()->role->nama == 'admin')
     <a href="{{ route('dosen.index') }}" class="sidebar-item {{ request()->is('dashboard/dosen') ? 'active' : '' }}" onclick="toggleActive(this)">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
             xmlns="http://www.w3.org/2000/svg">
@@ -244,7 +244,7 @@
         <span>Nilai Sidang Akhir</span>
     </a>
 
-    @if (Auth::user()->role_id == 3)
+    @if (Auth::user()->role->nama == 'admin')
     <a href="{{ route('jurusan.index') }}" class="sidebar-item {{ request()->is('dashboard/jurusan') ? 'active' : '' }}" onclick="toggleActive(this)">
         <!-- <img src="./assets/img/global/settings.svg" alt=""> -->
 
@@ -262,7 +262,7 @@
     </a>
     @endif
 
-    @if (Auth::user()->role_id == 3)
+    @if (Auth::user()->role->nama == 'admin')
     <a href="{{ route('role.index') }}" class="sidebar-item {{ request()->is('dashboard/role') ? 'active' : '' }}" onclick="toggleActive(this)">
         <!-- <img src="./assets/img/global/settings.svg" alt=""> -->
 

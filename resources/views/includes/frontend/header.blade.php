@@ -17,6 +17,9 @@
                 <li><a class="nav-link scrollto" href="#team">Team</a></li>
                 <li><a class="nav-link scrollto" href="#faq">FAQ</a></li>
                 @if (Auth::check())
+                <li><a class="nav-link scrollto" href="{{ route('dashboard') }}">Dashboard</a></li>
+                @endif
+                @if (Auth::check())
                 <li>
                     <div class="dropdown">
                         <a class="getstarted scrollto dropdown-toggle" href="#" role="button" id="dropdownMenuProfile" data-bs-toggle="dropdown" aria-expanded="false">
