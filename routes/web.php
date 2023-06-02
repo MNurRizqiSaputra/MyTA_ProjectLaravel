@@ -67,25 +67,26 @@ Route::prefix("dashboard")
         });
 
         Route::prefix('tugas-akhir')->name('tugas-akhir.')->group(function(){
-            Route::get('', [TugasAkhirController::class, 'index'])->name('index')->middleware('adminOrDosen'); // all users
+            Route::get('', [TugasAkhirController::class, 'index'])->name('index')->middleware('adminOrDosen'); // admin, dosen
             Route::get('create', [TugasAkhirController::class, 'create'])->name('create')->middleware('adminOrMahasiswa'); // admin, mahasiswa
             Route::post('store', [TugasAkhirController::class, 'store'])->name('store')->middleware('adminOrMahasiswa'); // admin, mahasiswa
-            Route::get('{tugasAkhir}', [TugasAkhirController::class, 'show'])->name('show'); // admin, mahasiswa
+            Route::get('detail/{tugasAkhir}', [TugasAkhirController::class, 'show'])->name('show'); // admin, mahasiswa
             Route::put('{tugasAkhir}', [TugasAkhirController::class, 'update'])->name('update'); // admin, mahasiswa
         });
 
         Route::prefix('seminar-proposal')->name('seminar-proposal.')->group(function(){
-            Route::get('', [SeminarProposalController::class, 'index'])->name('index')->middleware('adminOrDosen'); //
-            Route::get('detail/{seminarProposal}', [SeminarProposalController::class, 'show'])->name('show'); //
-            Route::get('create', [SeminarProposalController::class, 'create'])->name('create')->middleware('mahasiswa'); //
+            Route::get('', [SeminarProposalController::class, 'index'])->name('index')->middleware('adminOrDosen'); // admin, dosen
+            Route::get('detail/{seminarProposal}', [SeminarProposalController::class, 'show'])->name('show'); // all
+            Route::get('create', [SeminarProposalController::class, 'create'])->name('create')->middleware('mahasiswa'); // mahasiswa
             Route::post('store', [SeminarProposalController::class, 'store'])->name('store'); //
-            Route::get('edit/{seminarProposal}', [SeminarProposalController::class, 'edit'])->name('edit'); //
+            // Route::get('edit/{seminarProposal}', [SeminarProposalController::class, 'edit'])->name('edit'); // admin
             Route::put('{seminarProposal}', [SeminarProposalController::class, 'update'])->name('update'); //
-            Route::get('detail/{seminarProposal}/nilai', [SeminarProposalController::class, 'nilai'])->name('nilai'); //
         });
 
         Route::prefix('seminar-proposal-nilai')->name('seminar-proposal-nilai.')->group(function(){
             Route::get('', [SeminarProposalNilaiController::class, 'index'])->name('index'); // all users
+            Route::get('detail/{seminarProposal}/nilai', [SeminarProposalNilaiController::class, 'nilai'])->name('nilai')->middleware('dosenPenguji'); // dosen
+            Route::put('detail/{seminarProposal}/nilai', [SeminarProposalNilaiController::class, 'update'])->name('update')->middleware('dosenPenguji');
         });
 
         Route::prefix('seminar-penelitian')->name('seminar-penelitian.')->group(function(){

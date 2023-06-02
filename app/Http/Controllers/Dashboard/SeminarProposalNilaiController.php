@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
+use App\Models\SeminarProposal;
 use App\Models\SeminarProposalNilai;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class SeminarProposalNilaiController extends Controller
 {
@@ -12,5 +14,32 @@ class SeminarProposalNilaiController extends Controller
         return view('pages.dashboard.seminar_proposal_nilai.index', [
             'seminar_proposal_nilais' => SeminarProposalNilai::all(),
         ]);
+    }
+
+    public function nilai(SeminarProposal $seminarProposal)
+    {
+        $dosenPengujiId = auth()->user()->dosen->dosen_pengujis->pluck('id');
+        $seminarProposalNilai = $seminarProposal->seminar_proposal_nilais()->where('dosen_penguji_id', $dosenPengujiId)->first();
+
+        return view('pages.dashboard.seminar_proposal.nilai', [
+            'seminarProposal' => $seminarProposal,
+            'seminarProposalNilai' => $seminarProposalNilai,
+        ]);
+    }
+
+    public function update(Request $request, SeminarProposal $seminarProposal)
+    {
+        $dosenPenguji = auth()->user()->dosen->dosen_pengujis->pluck('id');
+
+        $validated = $request->validate([
+            'dosen_penguji_id' => 'required',
+            'seminar_proposal_id' => 'required',
+            'nilai' => 'required|integer'
+        ]);
+
+        $seminarProposalNilai = $seminarProposal->seminar_proposal_nilais()->where('dosen_penguji_id', $dosenPenguji)->first();
+        $seminarProposalNilai->update($validated);
+
+        return redirect()->back()->with('success', 'Seminar Proposal berhasil dinilai.');
     }
 }

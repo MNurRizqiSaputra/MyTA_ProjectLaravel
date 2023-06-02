@@ -132,11 +132,4 @@ class SeminarProposalController extends Controller
 
         return redirect()->route('seminar-proposal.show', ['seminarProposal' => $seminarProposal->id])->with('success', 'Data Seminar Proposal berhasil diperbarui.');
     }
-
-    public function nilai(SeminarProposal $seminarProposal)
-    {
-        return view('pages.dashboard.seminar_proposal.nilai', [
-            'seminarProposal' => $seminarProposal
-        ]);
-    }
 }

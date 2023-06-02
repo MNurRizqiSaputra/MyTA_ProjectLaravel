@@ -221,14 +221,13 @@
         </div>
     </div>
 
-
     @if (Auth::user()->role->nama == 'admin')
         <button type="submit" id="edit" class="btn btn-primary">{{ $tombol }}</button>
     @endif
 
     {{-- menampilkan tombol jika login sebagai dosen penguji --}}
     @if (Auth::user()->dosen && Auth::user()->dosen->dosen_pengujis->count() > 0)
-        <a href="{{ route('seminar-proposal.nilai', ['seminarProposal' => $seminarProposal->id]) }}" class="btn btn-primary">Berikan Nilai</a>
+        <a href="{{ route('seminar-proposal-nilai.nilai', ['seminarProposal' => $seminarProposal->id]) }}" class="btn btn-primary">Berikan Nilai</a>
     @endif
 </div>
 @endif
