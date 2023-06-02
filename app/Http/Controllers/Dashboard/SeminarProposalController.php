@@ -15,14 +15,14 @@ class SeminarProposalController extends Controller
     public function index()
     {
         if (Auth::user()->dosen && Auth::user()->dosen->dosen_pengujis->pluck('id')) {
-            // get id dosen pembimbing yang login
+            // get id dosen penguji yang login
             $dosenPengujiId = Auth::user()->dosen->dosen_pengujis->pluck('id');
 
             // Ambil daftar seminar proposal yang terkait dengan dosen penguji
-            $seminarProposalIds = SeminarProposalNilai::whereIn('dosen_penguji_id', $dosenPengujiId)->pluck('seminar_proposal_id');
+            $seminarProposalId = SeminarProposalNilai::whereIn('dosen_penguji_id', $dosenPengujiId)->pluck('seminar_proposal_id');
 
             // Tampilkan daftar seminar proposal yang terkait
-            $seminarProposals = SeminarProposal::whereIn('id', $seminarProposalIds)->get();
+            $seminarProposals = SeminarProposal::whereIn('id', $seminarProposalId)->get();
 
             return view('pages.dashboard.seminar_proposal.index', [
                 'seminarProposals' => $seminarProposals,
@@ -103,17 +103,13 @@ class SeminarProposalController extends Controller
 
     public function update(Request $request, SeminarProposal $seminarProposal)
     {
-        $request->validate([
+        $validate = $request->validate([
             'tanggal' => 'required|date',
             'waktu' => 'required',
             'tempat' => 'required',
         ]);
 
-        // Update data seminar proposal
-        $seminarProposal->tanggal = $request->tanggal;
-        $seminarProposal->waktu = $request->waktu;
-        $seminarProposal->tempat = $request->tempat;
-        $seminarProposal->save();
+        $seminarProposal->update($validate);
 
         // Ambil daftar dosen penguji yang dipilih
         $selectedDosenPengujiIds = $request->input('dosen_penguji_id', []);
@@ -121,7 +117,7 @@ class SeminarProposalController extends Controller
         // hapus data dosen penguji yang tidak dipilih pada tabel seminar_proposal_nilai
         $seminarProposal->seminar_proposal_nilais()->whereNotIn('dosen_penguji_id', $selectedDosenPengujiIds)->delete();
 
-        // Tambahkan data seminar proposal nilai baru untuk dosen penguji terpilih
+        // Tambahkan data dosen penguji terpilih ke seminar_proposal_nilai
         foreach ($selectedDosenPengujiIds as $dosenPengujiId) {
             $seminarProposalNilai = SeminarProposalNilai::firstOrNew([
                 'seminar_proposal_id' => $seminarProposal->id,

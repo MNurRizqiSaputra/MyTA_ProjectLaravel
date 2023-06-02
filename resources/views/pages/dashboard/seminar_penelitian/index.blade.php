@@ -20,17 +20,19 @@
                 <th>Tanggal</th>
                 <th>Waktu</th>
                 <th>Nilai Akhir</th>
+                <th>Aksi</th>
             </tr>
         </thead>
         <tbody>
-            @foreach ($seminar_penelitians as $seminar_penelitians)
+            @foreach ($seminarPenelitians as $seminarPenelitian)
             <tr>
                 <td>{{ $loop->iteration }}</td>
-                <td>{{ $seminar_penelitians->tugas_akhir->judul }}</td>
-                <td>{{ $seminar_penelitians->tempat }}</td>
-                <td>{{ $seminar_penelitians->tanggal }}</td>
-                <td>{{ $seminar_penelitians->waktu }}</td>
-                <td>{{ $seminar_penelitians->nilai_akhir }}</td>
+                <td>{{ $seminarPenelitian->tugas_akhir->judul }}</td>
+                <td>{{ $seminarPenelitian->tempat }}</td>
+                <td>{{ $seminarPenelitian->tanggal }}</td>
+                <td>{{ $seminarPenelitian->waktu }}</td>
+                <td>{{ $seminarPenelitian->nilai_akhir }}</td>
+                <td><a href="{{ route('seminar-penelitian.show', ['seminarPenelitian' => $seminarPenelitian->id]) }}">Edit</a></td>
             </tr>
             @endforeach
         </tbody>
