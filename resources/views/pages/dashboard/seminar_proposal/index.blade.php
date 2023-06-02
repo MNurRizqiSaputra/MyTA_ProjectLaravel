@@ -25,17 +25,32 @@
         </thead>
         <tbody>
             @foreach ($seminarProposals as $seminarProposal)
-            <tr>
-                <td>{{ $loop->iteration }}</td>
-                {{-- <td><a href="{{ route('seminar-proposal.show', ['seminarProposal' => $seminarProposal->id]) }}">{{ $seminarProposal->tugas_akhir->mahasiswa->user->nama }}</a></td> --}}
-                <td>{{ $seminarProposal->tugas_akhir->mahasiswa->user->nama }}</a></td>
-                <td>{{ $seminarProposal->tugas_akhir->judul }}</td>
-                <td>{{ $seminarProposal->tempat }}</td>
-                <td>{{ $seminarProposal->tanggal }}</td>
-                <td>{{ $seminarProposal->waktu }}</td>
-                {{-- <td><a href="{{ route('seminar-proposal.edit', ['seminarProposal' => $seminarProposal->id]) }}">Edit</a></td> --}}
-                <td><a href="{{ route('seminar-proposal.show', ['seminarProposal' => $seminarProposal->id]) }}">Edit</a></td>
-            </tr>
+            {{-- Berikan warna yang berbeda untuk seminar proposal yang sudah atau belum di nilai --}}
+                @if ($seminarProposal->nilai_akhir)
+                <tr class="bg-primary">
+                    <td>{{ $loop->iteration }}</td>
+                    {{-- <td><a href="{{ route('seminar-proposal.show', ['seminarProposal' => $seminarProposal->id]) }}">{{ $seminarProposal->tugas_akhir->mahasiswa->user->nama }}</a></td> --}}
+                    <td>{{ $seminarProposal->tugas_akhir->mahasiswa->user->nama }}</a></td>
+                    <td>{{ $seminarProposal->tugas_akhir->judul }}</td>
+                    <td>{{ $seminarProposal->tempat }}</td>
+                    <td>{{ $seminarProposal->tanggal }}</td>
+                    <td>{{ $seminarProposal->waktu }}</td>
+                    {{-- <td><a href="{{ route('seminar-proposal.edit', ['seminarProposal' => $seminarProposal->id]) }}">Edit</a></td> --}}
+                    <td><a href="{{ route('seminar-proposal.show', ['seminarProposal' => $seminarProposal->id]) }}">Edit</a></td>
+                </tr>
+                @else
+                <tr class="bg-warning">
+                    <td>{{ $loop->iteration }}</td>
+                    {{-- <td><a href="{{ route('seminar-proposal.show', ['seminarProposal' => $seminarProposal->id]) }}">{{ $seminarProposal->tugas_akhir->mahasiswa->user->nama }}</a></td> --}}
+                    <td>{{ $seminarProposal->tugas_akhir->mahasiswa->user->nama }}</a></td>
+                    <td>{{ $seminarProposal->tugas_akhir->judul }}</td>
+                    <td>{{ $seminarProposal->tempat }}</td>
+                    <td>{{ $seminarProposal->tanggal }}</td>
+                    <td>{{ $seminarProposal->waktu }}</td>
+                    {{-- <td><a href="{{ route('seminar-proposal.edit', ['seminarProposal' => $seminarProposal->id]) }}">Edit</a></td> --}}
+                    <td><a href="{{ route('seminar-proposal.show', ['seminarProposal' => $seminarProposal->id]) }}">Edit</a></td>
+                </tr>
+                @endif
             @endforeach
         </tbody>
         </table>
