@@ -90,17 +90,18 @@ Route::prefix("dashboard")
         });
 
         Route::prefix('seminar-penelitian')->name('seminar-penelitian.')->group(function(){
-            Route::get('', [SeminarPenelitianController::class, 'index'])->name('index'); // all users
+            Route::get('', [SeminarPenelitianController::class, 'index'])->name('index')->middleware('adminOrDosen'); // all users
             Route::get('detail/{seminarPenelitian}', [SeminarPenelitianController::class, 'show'])->name('show'); //
             Route::get('create', [SeminarPenelitianController::class, 'create'])->name('create')->middleware('mahasiswa'); //
             Route::post('store', [SeminarPenelitianController::class, 'store'])->name('store'); //
-            Route::get('edit/{seminarPenelitian}', [SeminarPenelitianController::class, 'edit'])->name('edit'); //
-            Route::put('{seminarPenelitian}', [SeminarPenelitianController::class, 'update'])->name('update'); //
-            Route::get('detail/{seminarPenelitian}/nilai', [SeminarPenelitianController::class, 'nilai'])->name('nilai'); //
+            // Route::get('edit/{seminarPenelitian}', [SeminarPenelitianController::class, 'edit'])->name('edit'); //
+            Route::put('{seminarPenelitian}', [SeminarPenelitianController::class, 'update'])->name('update');
         });
 
         Route::prefix('seminar-penelitian-nilai')->name('seminar-penelitian-nilai.')->group(function(){
             Route::get('', [SeminarPenelitianNilaiController::class, 'index'])->name('index'); // all users
+            Route::get('detail/{seminarPenelitian}/nilai', [SeminarPenelitianNilaiController::class, 'nilai'])->name('nilai')->middleware('dosenPenguji'); // dosen
+            Route::put('detail/{seminarPenelitian}/nilai', [SeminarPenelitianNilaiController::class, 'update'])->name('update')->middleware('dosenPenguji'); // dosen
         });
 
         Route::prefix('sidang-akhir')->name('sidang-akhir.')->group(function(){

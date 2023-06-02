@@ -40,7 +40,7 @@ class SeminarProposalNilaiController extends Controller
         $seminarProposalNilai = $seminarProposal->seminar_proposal_nilais()->where('dosen_penguji_id', $dosenPenguji)->first();
         $seminarProposalNilai->update($validated);
 
-        // setelah memberi nilai, hitung semua nilai untuk mencari nilai akhir seminar
+        // setelah memberi nilai, hitung nilai akhir dari semua nilai seminar
         $nilaiAkhir = $seminarProposal->seminar_proposal_nilais()->avg('nilai');
 
         // update data nilai akhir seminar proposal
