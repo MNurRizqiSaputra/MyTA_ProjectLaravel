@@ -192,7 +192,7 @@
 
             <span>Seminar Proposal</span>
         </a>
-        @elseif (Auth::user()->mahasiswa || !Auth::user()->mahasiswa->tugas_akhir->seminar_proposal)
+        @elseif (Auth::user()->mahasiswa && !Auth::user()->mahasiswa->tugas_akhir->seminar_proposal)
         {{-- arahkan ke halaman create --}}
         <a href="{{ route('seminar-proposal.create') }}" class="sidebar-item {{ request()->is('dashboard/seminar-proposal/create') ? 'active' : '' }}" onclick="toggleActive(this)">
             <!-- <img src="./assets/img/global/box.svg" alt=""> -->
@@ -209,7 +209,7 @@
 
             <span>Seminar Proposal</span>
         </a>
-        @elseif (Auth::user()->mahasiswa->tugas_akhir->seminar_proposal->id)
+        @elseif (Auth::user()->mahasiswa && Auth::user()->mahasiswa->tugas_akhir->seminar_proposal->id)
         {{-- arahkan ke halaman show --}}
         <a href="{{ route('seminar-proposal.show', ['seminarProposal' => Auth::user()->mahasiswa->tugas_akhir->seminar_proposal->id]) }}" class="sidebar-item {{ request()->is('dashboard/seminar-proposal') ? 'active' : '' }}" onclick="toggleActive(this)">
             <!-- <img src="./assets/img/global/box.svg" alt=""> -->

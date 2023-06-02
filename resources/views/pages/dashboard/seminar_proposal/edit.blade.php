@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 @section('title')
-    Detail Seminar Proposal
+Edit Seminar Proposal
 @endsection
 @section('content')
 <div class="content">
@@ -16,7 +16,7 @@
                         <a href="{{ route('seminar-proposal.index') }}">Seminar Proposal</a>
                         @endif
                     </li>
-                    <li class="breadcrumb-item active">Detail Data</li>
+                    <li class="breadcrumb-item active"> Data</li>
                 </ol>
             </nav>
         </div>

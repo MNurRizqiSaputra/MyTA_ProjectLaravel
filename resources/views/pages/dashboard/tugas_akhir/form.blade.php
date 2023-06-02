@@ -84,9 +84,9 @@
 
     @auth
         @if ((Auth::user()->dosen && Auth::user()->dosen->dosen_pembimbings->contains('id', $tugasAkhir->dosen_pembimbing_id)) || (Auth::user()->mahasiswa && Auth::user()->mahasiswa->tugas_akhir))
-        <button type="submit" class="btn btn-primary">{{ $tombol }}</button>
+        <button type="submit" id="edit" class="btn btn-primary">{{ $tombol }}</button>
         @elseif (Auth::user()->mahasiswa)
-        <button type="submit" class="btn btn-primary">{{ $tombol }}</button>
+        <button type="submit" id="tambah" class="btn btn-primary">{{ $tombol }}</button>
         @elseif(Auth::user()->role->nama == 'admin' || !Auth::user()->mahasiswa)
         <input type="hidden" name="">
         @endif
