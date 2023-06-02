@@ -212,7 +212,7 @@
     <div class="row">
         <div class="col mb-3">
             <label for="nilai_akhir" class="form-label">Nilai akhir</label>
-            <input type="number" name="nilai_akhir" class="form-control" value="{{ old('nilai_akhir') ?? ($seminar_proposal->nilai_akhir ?? '') }}" readonly>
+            <input type="number" name="nilai_akhir" class="form-control" value="{{ old('nilai_akhir') ?? ($seminarProposal->nilai_akhir ?? '') }}" readonly>
             @error('nilai_akhir')
                 <span class="invalid-feedback" role="alert">
                     <strong>{{ $message }}</strong>
