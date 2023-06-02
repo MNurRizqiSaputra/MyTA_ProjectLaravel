@@ -41,7 +41,7 @@ Route::prefix("dashboard")
         });
 
         Route::prefix('jurusan')->name('jurusan.')->group(function(){
-            Route::get('', [JurusanController::class, 'index'])->name('index'); // all users
+            Route::get('', [JurusanController::class, 'index'])->name('index')->middleware('admin'); // admin
             Route::get('create', [JurusanController::class, 'create'])->name('create')->middleware('admin'); //admin
             Route::post('store', [JurusanController::class, 'store'])->name('store')->middleware('admin'); //admin
             Route::get('edit/{id}', [JurusanController::class, 'edit'])->name('edit')->middleware('admin'); //admin
@@ -52,6 +52,7 @@ Route::prefix("dashboard")
 
         Route::prefix('dosen')->name('dosen.')->group(function(){
             Route::get('', [DosenController::class, 'index'])->name('index'); // all users
+            
         });
 
         Route::prefix('dosen-penguji')->name('dosen-penguji.')->group(function(){

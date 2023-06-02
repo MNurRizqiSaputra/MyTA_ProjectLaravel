@@ -9,7 +9,11 @@
     <div class="row">
         <div class="col-12 d-flex align-items-center justify-content-between">
             <h2 class="content-title">Users</h2>
-            <a href="{{ route('user.create') }}" class="btn btn-primary">Tambah</a>
+            @auth
+            @if (Auth::user()->role->nama == 'admin')
+            <a href="{{ route('user.create') }}" class="btn btn-primary mb-2">Tambah</a>
+            @endif
+            @endauth
         </div>
 
         <table id="example" class="display" style="width:100%">
