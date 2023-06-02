@@ -13,7 +13,7 @@ class SeminarPenelitian extends Model
     {
         return $this->belongsTo(TugasAkhir::class);
     }
-    public function seminar_penelitian_nilai()
+    public function seminar_penelitian_nilais()
     {
         return $this->hasMany(SeminarPenelitianNilai::class);
     }
