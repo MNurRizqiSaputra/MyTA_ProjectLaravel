@@ -27,4 +27,20 @@ class SidangAkhirController extends Controller
         }
         return redirect()->back()->with('error', 'Mohon Maaf, Harap lengkapi penilaian Seminar Penelitian Anda');
     }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'tempat' => 'nullable',
+            'tanggal' => 'nullable',
+            'waktu' => 'nullable',
+            'tugas_akhir_id' => 'required|exists:tugas_akhirs,id'
+        ]);
+
+        $sidangAkhir = SidangAkhir::create([
+            'tugas_akhir_id' => $request->tugas_akhir_id
+        ]);
+
+        return redirect()->route('sidang-akhir.show', ['sidangAkhir' => $sidangAkhir->id])->with('success', 'Sidang Akhir berhasil ditambahkan.');
+    }
 }
