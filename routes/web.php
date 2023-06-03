@@ -109,13 +109,15 @@ Route::prefix("dashboard")
             Route::get('detail/{sidangAkhir}', [SidangAkhirController::class, 'show'])->name('show'); //
             Route::get('create', [SidangAkhirController::class, 'create'])->name('create')->middleware('mahasiswa'); //
             Route::post('store', [SidangAkhirController::class, 'store'])->name('store'); //
-            Route::get('edit/{sidangAkhir}', [SidangAkhirController::class, 'edit'])->name('edit'); //
+            // Route::get('edit/{sidangAkhir}', [SidangAkhirController::class, 'edit'])->name('edit'); //
             Route::put('{sidangAkhir}', [SidangAkhirController::class, 'update'])->name('update'); //
             Route::get('detail/{sidangAkhir}/nilai', [SidangAkhirController::class, 'nilai'])->name('nilai'); //
         });
 
         Route::prefix('sidang-akhir-nilai')->name('sidang-akhir-nilai.')->group(function(){
             Route::get('', [SidangAkhirNilaiController::class, 'index'])->name('index'); // all users
+            Route::get('detail/{sidangAkhir}/nilai', [SidangAkhirNilaiController::class, 'nilai'])->name('nilai')->middleware('dosenPenguji'); // dosen
+            Route::put('detail/{sidangAkhir}/nilai', [SidangAkhirNilaiController::class, 'update'])->name('update')->middleware('dosenPenguji'); // dosen
         });
 });
 

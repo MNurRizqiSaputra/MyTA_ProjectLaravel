@@ -226,9 +226,9 @@
     @endif
 
     {{-- menampilkan tombol jika login sebagai dosen penguji --}}
-    {{-- @if (Auth::user()->dosen && Auth::user()->dosen->dosen_pengujis->count() > 0)
+    @if (Auth::user()->dosen && Auth::user()->dosen->dosen_pengujis->count() > 0)
         <a href="{{ route('sidang-akhir-nilai.nilai', ['sidangAkhir' => $sidangAkhir->id]) }}" class="btn btn-primary">Berikan Nilai</a>
-    @endif --}}
+    @endif
 </div>
 @endif
 
