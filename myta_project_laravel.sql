@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jun 02, 2023 at 07:59 AM
+-- Generation Time: Jun 03, 2023 at 05:24 PM
 -- Server version: 8.0.30
 -- PHP Version: 8.1.10
 
@@ -230,7 +230,9 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (16, '2023_05_17_185525_create_seminar_penelitian_nilai_table', 1),
 (17, '2023_05_17_190435_create_sidang_akhirs_table', 1),
 (18, '2023_05_17_190914_create_sidang_akhir_nilai_table', 1),
-(19, '2023_05_31_024413_update_column_nullable_in_seminar_proposals_table', 2);
+(19, '2023_05_31_024413_update_column_nullable_in_seminar_proposals_table', 2),
+(20, '2023_06_02_122857_update_column_nullable_in_seminar_penelitians_table', 3),
+(21, '2023_06_02_122903_update_column_nullable_in_sidang_akhirs_table', 3);
 
 -- --------------------------------------------------------
 
@@ -313,14 +315,21 @@ INSERT INTO `roles` (`id`, `nama`, `created_at`, `updated_at`) VALUES
 
 CREATE TABLE `seminar_penelitians` (
   `id` bigint UNSIGNED NOT NULL,
-  `tempat` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `tanggal` date NOT NULL,
-  `waktu` time NOT NULL,
+  `tempat` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `tanggal` date DEFAULT NULL,
+  `waktu` time DEFAULT NULL,
   `nilai_akhir` int DEFAULT NULL,
   `tugas_akhir_id` bigint UNSIGNED NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `seminar_penelitians`
+--
+
+INSERT INTO `seminar_penelitians` (`id`, `tempat`, `tanggal`, `waktu`, `nilai_akhir`, `tugas_akhir_id`, `created_at`, `updated_at`) VALUES
+(7, 'Gedung B', '2023-06-02', '13:30:00', 93, 59, '2023-06-02 05:32:21', '2023-06-02 07:02:43');
 
 -- --------------------------------------------------------
 
@@ -336,6 +345,14 @@ CREATE TABLE `seminar_penelitian_nilai` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `seminar_penelitian_nilai`
+--
+
+INSERT INTO `seminar_penelitian_nilai` (`id`, `seminar_penelitian_id`, `dosen_penguji_id`, `nilai`, `created_at`, `updated_at`) VALUES
+(4, 7, 6, 95, '2023-06-02 06:26:08', '2023-06-02 07:02:43'),
+(5, 7, 7, 90, '2023-06-02 06:26:08', '2023-06-02 07:01:39');
 
 -- --------------------------------------------------------
 
@@ -359,7 +376,7 @@ CREATE TABLE `seminar_proposals` (
 --
 
 INSERT INTO `seminar_proposals` (`id`, `tempat`, `tanggal`, `waktu`, `nilai_akhir`, `tugas_akhir_id`, `created_at`, `updated_at`) VALUES
-(16, 'Gedung A', '2023-06-01', '20:40:00', 88, 59, '2023-06-01 06:26:06', '2023-06-02 00:46:34');
+(16, 'Gedung A', '2023-06-01', '20:40:00', 93, 59, '2023-06-01 06:26:06', '2023-06-02 04:57:14');
 
 -- --------------------------------------------------------
 
@@ -381,8 +398,8 @@ CREATE TABLE `seminar_proposal_nilai` (
 --
 
 INSERT INTO `seminar_proposal_nilai` (`id`, `seminar_proposal_id`, `dosen_penguji_id`, `nilai`, `created_at`, `updated_at`) VALUES
-(50, 16, 6, 85, '2023-06-01 06:38:23', '2023-06-01 23:46:27'),
-(54, 16, 7, 90, '2023-06-02 00:05:09', '2023-06-02 00:20:17');
+(50, 16, 6, 90, '2023-06-01 06:38:23', '2023-06-02 04:55:30'),
+(54, 16, 7, 95, '2023-06-02 00:05:09', '2023-06-02 04:57:14');
 
 -- --------------------------------------------------------
 
@@ -392,14 +409,21 @@ INSERT INTO `seminar_proposal_nilai` (`id`, `seminar_proposal_id`, `dosen_penguj
 
 CREATE TABLE `sidang_akhirs` (
   `id` bigint UNSIGNED NOT NULL,
-  `tempat` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `tanggal` date NOT NULL,
-  `waktu` time NOT NULL,
+  `tempat` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `tanggal` date DEFAULT NULL,
+  `waktu` time DEFAULT NULL,
   `nilai_akhir` int DEFAULT NULL,
   `tugas_akhir_id` bigint UNSIGNED NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `sidang_akhirs`
+--
+
+INSERT INTO `sidang_akhirs` (`id`, `tempat`, `tanggal`, `waktu`, `nilai_akhir`, `tugas_akhir_id`, `created_at`, `updated_at`) VALUES
+(6, 'Gedung A', '2023-06-03', '11:25:00', 95, 59, '2023-06-02 20:24:32', '2023-06-03 10:19:58');
 
 -- --------------------------------------------------------
 
@@ -415,6 +439,14 @@ CREATE TABLE `sidang_akhir_nilai` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `sidang_akhir_nilai`
+--
+
+INSERT INTO `sidang_akhir_nilai` (`id`, `sidang_akhir_id`, `dosen_penguji_id`, `nilai`, `created_at`, `updated_at`) VALUES
+(4, 6, 6, 95, '2023-06-02 21:28:47', '2023-06-02 21:59:04'),
+(5, 6, 7, 95, '2023-06-02 21:28:47', '2023-06-03 10:19:58');
 
 -- --------------------------------------------------------
 
@@ -439,7 +471,7 @@ CREATE TABLE `tugas_akhirs` (
 --
 
 INSERT INTO `tugas_akhirs` (`id`, `judul`, `file`, `status_persetujuan`, `total_nilai`, `mahasiswa_id`, `dosen_pembimbing_id`, `created_at`, `updated_at`) VALUES
-(59, 'tugas akhir rizki', 'public/tugas-akhir/21/1685624469_Rama Alfin Baehaqi.pdf', 'Disetujui', NULL, 21, 6, '2023-06-01 06:01:09', '2023-06-01 18:01:03');
+(59, 'tugas akhir rizki', 'public/tugas-akhir/21/1685624469_Rama Alfin Baehaqi.pdf', 'Disetujui', 94, 21, 6, '2023-06-01 06:01:09', '2023-06-03 10:19:58');
 
 -- --------------------------------------------------------
 
@@ -707,7 +739,7 @@ ALTER TABLE `mahasiswas`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
@@ -725,13 +757,13 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT for table `seminar_penelitians`
 --
 ALTER TABLE `seminar_penelitians`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `seminar_penelitian_nilai`
 --
 ALTER TABLE `seminar_penelitian_nilai`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `seminar_proposals`
@@ -749,13 +781,13 @@ ALTER TABLE `seminar_proposal_nilai`
 -- AUTO_INCREMENT for table `sidang_akhirs`
 --
 ALTER TABLE `sidang_akhirs`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `sidang_akhir_nilai`
 --
 ALTER TABLE `sidang_akhir_nilai`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `tugas_akhirs`
