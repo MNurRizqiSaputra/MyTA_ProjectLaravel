@@ -2,17 +2,61 @@
 
 namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
+use App\Models\DosenPenguji;
 use App\Models\SidangAkhir;
+use App\Models\SidangAkhirNilai;
 use App\Models\TugasAkhir;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class SidangAkhirController extends Controller
 {
     public function index()
     {
-        return view('pages.dashboard.sidang_akhir.index', [
-            'sidang_akhirs' => SidangAkhir::all(),
-        ]);
+        if (Auth::user()->dosen && Auth::user()->dosen->dosen_pengujis->pluck('id')) {
+            $dosenPenguji = auth()->user()->dosen->dosen_pengujis;
+            // get id dosen penguji yang login
+            $dosenPengujiId = $dosenPenguji->pluck('id');
+
+            // Ambil daftar sidang akhir yang terkait dengan dosen penguji
+            $sidangAkhirId = SidangAkhirNilai::whereIn('dosen_penguji_id', $dosenPengujiId)->pluck('sidang_akhir_id');
+
+            // Tampilkan daftar sidang akhir yang terkait
+            $sidangAkhirs = SidangAkhir::whereIn('id', $sidangAkhirId)->get();
+
+            return view('pages.dashboard.sidang_akhir.index', [
+                'sidangAkhirs' => $sidangAkhirs,
+            ]);
+        } else {
+            $sidangAkhirs = SidangAkhir::all();
+
+            return view('pages.dashboard.sidang_akhir.index', [
+                'sidangAkhirs' => SidangAkhir::all(),
+            ]);
+        }
+    }
+    public function show(SidangAkhir $sidangAkhir)
+    {
+        $admin = Auth::user()->role->nama == 'admin';
+        if ($admin) {
+            $dosenSidangAkhirs = DosenPenguji::with('dosen.user')->get();
+            $selectedDosenSidangAkhir = $sidangAkhir->sidang_akhir_nilais->pluck('dosen_penguji_id')->all();
+
+            return view('pages.dashboard.sidang_akhir.show', [
+                'sidangAkhir' => $sidangAkhir,
+                'dosenSidangAkhirs' => $dosenSidangAkhirs,
+                'selectedDosenSidangAkhir' => $selectedDosenSidangAkhir
+            ]);
+        } else {
+            $dosenSidangAkhirs = $sidangAkhir->sidang_akhir_nilais()->with('dosen_penguji.dosen.user')->get();
+            $selectedDosenSidangAkhir = $sidangAkhir->sidang_akhir_nilais()->pluck('dosen_penguji_id')->all();
+
+            return view('pages.dashboard.sidang_akhir.show', [
+                'sidangAkhir' => $sidangAkhir,
+                'dosenSidangAkhirs' => $dosenSidangAkhirs,
+                'selectedDosenSidangAkhir' => $selectedDosenSidangAkhir
+            ]);
+        }
     }
     public function create()
     {

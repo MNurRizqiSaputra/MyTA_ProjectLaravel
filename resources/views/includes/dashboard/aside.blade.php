@@ -358,7 +358,7 @@
                     stroke-linejoin="round" />
             </svg>
 
-            <span>Seminar Penelitian</span>
+            <span>Sidang Akhir</span>
         </a>
         @endif
     @endauth

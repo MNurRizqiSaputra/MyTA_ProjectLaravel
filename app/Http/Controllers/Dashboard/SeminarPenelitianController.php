@@ -21,7 +21,7 @@ class SeminarPenelitianController extends Controller
             // Ambil daftar seminar penelitian yang terkait dengan dosen penguji
             $seminarPenelitianId = SeminarPenelitianNilai::whereIn('dosen_penguji_id', $dosenPengujiId)->pluck('seminar_penelitian_id');
 
-            // Tampilkan daftar seminar proposal yang terkait
+            // Tampilkan daftar seminar penelitian yang terkait
             $seminarPenelitians = SeminarPenelitian::whereIn('id', $seminarPenelitianId)->get();
 
             return view('pages.dashboard.seminar_penelitian.index', [

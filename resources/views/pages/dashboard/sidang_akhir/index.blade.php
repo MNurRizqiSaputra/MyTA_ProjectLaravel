@@ -15,22 +15,24 @@
             <thead>
               <tr>
                 <th>No</th>
-                <th>Tugas Akhir</th>
+                <th>Mahasiswa</th>
+                <th>Judul</th>
                 <th>Tempat</th>
                 <th>Tanggal</th>
                 <th>Waktu</th>
-                <th>Nilai Akhir</th>
+                <th>Aksi</th>
             </tr>
         </thead>
         <tbody>
-            @foreach ($sidang_akhirs as $sidang_akhir)
+            @foreach ($sidangAkhirs as $sidangAkhir)
             <tr>
                 <td>{{ $loop->iteration }}</td>
-                <td>{{ $sidang_akhir->tugas_akhir->judul }}</td>
-                <td>{{ $sidang_akhir->tempat }}</td>
-                <td>{{ $sidang_akhir->tanggal }}</td>
-                <td>{{ $sidang_akhir->waktu }}</td>
-                <td>{{ $sidang_akhir->nilai_akhir }}</td>
+                <td>{{ $sidangAkhir->tugas_akhir->judul }}</td>
+                <td>{{ $sidangAkhir->tempat }}</td>
+                <td>{{ $sidangAkhir->tanggal }}</td>
+                <td>{{ $sidangAkhir->waktu }}</td>
+                <td>{{ $sidangAkhir->nilai_akhir }}</td>
+                <td><a href="{{ route('sidang-akhir.show', ['sidangAkhir' => $sidangAkhir->id]) }}">Edit</a></td>
             </tr>
             @endforeach
         </tbody>

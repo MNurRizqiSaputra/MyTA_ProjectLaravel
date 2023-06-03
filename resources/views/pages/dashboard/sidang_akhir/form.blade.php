@@ -107,27 +107,27 @@
     <button type="submit" id="add" class="btn btn-primary">{{ $tombol }}</button>
 </div>
 
-@elseif (request()->is('dashboard/seminar-penelitian/detail/' . $seminarPenelitian->id))
+@elseif (request()->is('dashboard/sidang-akhir/detail/' . $sidangAkhir->id))
 <div class="p-2">
-    <input type="hidden" name="tugas_akhir_id" value="{{ old('tugas_akhir_id') ?? ($seminarPenelitian->tugas_akhir->id ?? '') }}">
+    <input type="hidden" name="tugas_akhir_id" value="{{ old('tugas_akhir_id') ?? ($sidangAkhir->tugas_akhir->id ?? '') }}">
     <div class="row">
         <div class="col mb-3">
             <label for="nama" class="form-label">Nama Mahasiswa</label>
-            <input type="text" class="form-control" value="{{ $seminarPenelitian->tugas_akhir->mahasiswa->user->nama }}" readonly>
+            <input type="text" class="form-control" value="{{ $sidangAkhir->tugas_akhir->mahasiswa->user->nama }}" readonly>
         </div>
     </div>
 
     <div class="row">
         <div class="col mb-3">
             <label for="judul" class="form-label">Judul</label>
-            <input type="text" class="form-control" value="{{ $seminarPenelitian->tugas_akhir->judul }}" readonly>
+            <input type="text" class="form-control" value="{{ $sidangAkhir->tugas_akhir->judul }}" readonly>
         </div>
     </div>
 
     <div class="row">
         <div class="col mb-3">
             <label for="file" class="form-label">file</label>
-            <input type="text" class="form-control" value="{{ basename($seminarPenelitian->tugas_akhir->file) }}" readonly>
+            <input type="text" class="form-control" value="{{ basename($sidangAkhir->tugas_akhir->file) }}" readonly>
         </div>
     </div>
 
@@ -137,12 +137,12 @@
 
             @if (Auth::user()->role->nama == 'admin')
                 <select id="tempat" name="tempat" class="form-select" required>
-                    <option value="Gedung A" {{ $seminarPenelitian->tempat == 'Gedung A' ? 'selected' : '' }}>Gedung A</option>
-                    <option value="Gedung B" {{ $seminarPenelitian->tempat == 'Gedung B' ? 'selected' : '' }}>Gedung B</option>
-                    <option value="Gedung C" {{ $seminarPenelitian->tempat == 'Gedung C' ? 'selected' : '' }}>Gedung C</option>
+                    <option value="Gedung A" {{ $sidangAkhir->tempat == 'Gedung A' ? 'selected' : '' }}>Gedung A</option>
+                    <option value="Gedung B" {{ $sidangAkhir->tempat == 'Gedung B' ? 'selected' : '' }}>Gedung B</option>
+                    <option value="Gedung C" {{ $sidangAkhir->tempat == 'Gedung C' ? 'selected' : '' }}>Gedung C</option>
                 </select>
             @else
-                <input type="text" class="form-control" value="{{ old('tempat') ?? ($seminarPenelitian->tempat ?? '') }}" readonly>
+                <input type="text" class="form-control" value="{{ old('tempat') ?? ($sidangAkhir->tempat ?? '') }}" readonly>
             @endif
 
             @error('tempat')
@@ -157,9 +157,9 @@
         <div class="col mb-3">
             <label for="tanggal" class="form-label">tanggal</label>
             @if (Auth::user()->role->nama == 'admin')
-                <input type="date" name="tanggal" class="form-control" value="{{ old('tanggal') ?? ($seminarPenelitian->tanggal ?? '') }}" required>
+                <input type="date" name="tanggal" class="form-control" value="{{ old('tanggal') ?? ($sidangAkhir->tanggal ?? '') }}" required>
             @else
-                <input type="date" name="tanggal" class="form-control" value="{{ old('tanggal') ?? ($seminarPenelitian->tanggal ?? '') }}" readonly>
+                <input type="date" name="tanggal" class="form-control" value="{{ old('tanggal') ?? ($sidangAkhir->tanggal ?? '') }}" readonly>
             @endif
             @error('tanggal')
                 <span class="invalid-feedback" role="alert">
@@ -173,9 +173,9 @@
         <div class="col mb-3">
             <label for="waktu" class="form-label">Waktu</label>
             @if (Auth::user()->role->nama == 'admin')
-                <input type="time" name="waktu" class="form-control" value="{{ old('waktu') ?? ($seminarPenelitian->waktu ?? '') }}" required>
+                <input type="time" name="waktu" class="form-control" value="{{ old('waktu') ?? ($sidangAkhir->waktu ?? '') }}" required>
             @else
-                <input type="time" name="waktu" class="form-control" value="{{ old('waktu') ?? ($seminarPenelitian->waktu ?? '') }}" readonly>
+                <input type="time" name="waktu" class="form-control" value="{{ old('waktu') ?? ($sidangAkhir->waktu ?? '') }}" readonly>
             @endif
             @error('waktu')
                 <span class="invalid-feedback" role="alert">
@@ -190,19 +190,19 @@
             <label for="dosen_penguji_id" class="form-label">Dosen Penguji:</label>
             @if (Auth::user()->role->nama == 'admin')
                 <!-- Loop untuk menampilkan daftar dosen penguji -->
-                @foreach ($dosenSeminarPenelitians as $dosenSeminarPenelitian)
+                @foreach ($dosenSidangAkhirs as $dosenSidangAkhir)
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="dosen_penguji_id[]"  value="{{ $dosenSeminarPenelitian->id }}" {{ in_array($dosenSeminarPenelitian->id, $selectedDosenPenelitian) ? 'checked' : '' }}>
+                        <input class="form-check-input" type="checkbox" name="dosen_penguji_id[]"  value="{{ $dosenSidangAkhir->id }}" {{ in_array($dosenSidangAkhir->id, $selectedDosenSidangAkhir) ? 'checked' : '' }}>
 
-                        <label class="form-check-label" for="dosen_penguji_{{ $dosenSeminarPenelitian->id }}">{{ $dosenSeminarPenelitian->dosen->user->nama }}</label>
+                        <label class="form-check-label" for="dosen_penguji_{{ $dosenSidangAkhir->id }}">{{ $dosenSidangAkhir->dosen->user->nama }}</label>
                     </div>
                 @endforeach
             @else
-                @foreach ($dosenSeminarPenelitians as $dosenSeminarPenelitian)
+                @foreach ($dosenSidangAkhirs as $dosenSidangAkhir)
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="dosen_penguji_id[]"  value="{{ $dosenSeminarPenelitian->id }}" {{ in_array($dosenSeminarPenelitian->dosen_penguji->id, $selectedDosenPenelitian) ? 'checked' : '' }}>
+                        <input class="form-check-input" type="checkbox" name="dosen_penguji_id[]"  value="{{ $dosenSidangAkhir->id }}" {{ in_array($dosenSidangAkhir->dosen_penguji->id, $selectedDosenSidangAkhir) ? 'checked' : '' }}>
 
-                        <label class="form-check-label" for="dosen_penguji_{{ $dosenSeminarPenelitian->id }}">{{ $dosenSeminarPenelitian->dosen_penguji->dosen->user->nama }}</label>
+                        <label class="form-check-label" for="dosen_penguji_{{ $dosenSidangAkhir->id }}">{{ $dosenSidangAkhir->dosen_penguji->dosen->user->nama }}</label>
                     </div>
                 @endforeach
             @endif
@@ -212,7 +212,7 @@
     <div class="row">
         <div class="col mb-3">
             <label for="nilai_akhir" class="form-label">Nilai akhir</label>
-            <input type="number" name="nilai_akhir" class="form-control" value="{{ old('nilai_akhir') ?? ($seminarPenelitian->nilai_akhir ?? '') }}" readonly>
+            <input type="number" name="nilai_akhir" class="form-control" value="{{ old('nilai_akhir') ?? ($sidan->nilai_akhir ?? '') }}" readonly>
             @error('nilai_akhir')
                 <span class="invalid-feedback" role="alert">
                     <strong>{{ $message }}</strong>
@@ -227,7 +227,7 @@
 
     {{-- menampilkan tombol jika login sebagai dosen penguji --}}
     @if (Auth::user()->dosen && Auth::user()->dosen->dosen_pengujis->count() > 0)
-        <a href="{{ route('seminar-penelitian-nilai.nilai', ['seminarPenelitian' => $seminarPenelitian->id]) }}" class="btn btn-primary">Berikan Nilai</a>
+        <a href="{{ route('seminar-penelitian-nilai.nilai', ['sidan' => $sidan->id]) }}" class="btn btn-primary">Berikan Nilai</a>
     @endif
 </div>
 @endif
