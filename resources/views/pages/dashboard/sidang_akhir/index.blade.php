@@ -15,23 +15,40 @@
             <thead>
               <tr>
                 <th>No</th>
+                <th>Mahasiswa</th>
                 <th>Tugas Akhir</th>
                 <th>Tempat</th>
                 <th>Tanggal</th>
                 <th>Waktu</th>
                 <th>Nilai Akhir</th>
+                <th>Aksi</th>
             </tr>
         </thead>
         <tbody>
-            @foreach ($sidang_akhirs as $sidang_akhir)
-            <tr>
+            @foreach ($sidangAkhirs as $sidangAkhir)
+            @if ($sidangAkhir->nilai_akhir)
+            <tr class="bg-primary">
                 <td>{{ $loop->iteration }}</td>
-                <td>{{ $sidang_akhir->tugas_akhir->judul }}</td>
-                <td>{{ $sidang_akhir->tempat }}</td>
-                <td>{{ $sidang_akhir->tanggal }}</td>
-                <td>{{ $sidang_akhir->waktu }}</td>
-                <td>{{ $sidang_akhir->nilai_akhir }}</td>
+                <td>{{ $sidangAkhir->tugas_akhir->mahasiswa->user->nama }}</td>
+                <td>{{ $sidangAkhir->tugas_akhir->judul }}</td>
+                <td>{{ $sidangAkhir->tempat }}</td>
+                <td>{{ $sidangAkhir->tanggal }}</td>
+                <td>{{ $sidangAkhir->waktu }}</td>
+                <td>{{ $sidangAkhir->nilai_akhir }}</td>
+                <td><a href="{{ route('sidang-akhir.show', ['sidangAkhir' => $sidangAkhir->id]) }}">Edit</a></td>
             </tr>
+            @else
+            <tr class="bg-warning">
+                <td>{{ $loop->iteration }}</td>
+                <td>{{ $sidangAkhir->tugas_akhir->mahasiswa->user->nama }}</td>
+                <td>{{ $sidangAkhir->tugas_akhir->judul }}</td>
+                <td>{{ $sidangAkhir->tempat }}</td>
+                <td>{{ $sidangAkhir->tanggal }}</td>
+                <td>{{ $sidangAkhir->waktu }}</td>
+                <td>{{ $sidangAkhir->nilai_akhir }}</td>
+                <td><a href="{{ route('sidang-akhir.show', ['sidangAkhir' => $sidangAkhir->id]) }}">Edit</a></td>
+            </tr>
+            @endif
             @endforeach
         </tbody>
         </table>

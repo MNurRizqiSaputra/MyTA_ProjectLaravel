@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use App\Models\DosenPenguji;
 use App\Models\SeminarPenelitian;
 use App\Models\SeminarPenelitianNilai;
+use App\Models\TugasAkhir;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -20,7 +21,7 @@ class SeminarPenelitianController extends Controller
             // Ambil daftar seminar penelitian yang terkait dengan dosen penguji
             $seminarPenelitianId = SeminarPenelitianNilai::whereIn('dosen_penguji_id', $dosenPengujiId)->pluck('seminar_penelitian_id');
 
-            // Tampilkan daftar seminar proposal yang terkait
+            // Tampilkan daftar seminar penelitian yang terkait
             $seminarPenelitians = SeminarPenelitian::whereIn('id', $seminarPenelitianId)->get();
 
             return view('pages.dashboard.seminar_penelitian.index', [
@@ -63,7 +64,7 @@ class SeminarPenelitianController extends Controller
     {
         $mahasiswa = auth()->user()->mahasiswa;
         $tugasAkhir = $mahasiswa->tugas_akhir;
-        $seminarProposal = $mahasiswa->tugas_akhir->seminar_proposal;
+        $seminarProposal = $tugasAkhir->seminar_proposal;
 
         // periksa nilai seminar proposal
         if ($seminarProposal->nilai_akhir) {
@@ -82,6 +83,11 @@ class SeminarPenelitianController extends Controller
             'waktu' => 'nullable',
             'tugas_akhir_id' => 'required|exists:tugas_akhirs,id'
         ]);
+
+        $tugasAkhir = TugasAkhir::find($request->tugas_akhir_id);
+        if ($tugasAkhir->seminar_penelitian) {
+            return redirect()->back()->with('error', 'Mohon Maaf, Anda sudah menambahkan sidang penelitian');
+        }
 
         $seminarPenelitian = SeminarPenelitian::create([
             'tugas_akhir_id' => $request->tugas_akhir_id

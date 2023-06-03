@@ -82,6 +82,12 @@ class SeminarProposalController extends Controller
             'waktu' => 'nullable',
             'tugas_akhir_id' => 'required|exists:tugas_akhirs,id'
         ]);
+
+        $tugasAkhir = TugasAkhir::find($request->tugas_akhir_id);
+        if ($tugasAkhir->seminar_proposal) {
+            return redirect()->back()->with('error', 'Mohon Maaf, Anda sudah menambahkan seminar proposal');
+        }
+
         $seminarProposal = SeminarProposal::create([
             'tugas_akhir_id' => $request->tugas_akhir_id
         ]);
