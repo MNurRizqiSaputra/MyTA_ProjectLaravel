@@ -63,7 +63,7 @@ class SeminarPenelitianController extends Controller
     {
         $mahasiswa = auth()->user()->mahasiswa;
         $tugasAkhir = $mahasiswa->tugas_akhir;
-        $seminarProposal = $mahasiswa->tugas_akhir->seminar_proposal;
+        $seminarProposal = $tugasAkhir->seminar_proposal;
 
         // periksa nilai seminar proposal
         if ($seminarProposal->nilai_akhir) {
