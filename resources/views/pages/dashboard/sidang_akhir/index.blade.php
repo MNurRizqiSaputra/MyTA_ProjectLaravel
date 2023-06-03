@@ -16,10 +16,11 @@
               <tr>
                 <th>No</th>
                 <th>Mahasiswa</th>
-                <th>Judul</th>
+                <th>Tugas Akhir</th>
                 <th>Tempat</th>
                 <th>Tanggal</th>
                 <th>Waktu</th>
+                <th>Nilai Akhir</th>
                 <th>Aksi</th>
             </tr>
         </thead>
@@ -27,6 +28,7 @@
             @foreach ($sidangAkhirs as $sidangAkhir)
             <tr>
                 <td>{{ $loop->iteration }}</td>
+                <td>{{ $sidangAkhir->tugas_akhir->mahasiswa->user->nama }}</td>
                 <td>{{ $sidangAkhir->tugas_akhir->judul }}</td>
                 <td>{{ $sidangAkhir->tempat }}</td>
                 <td>{{ $sidangAkhir->tanggal }}</td>

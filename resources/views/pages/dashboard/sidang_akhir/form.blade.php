@@ -212,7 +212,7 @@
     <div class="row">
         <div class="col mb-3">
             <label for="nilai_akhir" class="form-label">Nilai akhir</label>
-            <input type="number" name="nilai_akhir" class="form-control" value="{{ old('nilai_akhir') ?? ($sidan->nilai_akhir ?? '') }}" readonly>
+            <input type="number" name="nilai_akhir" class="form-control" value="{{ old('nilai_akhir') ?? ($sidangAkhir->nilai_akhir ?? '') }}" readonly>
             @error('nilai_akhir')
                 <span class="invalid-feedback" role="alert">
                     <strong>{{ $message }}</strong>
@@ -226,9 +226,9 @@
     @endif
 
     {{-- menampilkan tombol jika login sebagai dosen penguji --}}
-    @if (Auth::user()->dosen && Auth::user()->dosen->dosen_pengujis->count() > 0)
-        <a href="{{ route('seminar-penelitian-nilai.nilai', ['sidan' => $sidan->id]) }}" class="btn btn-primary">Berikan Nilai</a>
-    @endif
+    {{-- @if (Auth::user()->dosen && Auth::user()->dosen->dosen_pengujis->count() > 0)
+        <a href="{{ route('sidang-akhir-nilai.nilai', ['sidangAkhir' => $sidangAkhir->id]) }}" class="btn btn-primary">Berikan Nilai</a>
+    @endif --}}
 </div>
 @endif
 

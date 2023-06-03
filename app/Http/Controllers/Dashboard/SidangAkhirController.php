@@ -93,4 +93,33 @@ class SidangAkhirController extends Controller
 
         return redirect()->route('sidang-akhir.show', ['sidangAkhir' => $sidangAkhir->id])->with('success', 'Sidang Akhir berhasil ditambahkan.');
     }
+
+    public function update(Request $request, SidangAkhir $sidangAkhir)
+    {
+        $validate = $request->validate([
+            'tanggal' => 'required|date',
+            'waktu' => 'required',
+            'tempat' => 'required',
+        ]);
+
+        $sidangAkhir->update($validate);
+
+        // Ambil daftar dosen penguji yang dipilih
+        $selectedDosenPengujiIds = $request->input('dosen_penguji_id', []);
+
+        // hapus data dosen penguji yang tidak dipilih pada tabel sidang_akhir_nilai
+        $sidangAkhir->sidang_akhir_nilais()->whereNotIn('dosen_penguji_id', $selectedDosenPengujiIds)->delete();
+
+        // Tambahkan data dosen penguji terpilih ke sidang_akhir_nilai
+        foreach ($selectedDosenPengujiIds as $dosenPengujiId) {
+            $sidangAkhirNilai = SidangAkhirNilai::firstOrNew([
+                'sidang_akhir_id' => $sidangAkhir->id,
+                'dosen_penguji_id' => $dosenPengujiId
+            ]);
+            $sidangAkhirNilai->save();
+        }
+
+        return redirect()->route('sidang-akhir.show', ['sidangAkhir' => $sidangAkhir->id])->with('success', 'Data Sidang Akhir berhasil diperbarui.');
+
+    }
 }
