@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use App\Models\DosenPenguji;
 use App\Models\SeminarPenelitian;
 use App\Models\SeminarPenelitianNilai;
+use App\Models\TugasAkhir;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -82,6 +83,11 @@ class SeminarPenelitianController extends Controller
             'waktu' => 'nullable',
             'tugas_akhir_id' => 'required|exists:tugas_akhirs,id'
         ]);
+
+        $tugasAkhir = TugasAkhir::find($request->tugas_akhir_id);
+        if ($tugasAkhir->seminar_penelitian) {
+            return redirect()->back()->with('error', 'Mohon Maaf, Anda sudah menambahkan sidang penelitian');
+        }
 
         $seminarPenelitian = SeminarPenelitian::create([
             'tugas_akhir_id' => $request->tugas_akhir_id

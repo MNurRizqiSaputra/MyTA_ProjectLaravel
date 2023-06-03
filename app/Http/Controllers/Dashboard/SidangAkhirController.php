@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use App\Models\SidangAkhir;
+use App\Models\TugasAkhir;
 use Illuminate\Http\Request;
 
 class SidangAkhirController extends Controller
@@ -36,6 +37,11 @@ class SidangAkhirController extends Controller
             'waktu' => 'nullable',
             'tugas_akhir_id' => 'required|exists:tugas_akhirs,id'
         ]);
+
+        $tugasAkhir = TugasAkhir::find($request->tugas_akhir_id);
+        if ($tugasAkhir->sidang_akhir) {
+            return redirect()->back()->with('error', 'Mohon Maaf, Anda sudah menambahkan sidang akhir');
+        }
 
         $sidangAkhir = SidangAkhir::create([
             'tugas_akhir_id' => $request->tugas_akhir_id
