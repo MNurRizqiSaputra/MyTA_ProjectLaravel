@@ -19,7 +19,6 @@
                 <th>Tempat</th>
                 <th>Tanggal</th>
                 <th>Waktu</th>
-                <th>Nilai Akhir</th>
                 <th>Aksi</th>
             </tr>
         </thead>
@@ -32,7 +31,6 @@
                 <td>{{ $seminarPenelitian->tempat }}</td>
                 <td>{{ $seminarPenelitian->tanggal }}</td>
                 <td>{{ $seminarPenelitian->waktu }}</td>
-                <td>{{ $seminarPenelitian->nilai_akhir }}</td>
                 <td><a href="{{ route('seminar-penelitian.show', ['seminarPenelitian' => $seminarPenelitian->id]) }}">Edit</a></td>
             </tr>
             @else
@@ -42,7 +40,6 @@
                 <td>{{ $seminarPenelitian->tempat }}</td>
                 <td>{{ $seminarPenelitian->tanggal }}</td>
                 <td>{{ $seminarPenelitian->waktu }}</td>
-                <td>{{ $seminarPenelitian->nilai_akhir }}</td>
                 <td><a href="{{ route('seminar-penelitian.show', ['seminarPenelitian' => $seminarPenelitian->id]) }}">Edit</a></td>
             </tr>
             @endif

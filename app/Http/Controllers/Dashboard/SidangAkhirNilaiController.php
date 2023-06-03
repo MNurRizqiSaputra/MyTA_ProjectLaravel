@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
+use App\Models\SeminarPenelitian;
+use App\Models\SeminarProposal;
 use App\Models\SidangAkhir;
 use App\Models\SidangAkhirNilai;
+use App\Models\TugasAkhir;
 use Illuminate\Http\Request;
 
 class SidangAkhirNilaiController extends Controller
@@ -47,6 +50,26 @@ class SidangAkhirNilaiController extends Controller
             'nilai_akhir' => $nilaiAkhir
         ]);
 
+        // Panggil metode updateTotalNilai() setelah nilai akhir sidang akhir berhasil diisi
+        $this->updateTotalNilai($sidangAkhir->tugas_akhir);
+
         return redirect()->route('sidang-akhir.show', ['sidangAkhir' => $sidangAkhir->id])->with('success', 'Sidang Akhir berhasil dinilai.');
+    }
+
+    public function updateTotalNilai(TugasAkhir $tugasAkhir)
+    {
+        $seminarProposalNilaiAkhir = SeminarProposal::where('tugas_akhir_id', $tugasAkhir->id)->first();
+        $seminarPenelitianNilaiAkhir = SeminarPenelitian::where('tugas_akhir_id', $tugasAkhir->id)->first();
+        $sidangAkhirNilaiAkhir = SidangAkhir::where('tugas_akhir_id', $tugasAkhir->id)->first();
+
+        if ($seminarProposalNilaiAkhir && $seminarPenelitianNilaiAkhir && $sidangAkhirNilaiAkhir) {
+            // Hitung nilai rata-rata
+            $totalNilai = ($seminarProposalNilaiAkhir->nilai_akhir + $seminarPenelitianNilaiAkhir->nilai_akhir + $sidangAkhirNilaiAkhir->nilai_akhir) / 3;
+
+            // Update total nilai tugas akhir
+            $tugasAkhir->update([
+                'total_nilai' => $totalNilai
+            ]);
+        }
     }
 }

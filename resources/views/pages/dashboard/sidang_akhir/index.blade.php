@@ -20,7 +20,6 @@
                 <th>Tempat</th>
                 <th>Tanggal</th>
                 <th>Waktu</th>
-                <th>Nilai Akhir</th>
                 <th>Aksi</th>
             </tr>
         </thead>
@@ -34,7 +33,6 @@
                 <td>{{ $sidangAkhir->tempat }}</td>
                 <td>{{ $sidangAkhir->tanggal }}</td>
                 <td>{{ $sidangAkhir->waktu }}</td>
-                <td>{{ $sidangAkhir->nilai_akhir }}</td>
                 <td><a href="{{ route('sidang-akhir.show', ['sidangAkhir' => $sidangAkhir->id]) }}">Edit</a></td>
             </tr>
             @else
@@ -45,7 +43,6 @@
                 <td>{{ $sidangAkhir->tempat }}</td>
                 <td>{{ $sidangAkhir->tanggal }}</td>
                 <td>{{ $sidangAkhir->waktu }}</td>
-                <td>{{ $sidangAkhir->nilai_akhir }}</td>
                 <td><a href="{{ route('sidang-akhir.show', ['sidangAkhir' => $sidangAkhir->id]) }}">Edit</a></td>
             </tr>
             @endif
