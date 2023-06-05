@@ -16,8 +16,10 @@ use App\Http\Controllers\Dashboard\SidangAkhirController;
 use App\Http\Controllers\Dashboard\SidangAkhirNilaiController;
 use App\Http\Controllers\Dashboard\TugasAkhirController;
 use App\Http\Controllers\FrontendController;
+use App\Http\Controllers\Frontend\MenuProfileController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
 
 
 Route::prefix("dashboard")
@@ -39,8 +41,16 @@ Route::prefix("dashboard")
         });
 
         Route::prefix('jurusan')->name('jurusan.')->group(function(){
+
             Route::get('', [JurusanController::class, 'index'])->name('index')->middleware('admin'); // all admin
+            Route::get('create', [JurusanController::class, 'create'])->name('create')->middleware('admin'); //admin
+            Route::post('store', [JurusanController::class, 'store'])->name('store')->middleware('admin'); //admin
+            Route::get('edit/{id}', [JurusanController::class, 'edit'])->name('edit')->middleware('admin'); //admin
+            Route::put('update/{id}', [JurusanController::class, 'update'])->name('update')->middleware('admin'); //admin
+            Route::delete('destroy/{id}', [JurusanController::class, 'destroy'])->name('destroy')->middleware('admin'); //admin
         });
+
+        
 
         Route::prefix('dosen')->name('dosen.')->group(function(){
             Route::get('', [DosenController::class, 'index'])->name('index')->middleware('admin'); //admin
@@ -125,3 +135,4 @@ Auth::routes();
 
 // Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/', [FrontendController::class, 'index'])->name('frontend.home');
+Route::get('/profile', [MenuProfileController::class, 'index'])->name('frontend.menuprofile.index');
