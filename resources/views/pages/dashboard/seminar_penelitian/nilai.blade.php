@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 @section('title')
-    Nilai Seminar Proposal
+    Nilai Seminar Penelitian
 @endsection
 @section('content')
 <div class="content">
@@ -11,20 +11,20 @@
                     <li class="breadcrumb-item">
                         {{-- admin dan dosen penguji --}}
                         @if(Auth::user()->mahasiswa)
-                            <p>Seminar Proposal</p>
+                            <p>Seminar Penelitian</p>
 
                         @elseif (Auth::user()->role->nama == 'admin' || Auth::user()->dosen->dosen_pengujis)
-                            <a href="{{ route('seminar-proposal.index') }}">Seminar Proposal</a>
+                            <a href="{{ route('seminar-penelitian.index') }}">Seminar Penelitian</a>
 
                         @endif
                     </li>
                     <li class="breadcrumb-item">
                         {{-- admin dan dosen penguji --}}
                         @if(Auth::user()->mahasiswa)
-                            <p>Seminar Proposal</p>
+                            <p>Seminar Penelitian</p>
 
                         @elseif (Auth::user()->role->nama == 'admin' || Auth::user()->dosen->dosen_pengujis)
-                            <a href="{{ route('seminar-proposal.show', ['seminarProposal' => $seminarProposal->id]) }}">Detail Data</a>
+                            <a href="{{ route('seminar-penelitian.show', ['seminarPenelitian' => $seminarPenelitian->id]) }}">Detail Data</a>
 
                         @endif
 
@@ -34,9 +34,9 @@
             </nav>
         </div>
         <div class="col-12">
-            <form action="{{ route('seminar-proposal-nilai.update', ['seminarProposal' => $seminarProposal->id]) }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('seminar-penelitian-nilai.update', ['seminarPenelitian' => $seminarPenelitian->id]) }}" method="POST" enctype="multipart/form-data">
                 @method('PUT')
-                @include('pages.dashboard.seminar_proposal_nilai.form-nilai', ['tombol' => 'Nilai'])
+                @include('pages.dashboard.seminar_penelitian_nilai.form-nilai', ['tombol' => 'Nilai'])
             </form>
         </div>
     </div>
