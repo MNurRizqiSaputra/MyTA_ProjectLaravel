@@ -90,7 +90,7 @@ class TugasAkhirController extends Controller
             $filePath = $file->storeAs('public/tugas-akhir/' . $mahasiswa->id, $fileName);
 
             // Buat data tugas akhir baru
-            TugasAkhir::create([
+            $tugasAkhir = TugasAkhir::create([
                 'judul' => $request->judul,
                 'file' => $filePath,
                 'dosen_pembimbing_id' => $dosenId, // Kolom dosen_pembimbing_id tidak diisi pada saat pembuatan tugas akhir
@@ -98,7 +98,7 @@ class TugasAkhirController extends Controller
             ]);
         }
 
-        return redirect()->route('tugas-akhir.index')->with('success', 'Berhasil ditambahkan.');
+        return redirect()->route('tugas-akhir.show', ['tugasAkhir' => $tugasAkhir->id])->with('success', 'Berhasil ditambahkan.');
     }
 
     public function update(Request $request, TugasAkhir $tugasAkhir)
@@ -136,7 +136,7 @@ class TugasAkhirController extends Controller
             $tugasAkhir->status_persetujuan = $request->status_persetujuan;
             $tugasAkhir->save();
 
-            return redirect()->route('tugas-akhir.index')->with('success', 'Berhasil mengubah status persetujuan');
+            return redirect()->route('tugas-akhir.show', ['tugasAkhir' => $tugasAkhir])->with('success', 'Berhasil mengubah status persetujuan');
         }
         return redirect()->back()->with('error', 'Anda tidak memiliki akses untuk mengubah data tugas akhir ini.');
     }

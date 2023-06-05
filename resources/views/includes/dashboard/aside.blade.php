@@ -156,7 +156,7 @@
     </a>
 
     @auth
-        @if (Auth::user()->dosen && Auth::user()->dosen->dosen_pembimbings->pluck('id')->toArray() || Auth::user()->role->nama == 'admin' || !Auth::user()->mahasiswa->tugas_akhir)
+        @if (Auth::user()->dosen && Auth::user()->dosen->dosen_pembimbings->pluck('id')->toArray() || Auth::user()->role->nama == 'admin')
         <a href="{{ route('tugas-akhir.index') }}" class="sidebar-item {{ request()->is('dashboard/tugas-akhir') ? 'active' : '' }}" onclick="toggleActive(this)">
             <!-- <img src="./assets/img/global/dollar-sign.svg" alt=""> -->
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -170,7 +170,23 @@
 
             <span>Tugas Akhir</span>
         </a>
-        @elseif(Auth::user()->mahasiswa->tugas_akhir->id)
+
+        @elseif(Auth::user()->mahasiswa && !Auth::user()->mahasiswa->tugas_akhir)
+        <a href="{{ route('tugas-akhir.create') }}" class="sidebar-item {{ request()->is('dashboard/tugas-akhir/create') ? 'active' : '' }}" onclick="toggleActive(this)">
+            <!-- <img src="./assets/img/global/dollar-sign.svg" alt=""> -->
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 1V23" stroke="#ABB3C4" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" />
+                <path
+                    d="M17 5H9.5C8.57174 5 7.6815 5.36875 7.02513 6.02513C6.36875 6.6815 6 7.57174 6 8.5C6 9.42826 6.36875 10.3185 7.02513 10.9749C7.6815 11.6313 8.57174 12 9.5 12H14.5C15.4283 12 16.3185 12.3687 16.9749 13.0251C17.6313 13.6815 18 14.5717 18 15.5C18 16.4283 17.6313 17.3185 16.9749 17.9749C16.3185 18.6313 15.4283 19 14.5 19H6"
+                    stroke="#ABB3C4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+
+            <span>Tugas Akhir</span>
+        </a>
+
+        @elseif(Auth::user()->mahasiswa && Auth::user()->mahasiswa->tugas_akhir)
         <a href="{{ route('tugas-akhir.show', ['tugasAkhir' => Auth::user()->mahasiswa->tugas_akhir->id]) }}" class="sidebar-item {{ request()->is('dashboard/tugas-akhir') ? 'active' : '' }}" onclick="toggleActive(this)">
             <!-- <img src="./assets/img/global/dollar-sign.svg" alt=""> -->
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -189,8 +205,8 @@
 
     <h5 class="sidebar-title">Others</h5>
     @auth
-        @if (Auth::user()->dosen || Auth::user()->role->nama == 'admin')
         {{-- arahkan ke halaman index --}}
+        @if (Auth::user()->dosen || Auth::user()->role->nama == 'admin')
         <a href="{{ route('seminar-proposal.index') }}" class="sidebar-item {{ request()->is('dashboard/seminar-proposal') ? 'active' : '' }}" onclick="toggleActive(this)">
             <!-- <img src="./assets/img/global/box.svg" alt=""> -->
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -206,8 +222,9 @@
 
             <span>Seminar Proposal</span>
         </a>
-        @elseif (Auth::user()->mahasiswa && !Auth::user()->mahasiswa->tugas_akhir->seminar_proposal)
+
         {{-- arahkan ke halaman create --}}
+        @elseif (Auth::user()->mahasiswa && Auth::user()->mahasiswa->tugas_akhir && !Auth::user()->mahasiswa->tugas_akhir->seminar_proposal)
         <a href="{{ route('seminar-proposal.create') }}" class="sidebar-item {{ request()->is('dashboard/seminar-proposal/create') ? 'active' : '' }}" onclick="toggleActive(this)">
             <!-- <img src="./assets/img/global/box.svg" alt=""> -->
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -223,9 +240,10 @@
 
             <span>Seminar Proposal</span>
         </a>
-        @elseif (Auth::user()->mahasiswa && Auth::user()->mahasiswa->tugas_akhir->seminar_proposal->id)
+
         {{-- arahkan ke halaman show --}}
-        <a href="{{ route('seminar-proposal.show', ['seminarProposal' => Auth::user()->mahasiswa->tugas_akhir->seminar_proposal->id]) }}" class="sidebar-item {{ request()->is('dashboard/seminar-proposal') ? 'active' : '' }}" onclick="toggleActive(this)">
+        @elseif (Auth::user()->mahasiswa && Auth::user()->mahasiswa->tugas_akhir && Auth::user()->mahasiswa->tugas_akhir->seminar_proposal)
+        <a href="{{ route('seminar-proposal.show', ['seminarProposal' => Auth::user()->mahasiswa->tugas_akhir->seminar_proposal->id]) }}" class="sidebar-item {{ request()->is('dashboard/seminar-proposal/detail/' . Auth::user()->mahasiswa->tugas_akhir->seminar_proposal->id) ? 'active' : '' }}" onclick="toggleActive(this)">
             <!-- <img src="./assets/img/global/box.svg" alt=""> -->
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                 xmlns="http://www.w3.org/2000/svg">
@@ -243,41 +261,121 @@
         @endif
     @endauth
 
+    @auth
+        {{-- arahkan ke halaman index --}}
+        @if (Auth::user()->dosen || Auth::user()->role->nama == 'admin')
+        <a href="{{ route('seminar-penelitian.index') }}" class="sidebar-item {{ request()->is('dashboard/seminar-penelitian') ? 'active' : '' }}" onclick="toggleActive(this)">
+            <!-- <img src="./assets/img/global/home.svg" alt=""> -->
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M3 9L12 2L21 9V20C21 20.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V9Z"
+                    stroke="#ABB3C4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M9 22V12H15V22" stroke="#ABB3C4" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" />
+            </svg>
 
-    <a href="{{ route('seminar-penelitian.index') }}" class="sidebar-item {{ request()->is('dashboard/seminar-penelitian') ? 'active' : '' }}" onclick="toggleActive(this)">
-        <!-- <img src="./assets/img/global/home.svg" alt=""> -->
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-            xmlns="http://www.w3.org/2000/svg">
-            <path
-                d="M3 9L12 2L21 9V20C21 20.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V9Z"
-                stroke="#ABB3C4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-            <path d="M9 22V12H15V22" stroke="#ABB3C4" stroke-width="2" stroke-linecap="round"
-                stroke-linejoin="round" />
-        </svg>
+            <span>Seminar Penelitian</span>
+        </a>
 
-        <span>Seminar Penelitian</span>
-    </a>
+        {{-- arahkan ke halaman create --}}
+        @elseif (Auth::user()->mahasiswa && Auth::user()->mahasiswa->tugas_akhir && !Auth::user()->mahasiswa->tugas_akhir->seminar_penelitian)
+        <a href="{{ route('seminar-penelitian.create') }}" class="sidebar-item {{ request()->is('dashboard/seminar-penelitian/create') ? 'active' : '' }}" onclick="toggleActive(this)">
+            <!-- <img src="./assets/img/global/home.svg" alt=""> -->
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M3 9L12 2L21 9V20C21 20.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V9Z"
+                    stroke="#ABB3C4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M9 22V12H15V22" stroke="#ABB3C4" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" />
+            </svg>
 
-    <a href="{{ route('sidang-akhir.index') }}" class="sidebar-item {{ request()->is('dashboard/sidang-akhir') ? 'active' : '' }}" onclick="toggleActive(this)">
-        <!-- <img src="./assets/img/global/gift.svg" alt=""> -->
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-            xmlns="http://www.w3.org/2000/svg">
-            <path d="M20 12V22H4V12" stroke="#ABB3C4" stroke-width="2" stroke-linecap="round"
-                stroke-linejoin="round" />
-            <path d="M22 7H2V12H22V7Z" stroke="#ABB3C4" stroke-width="2" stroke-linecap="round"
-                stroke-linejoin="round" />
-            <path d="M12 22V7" stroke="#ABB3C4" stroke-width="2" stroke-linecap="round"
-                stroke-linejoin="round" />
-            <path
-                d="M12 7H16.5C17.163 7 17.7989 6.73661 18.2678 6.26777C18.7366 5.79893 19 5.16304 19 4.5C19 3.83696 18.7366 3.20107 18.2678 2.73223C17.7989 2.26339 17.163 2 16.5 2C13 2 12 7 12 7Z"
-                stroke="#ABB3C4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-            <path
-                d="M12 7H7.5C6.83696 7 6.20107 6.73661 5.73223 6.26777C5.26339 5.79893 5 5.16304 5 4.5C5 3.83696 5.26339 3.20107 5.73223 2.73223C6.20107 2.26339 6.83696 2 7.5 2C11 2 12 7 12 7Z"
-                stroke="#ABB3C4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-        </svg>
+            <span>Seminar Penelitian</span>
+        </a>
 
-        <span>Sidang Akhir</span>
-    </a>
+        {{-- arahkan ke halaman show --}}
+        @elseif (Auth::user()->mahasiswa && Auth::user()->mahasiswa->tugas_akhir && Auth::user()->mahasiswa->tugas_akhir->seminar_penelitian)
+        <a href="{{ route('seminar-penelitian.show', ['seminarPenelitian' => Auth::user()->mahasiswa->tugas_akhir->seminar_penelitian->id]) }}" class="sidebar-item {{ request()->is('dashboard/seminar-penelitian/detail/' . Auth::user()->mahasiswa->tugas_akhir->seminar_penelitian->id) ? 'active' : '' }}" onclick="toggleActive(this)">
+            <!-- <img src="./assets/img/global/home.svg" alt=""> -->
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M3 9L12 2L21 9V20C21 20.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V9Z"
+                    stroke="#ABB3C4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M9 22V12H15V22" stroke="#ABB3C4" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" />
+            </svg>
+
+            <span>Seminar Penelitian</span>
+        </a>
+        @endif
+    @endauth
+
+    @auth
+        {{-- arahkan ke halaman index --}}
+        @if (Auth::user()->dosen || Auth::user()->role->nama == 'admin')
+        <a href="{{ route('sidang-akhir.index') }}" class="sidebar-item {{ request()->is('dashboard/sidang-akhir') ? 'active' : '' }}" onclick="toggleActive(this)">
+            <!-- <img src="./assets/img/global/gift.svg" alt=""> -->
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <path d="M20 12V22H4V12" stroke="#ABB3C4" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" />
+                <path d="M22 7H2V12H22V7Z" stroke="#ABB3C4" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" />
+                <path d="M12 22V7" stroke="#ABB3C4" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" />
+                <path
+                    d="M12 7H16.5C17.163 7 17.7989 6.73661 18.2678 6.26777C18.7366 5.79893 19 5.16304 19 4.5C19 3.83696 18.7366 3.20107 18.2678 2.73223C17.7989 2.26339 17.163 2 16.5 2C13 2 12 7 12 7Z"
+                    stroke="#ABB3C4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                <path
+                    d="M12 7H7.5C6.83696 7 6.20107 6.73661 5.73223 6.26777C5.26339 5.79893 5 5.16304 5 4.5C5 3.83696 5.26339 3.20107 5.73223 2.73223C6.20107 2.26339 6.83696 2 7.5 2C11 2 12 7 12 7Z"
+                    stroke="#ABB3C4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+
+            <span>Sidang Akhir</span>
+        </a>
+
+        {{-- arahkan ke halaman create --}}
+        @elseif (Auth::user()->mahasiswa && Auth::user()->mahasiswa->tugas_akhir && !Auth::user()->mahasiswa->tugas_akhir->sidang_akhir)
+        <a href="{{ route('sidang-akhir.create') }}" class="sidebar-item {{ request()->is('dashboard/sidang-akhir/create') ? 'active' : '' }}" onclick="toggleActive(this)">
+            <!-- <img src="./assets/img/global/gift.svg" alt=""> -->
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <path d="M20 12V22H4V12" stroke="#ABB3C4" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" />
+                <path d="M22 7H2V12H22V7Z" stroke="#ABB3C4" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" />
+                <path d="M12 22V7" stroke="#ABB3C4" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" />
+                <path
+                    d="M12 7H16.5C17.163 7 17.7989 6.73661 18.2678 6.26777C18.7366 5.79893 19 5.16304 19 4.5C19 3.83696 18.7366 3.20107 18.2678 2.73223C17.7989 2.26339 17.163 2 16.5 2C13 2 12 7 12 7Z"
+                    stroke="#ABB3C4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                <path
+                    d="M12 7H7.5C6.83696 7 6.20107 6.73661 5.73223 6.26777C5.26339 5.79893 5 5.16304 5 4.5C5 3.83696 5.26339 3.20107 5.73223 2.73223C6.20107 2.26339 6.83696 2 7.5 2C11 2 12 7 12 7Z"
+                    stroke="#ABB3C4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+
+            <span>Sidang Akhir</span>
+        </a>
+
+        {{-- arahkan ke halaman show --}}
+        @elseif (Auth::user()->mahasiswa && Auth::user()->mahasiswa->tugas_akhir && Auth::user()->mahasiswa->tugas_akhir->sidang_akhir)
+        <a href="{{ route('sidang-akhir.show', ['sidangAkhir' => Auth::user()->mahasiswa->tugas_akhir->sidang_akhir->id]) }}" class="sidebar-item {{ request()->is('dashboard/sidang-akhir/detail/' . Auth::user()->mahasiswa->tugas_akhir->sidang_akhir->id) ? 'active' : '' }}" onclick="toggleActive(this)">
+            <!-- <img src="./assets/img/global/home.svg" alt=""> -->
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M3 9L12 2L21 9V20C21 20.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V9Z"
+                    stroke="#ABB3C4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M9 22V12H15V22" stroke="#ABB3C4" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" />
+            </svg>
+
+            <span>Sidang Akhir</span>
+        </a>
+        @endif
+    @endauth
 
     @auth
         @if (Auth::user()->role->nama == 'admin' || Auth::user()->dosen)

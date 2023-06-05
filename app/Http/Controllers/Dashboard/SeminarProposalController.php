@@ -14,15 +14,15 @@ class SeminarProposalController extends Controller
 {
     public function index()
     {
-        if (Auth::user()->role->nama == 'dosen' && Auth::user()->dosen->dosen_pengujis->pluck('id')) {
-            // get id dosen pembimbing yang login
+        if (Auth::user()->dosen && Auth::user()->dosen->dosen_pengujis->pluck('id')) {
+            // get id dosen penguji yang login
             $dosenPengujiId = Auth::user()->dosen->dosen_pengujis->pluck('id');
 
             // Ambil daftar seminar proposal yang terkait dengan dosen penguji
-            $seminarProposalIds = SeminarProposalNilai::whereIn('dosen_penguji_id', $dosenPengujiId)->pluck('seminar_proposal_id');
+            $seminarProposalId = SeminarProposalNilai::whereIn('dosen_penguji_id', $dosenPengujiId)->pluck('seminar_proposal_id');
 
             // Tampilkan daftar seminar proposal yang terkait
-            $seminarProposals = SeminarProposal::whereIn('id', $seminarProposalIds)->get();
+            $seminarProposals = SeminarProposal::whereIn('id', $seminarProposalId)->get();
 
             return view('pages.dashboard.seminar_proposal.index', [
                 'seminarProposals' => $seminarProposals,
@@ -38,14 +38,25 @@ class SeminarProposalController extends Controller
 
     public function show(SeminarProposal $seminarProposal)
     {
-        $daftarDosenPenguji = DosenPenguji::with('dosen.user')->get();
-        $selectedDosenPenguji = $seminarProposal->seminar_proposal_nilais->pluck('dosen_penguji_id')->all();
+        if (Auth::user()->role->nama == 'admin') {
+            $dosenSeminarProposals = DosenPenguji::with('dosen.user')->get();
+            $selectedDosenProposal = $seminarProposal->seminar_proposal_nilais->pluck('dosen_penguji_id')->all();
 
-        return view('pages.dashboard.seminar_proposal.show', [
-            'seminarProposal' => $seminarProposal,
-            'daftarDosenPenguji' => $daftarDosenPenguji,
-            'selectedDosenPenguji' => $selectedDosenPenguji
-        ]);
+            return view('pages.dashboard.seminar_proposal.show', [
+                'seminarProposal' => $seminarProposal,
+                'dosenSeminarProposals' => $dosenSeminarProposals,
+                'selectedDosenProposal' => $selectedDosenProposal
+            ]);
+        } else {
+            $dosenSeminarProposals = $seminarProposal->seminar_proposal_nilais()->with('dosen_penguji.dosen.user')->get();
+            $selectedDosenProposal = $seminarProposal->seminar_proposal_nilais()->pluck('dosen_penguji_id')->all();
+
+            return view('pages.dashboard.seminar_proposal.show', [
+                'seminarProposal' => $seminarProposal,
+                'dosenSeminarProposals' => $dosenSeminarProposals,
+                'selectedDosenProposal' => $selectedDosenProposal
+            ]);
+        }
     }
 
     public function create()
@@ -59,7 +70,7 @@ class SeminarProposalController extends Controller
                 'tugasAkhir' => $mahasiswa->tugas_akhir
             ]);
         }
-        return redirect()->route('tugas-akhir.show', ['tugasAkhir' => $tugasAkhir->id])->with('error', 'Tugas Akhir belum disetujui, tidak dapat mendaftar ke Seminar Proposal.');
+        return redirect()->back()->with('error', 'Mohon Maaf, Harap lengkapi Tugas Akhir Anda');
 
     }
 
@@ -71,6 +82,12 @@ class SeminarProposalController extends Controller
             'waktu' => 'nullable',
             'tugas_akhir_id' => 'required|exists:tugas_akhirs,id'
         ]);
+
+        $tugasAkhir = TugasAkhir::find($request->tugas_akhir_id);
+        if ($tugasAkhir->seminar_proposal) {
+            return redirect()->back()->with('error', 'Mohon Maaf, Anda sudah menambahkan seminar proposal');
+        }
+
         $seminarProposal = SeminarProposal::create([
             'tugas_akhir_id' => $request->tugas_akhir_id
         ]);
@@ -92,17 +109,13 @@ class SeminarProposalController extends Controller
 
     public function update(Request $request, SeminarProposal $seminarProposal)
     {
-        $request->validate([
+        $validate = $request->validate([
             'tanggal' => 'required|date',
             'waktu' => 'required',
             'tempat' => 'required',
         ]);
 
-        // Update data seminar proposal
-        $seminarProposal->tanggal = $request->tanggal;
-        $seminarProposal->waktu = $request->waktu;
-        $seminarProposal->tempat = $request->tempat;
-        $seminarProposal->save();
+        $seminarProposal->update($validate);
 
         // Ambil daftar dosen penguji yang dipilih
         $selectedDosenPengujiIds = $request->input('dosen_penguji_id', []);
@@ -110,7 +123,7 @@ class SeminarProposalController extends Controller
         // hapus data dosen penguji yang tidak dipilih pada tabel seminar_proposal_nilai
         $seminarProposal->seminar_proposal_nilais()->whereNotIn('dosen_penguji_id', $selectedDosenPengujiIds)->delete();
 
-        // Tambahkan data seminar proposal nilai baru untuk dosen penguji terpilih
+        // Tambahkan data dosen penguji terpilih ke seminar_proposal_nilai
         foreach ($selectedDosenPengujiIds as $dosenPengujiId) {
             $seminarProposalNilai = SeminarProposalNilai::firstOrNew([
                 'seminar_proposal_id' => $seminarProposal->id,
@@ -120,12 +133,5 @@ class SeminarProposalController extends Controller
         }
 
         return redirect()->route('seminar-proposal.show', ['seminarProposal' => $seminarProposal->id])->with('success', 'Data Seminar Proposal berhasil diperbarui.');
-    }
-
-    public function nilai(SeminarProposal $seminarProposal)
-    {
-        return view('pages.dashboard.seminar_proposal.nilai', [
-            'seminarProposal' => $seminarProposal
-        ]);
     }
 }
