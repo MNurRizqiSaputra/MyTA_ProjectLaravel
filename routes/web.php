@@ -23,10 +23,10 @@ use Illuminate\Support\Facades\Route;
 Route::prefix("dashboard")
     ->middleware('auth')
     ->group(function () {
-        Route::get("/overview", [DashboardController::class, "index"])->name("dashboard");
+        Route::get("/overview", [DashboardController::class, "index"])->name("dashboard")->middleware('admin');
 
         Route::prefix('role')->name('role.')->group(function(){
-            Route::get('', [RoleController::class, 'index'])->name('index'); // all users
+            Route::get('', [RoleController::class, 'index'])->name('index')->middleware('admin'); // all users
         });
 
         Route::prefix('user')->name('user.')->group(function(){
@@ -84,13 +84,13 @@ Route::prefix("dashboard")
         });
 
         Route::prefix('seminar-proposal-nilai')->name('seminar-proposal-nilai.')->group(function(){
-            Route::get('', [SeminarProposalNilaiController::class, 'index'])->name('index'); // all users
+            Route::get('', [SeminarProposalNilaiController::class, 'index'])->name('index')->middleware('adminOrDosen'); // admin, dosen
             Route::get('detail/{seminarProposal}/nilai', [SeminarProposalNilaiController::class, 'nilai'])->name('nilai')->middleware('dosenPenguji'); // dosen
             Route::put('detail/{seminarProposal}/nilai', [SeminarProposalNilaiController::class, 'update'])->name('update')->middleware('dosenPenguji');
         });
 
         Route::prefix('seminar-penelitian')->name('seminar-penelitian.')->group(function(){
-            Route::get('', [SeminarPenelitianController::class, 'index'])->name('index')->middleware('adminOrDosen'); // all users
+            Route::get('', [SeminarPenelitianController::class, 'index'])->name('index')->middleware('adminOrDosen'); // admin dosen
             Route::get('detail/{seminarPenelitian}', [SeminarPenelitianController::class, 'show'])->name('show'); //
             Route::get('create', [SeminarPenelitianController::class, 'create'])->name('create')->middleware('mahasiswa'); //
             Route::post('store', [SeminarPenelitianController::class, 'store'])->name('store'); //
@@ -99,23 +99,22 @@ Route::prefix("dashboard")
         });
 
         Route::prefix('seminar-penelitian-nilai')->name('seminar-penelitian-nilai.')->group(function(){
-            Route::get('', [SeminarPenelitianNilaiController::class, 'index'])->name('index'); // all users
+            Route::get('', [SeminarPenelitianNilaiController::class, 'index'])->name('index')->middleware('adminOrDosen'); // admin, dosen
             Route::get('detail/{seminarPenelitian}/nilai', [SeminarPenelitianNilaiController::class, 'nilai'])->name('nilai')->middleware('dosenPenguji'); // dosen
             Route::put('detail/{seminarPenelitian}/nilai', [SeminarPenelitianNilaiController::class, 'update'])->name('update')->middleware('dosenPenguji'); // dosen
         });
 
         Route::prefix('sidang-akhir')->name('sidang-akhir.')->group(function(){
-            Route::get('', [SidangAkhirController::class, 'index'])->name('index'); // all users
+            Route::get('', [SidangAkhirController::class, 'index'])->name('index')->middleware('adminOrDosen'); // admin dosen
             Route::get('detail/{sidangAkhir}', [SidangAkhirController::class, 'show'])->name('show'); //
             Route::get('create', [SidangAkhirController::class, 'create'])->name('create')->middleware('mahasiswa'); //
             Route::post('store', [SidangAkhirController::class, 'store'])->name('store'); //
             // Route::get('edit/{sidangAkhir}', [SidangAkhirController::class, 'edit'])->name('edit'); //
             Route::put('{sidangAkhir}', [SidangAkhirController::class, 'update'])->name('update'); //
-            Route::get('detail/{sidangAkhir}/nilai', [SidangAkhirController::class, 'nilai'])->name('nilai'); //
         });
 
         Route::prefix('sidang-akhir-nilai')->name('sidang-akhir-nilai.')->group(function(){
-            Route::get('', [SidangAkhirNilaiController::class, 'index'])->name('index'); // all users
+            Route::get('', [SidangAkhirNilaiController::class, 'index'])->name('index')->middleware('adminOrDosen'); // admin dosen
             Route::get('detail/{sidangAkhir}/nilai', [SidangAkhirNilaiController::class, 'nilai'])->name('nilai')->middleware('dosenPenguji'); // dosen
             Route::put('detail/{sidangAkhir}/nilai', [SidangAkhirNilaiController::class, 'update'])->name('update')->middleware('dosenPenguji'); // dosen
         });
