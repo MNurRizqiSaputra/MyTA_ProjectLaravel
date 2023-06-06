@@ -12,26 +12,26 @@
 
     <h5 class="sidebar-title">General</h5>
 
+    <a href="{{ route('dashboard') }}" class="sidebar-item {{ request()->is('dashboard/overview') ? 'active' : '' }}" onclick="toggleActive(this)">
+        <!-- <img src="./assets/img/global/grid.svg" alt=""> -->
+
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+            xmlns="http://www.w3.org/2000/svg">
+            <path d="M21 14H14V21H21V14Z" stroke="white" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+            <path d="M10 14H3V21H10V14Z" stroke="white" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+            <path d="M21 3H14V10H21V3Z" stroke="white" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+            <path d="M10 3H3V10H10V3Z" stroke="white" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+        </svg>
+
+        <span>Overview</span>
+    </a>
 
     @auth
     @if (Auth::user()->role->nama == 'admin')
-        <a href="{{ route('dashboard') }}" class="sidebar-item {{ request()->is('dashboard/overview') ? 'active' : '' }}" onclick="toggleActive(this)">
-            <!-- <img src="./assets/img/global/grid.svg" alt=""> -->
-
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                xmlns="http://www.w3.org/2000/svg">
-                <path d="M21 14H14V21H21V14Z" stroke="white" stroke-width="2" stroke-linecap="round"
-                    stroke-linejoin="round" />
-                <path d="M10 14H3V21H10V14Z" stroke="white" stroke-width="2" stroke-linecap="round"
-                    stroke-linejoin="round" />
-                <path d="M21 3H14V10H21V3Z" stroke="white" stroke-width="2" stroke-linecap="round"
-                    stroke-linejoin="round" />
-                <path d="M10 3H3V10H10V3Z" stroke="white" stroke-width="2" stroke-linecap="round"
-                    stroke-linejoin="round" />
-            </svg>
-
-            <span>Overview</span>
-        </a>
         <a href="{{ route('user.index') }}" class="sidebar-item {{ request()->is('dashboard/user') ? 'active' : '' }}" onclick="toggleActive(this)">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                 xmlns="http://www.w3.org/2000/svg">
