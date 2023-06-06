@@ -23,7 +23,7 @@ use Illuminate\Support\Facades\Route;
 Route::prefix("dashboard")
     ->middleware('auth')
     ->group(function () {
-        Route::get("/overview", [DashboardController::class, "index"])->name("dashboard")->middleware('admin');
+        Route::get("/overview", [DashboardController::class, "index"])->name("dashboard");
 
         Route::prefix('role')->name('role.')->group(function(){
             Route::get('', [RoleController::class, 'index'])->name('index')->middleware('admin'); // all users
