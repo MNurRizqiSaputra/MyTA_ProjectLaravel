@@ -22,11 +22,11 @@ class Dosen extends Model
 
     public function dosen_pengujis()
     {
-        return $this->hasOne(DosenPenguji::class);
+        return $this->hasMany(DosenPenguji::class);
     }
 
     public function dosen_pembimbings()
     {
-        return $this->hasOne(DosenPembimbing::class);
+        return $this->hasMany(DosenPembimbing::class);
     }
 }
