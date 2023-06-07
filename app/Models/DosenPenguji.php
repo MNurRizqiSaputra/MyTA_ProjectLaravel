@@ -13,15 +13,15 @@ class DosenPenguji extends Model
     {
         return $this->belongsTo(Dosen::class);
     }
-    public function seminar_proposal_nilais()
+    public function seminar_proposals()
     {
         return $this->hasMany(SeminarProposalNilai::class);
     }
-    public function seminar_penelitian_nilais()
+    public function seminar_penelitians()
     {
         return $this->hasMany(SeminarPenelitianNilai::class);
     }
-    public function sidang_akhir_nilais()
+    public function sidang_akhirs()
     {
         return $this->hasMany(SidangAkhirNilai::class);
     }
