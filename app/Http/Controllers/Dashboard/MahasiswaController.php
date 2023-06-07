@@ -33,6 +33,8 @@ class MahasiswaController extends Controller
             'nim' => 'required|string|max:10|unique:mahasiswas,nim,' . $mahasiswa->id,
             'jurusan_id' => 'required|exists:jurusans,id',
             'nama' => 'required|string',
+            'tanggal_lahir' => 'required|date',
+            'nohp' => 'required|string|max:15',
             'email' => 'required|email|unique:users,email,' . $mahasiswa->user->id,
             'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
@@ -44,6 +46,8 @@ class MahasiswaController extends Controller
 
         // Update data pada model Mahasiswa
         $mahasiswa->nim = $request->input('nim');
+        $mahasiswa->tanggal_lahir = $request->input('tanggal_lahir');
+        $mahasiswa->nohp = $request->input('nohp');
         $mahasiswa->jurusan_id = $request->input('jurusan_id');
 
         // Cek apakah ada file foto yang diunggah

@@ -22,6 +22,8 @@ class MahasiswaFactory extends Factory
         $mahasiswa = User::where('role_id', 2)->pluck('id')->toArray();
         return [
             'nim' => $this->faker->unique()->numerify('17########'),
+            'nohp' => null,
+            'tanggal_lahir' => null,
             'foto' => 'default.png',
             'user_id' => $this->faker->unique()->randomElement($mahasiswa),
             'jurusan_id' => $this->faker->numberBetween(1, Jurusan::count()),

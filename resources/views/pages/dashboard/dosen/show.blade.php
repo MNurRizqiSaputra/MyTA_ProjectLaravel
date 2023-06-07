@@ -34,6 +34,14 @@
                         <input class="form-control" type="text" id="nama" name="nama" value="{{ old('nama') ?? ($dosen->user->nama ?? '') }}" required>
                     </div>
                     <div class="mb-3 col-md-6">
+                        <label for="tanggal_lahir" class="form-label">Tanggal Lahir</label>
+                        <input class="form-control" type="date" id="tanggal_lahir" name="tanggal_lahir" value="{{ old('tanggal_lahir') ?? ($dosen->tanggal_lahir ?? '') }}" required>
+                    </div>
+                    <div class="mb-3 col-md-6">
+                        <label for="nohp" class="form-label">No HP</label>
+                        <input class="form-control" type="number" id="nohp" name="nohp" value="{{ old('nohp') ?? ($dosen->nohp ?? '') }}" required>
+                    </div>
+                    <div class="mb-3 col-md-6">
                         <label for="email" class="form-label">E-mail</label>
                         <input class="form-control" type="text" id="email" name="email" value="{{ old('email') ?? ($dosen->user->email ?? '') }}" placeholder="john.doe@example.com" required>
                     </div>

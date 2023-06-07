@@ -30,6 +30,8 @@ class DosenController extends Controller
             'nip' => 'required|string|max:10|unique:dosens,nip,' . $dosen->id,
             'jurusan_id' => 'required|exists:jurusans,id',
             'nama' => 'required|string',
+            'tanggal_lahir' => 'required|date',
+            'nohp' => 'required|string|max:15',
             'email' => 'required|email|unique:users,email,' . $dosen->user->id,
             'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
@@ -40,8 +42,10 @@ class DosenController extends Controller
         $user->save();
 
         // Update data pada model Dosen
-        $dosen->nip = $request->nip;
-        $dosen->jurusan_id = $request->jurusan_id;
+        $dosen->nip = $request->input('nip');
+        $dosen->tanggal_lahir = $request->input('tanggal_lahir');
+        $dosen->nohp = $request->input('nohp');
+        $dosen->jurusan_id = $request->input('jurusan_id');
 
         // Cek apakah ada file foto yang diunggah
         if ($request->hasFile('foto')) {

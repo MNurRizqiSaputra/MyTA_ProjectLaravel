@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('dosens', function (Blueprint $table) {
             $table->id();
             $table->char('nip', 10)->nullable()->unique();
+            $table->date('tanggal_lahir')->nullable();
+            $table->char('nohp', 15)->nullable();
             $table->text('foto')->nullable();
             $table->foreignId('user_id')->constrained()->cascadeOnUpdate();
             $table->foreignId('jurusan_id')->nullable()->constrained()->cascadeOnUpdate();
