@@ -42,11 +42,11 @@ class MahasiswaController extends Controller
         $user = $mahasiswa->user;
         $user->nama = $request->input('nama');
         $user->email = $request->input('email');
+        $user->tanggal_lahir = $request->input('tanggal_lahir');
         $user->save();
 
         // Update data pada model Mahasiswa
         $mahasiswa->nim = $request->input('nim');
-        $mahasiswa->tanggal_lahir = $request->input('tanggal_lahir');
         $mahasiswa->nohp = $request->input('nohp');
         $mahasiswa->jurusan_id = $request->input('jurusan_id');
 

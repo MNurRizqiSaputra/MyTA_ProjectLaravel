@@ -23,7 +23,6 @@ class DosenFactory extends Factory
         return [
             'nip' => $this->faker->unique()->numerify('99########'),
             'nohp' => null,
-            'tanggal_lahir' => null,
             'foto' => 'default.png',
             'user_id' => $this->faker->unique()->randomElement($dosen),
             'jurusan_id' => $this->faker->numberBetween(1, Jurusan::count()),

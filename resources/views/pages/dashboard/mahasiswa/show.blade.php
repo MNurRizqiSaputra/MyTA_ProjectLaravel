@@ -35,7 +35,7 @@
                     </div>
                     <div class="mb-3 col-md-6">
                         <label for="tanggal_lahir" class="form-label">Tanggal Lahir</label>
-                        <input class="form-control" type="date" id="tanggal_lahir" name="tanggal_lahir" value="{{ old('tanggal_lahir') ?? ($mahasiswa->tanggal_lahir ?? '') }}" required>
+                        <input class="form-control" type="date" id="tanggal_lahir" name="tanggal_lahir" value="{{ old('tanggal_lahir') ?? ($mahasiswa->user->tanggal_lahir ?? '') }}" required>
                     </div>
                     <div class="mb-3 col-md-6">
                         <label for="nohp" class="form-label">No HP</label>

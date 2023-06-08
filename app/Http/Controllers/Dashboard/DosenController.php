@@ -39,11 +39,11 @@ class DosenController extends Controller
         $user = $dosen->user;
         $user->nama = $request->nama;
         $user->email = $request->email;
+        $user->tanggal_lahir = $request->input('tanggal_lahir');
         $user->save();
 
         // Update data pada model Dosen
         $dosen->nip = $request->input('nip');
-        $dosen->tanggal_lahir = $request->input('tanggal_lahir');
         $dosen->nohp = $request->input('nohp');
         $dosen->jurusan_id = $request->input('jurusan_id');
 
