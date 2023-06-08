@@ -34,7 +34,7 @@
                 <td>{{ $user->email }}</td>
                 <td>{{ $user->role->nama }}</td>
                 <td class="d-flex gap-2">
-                    <a href="{{ url('dashboard/user/edit/'.$user->id) }}" class="btn btn-warning rounded border-0">Edit</a>
+                    <a href="{{ route('user.show', ['user' => $user->id]) }}" class="btn btn-warning rounded border-0">Edit</a>
                     <form action="{{ route('user.destroy', $user->id) }}" method="POST">
                         @csrf
                         @method('DELETE')
