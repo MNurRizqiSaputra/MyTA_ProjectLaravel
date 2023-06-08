@@ -25,9 +25,43 @@
                         <img src="./assets/img/global/times.svg" alt="">
                     </button>
                 </div>
+                <h3>{{ $user }}</h3>
+            </div>
+        </div>
 
+        <div class="col-12 col-md-6 col-lg-4">
+            <div class="statistics-card">
 
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="d-flex flex-column justify-content-between align-items-start">
+                        <h5 class="content-desc">DATA</h5>
 
+                        <h3 class="statistics-value">JURUSAN</h3>
+                    </div>
+
+                    <button class="btn-statistics">
+                        <img src="./assets/img/global/times.svg" alt="">
+                    </button>
+                </div>
+                <h3>{{ $jurusan }}</h3>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-6 col-lg-4">
+            <div class="statistics-card">
+
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="d-flex flex-column justify-content-between align-items-start">
+                        <h5 class="content-desc">DATA</h5>
+
+                        <h3 class="statistics-value">TUGAS AKHIR</h3>
+                    </div>
+
+                    <button class="btn-statistics">
+                        <img src="./assets/img/global/times.svg" alt="">
+                    </button>
+                </div>
+                <h3>{{ $tugasAkhir }}</h3>
             </div>
         </div>
 
@@ -45,9 +79,25 @@
                         <img src="./assets/img/global/times.svg" alt="">
                     </button>
                 </div>
+                <h3>{{ $mahasiswa }}</h3>
+            </div>
+        </div>
 
+        <div class="col-12 col-md-6 col-lg-4">
+            <div class="statistics-card">
 
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="d-flex flex-column justify-content-between align-items-start">
+                        <h5 class="content-desc">DATA</h5>
 
+                        <h3 class="statistics-value">DOSEN</h3>
+                    </div>
+
+                    <button class="btn-statistics">
+                        <img src="./assets/img/global/times.svg" alt="">
+                    </button>
+                </div>
+                <h3>{{ $dosen }}</h3>
             </div>
         </div>
 
@@ -65,48 +115,7 @@
                         <img src="./assets/img/global/times.svg" alt="">
                     </button>
                 </div>
-
-
-
-            </div>
-        </div>
-
-        <div class="col-12 col-md-6 col-lg-4">
-            <div class="statistics-card">
-
-                <div class="d-flex justify-content-between align-items-center">
-                    <div class="d-flex flex-column justify-content-between align-items-start">
-                        <h5 class="content-desc">DATA</h5>
-
-                        <h3 class="statistics-value">DOSEN PEMBIMBING</h3>
-                    </div>
-
-                    <button class="btn-statistics">
-                        <img src="./assets/img/global/times.svg" alt="">
-                    </button>
-                </div>
-
-
-
-            </div>
-        </div>
-
-        <div class="col-12 col-md-6 col-lg-4">
-            <div class="statistics-card">
-
-                <div class="d-flex justify-content-between align-items-center">
-                    <div class="d-flex flex-column justify-content-between align-items-start">
-                        <h5 class="content-desc">DATA</h5>
-
-                        <h3 class="statistics-value">MAHASISWA</h3>
-                    </div>
-
-                    <button class="btn-statistics">
-                        <img src="./assets/img/global/times.svg" alt="">
-                    </button>
-                </div>
-
-
+                <h3>{{ $dosenPembimbing }}</h3>
             </div>
         </div>
 
@@ -124,14 +133,63 @@
                         <img src="./assets/img/global/times.svg" alt="">
                     </button>
                 </div>
-
-
-
+                <h3>{{ $dosenPenguji }}</h3>
             </div>
         </div>
 
+        <div class="col-12 col-md-6 col-lg-4">
+            <div class="statistics-card">
+
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="d-flex flex-column justify-content-between align-items-start">
+                        <h5 class="content-desc">DATA</h5>
+
+                        <h3 class="statistics-value">SEMINAR PROPOSAL</h3>
+                    </div>
+
+                    <button class="btn-statistics">
+                        <img src="./assets/img/global/times.svg" alt="">
+                    </button>
+                </div>
+                <h3>{{ $seminarProposal }}</h3>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-6 col-lg-4">
+            <div class="statistics-card">
+
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="d-flex flex-column justify-content-between align-items-start">
+                        <h5 class="content-desc">DATA</h5>
+
+                        <h3 class="statistics-value">SEMINAR PENELITIAN</h3>
+                    </div>
+
+                    <button class="btn-statistics">
+                        <img src="./assets/img/global/times.svg" alt="">
+                    </button>
+                </div>
+                <h3>{{ $seminarPenelitian }}</h3>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-6 col-lg-4">
+            <div class="statistics-card">
+
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="d-flex flex-column justify-content-between align-items-start">
+                        <h5 class="content-desc">DATA</h5>
+
+                        <h3 class="statistics-value">SIDANG AKHIR</h3>
+                    </div>
+
+                    <button class="btn-statistics">
+                        <img src="./assets/img/global/times.svg" alt="">
+                    </button>
+                </div>
+                <h3>{{ $sidangAkhir }}</h3>
+            </div>
+        </div>
     </div>
-
-
 </div>
 @endsection
