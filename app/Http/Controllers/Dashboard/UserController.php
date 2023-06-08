@@ -50,13 +50,13 @@ class UserController extends Controller
         ]);
 
         // Cek role_id
-        if ($user->role_id == 1) {
+        if ($user->role_id == ($user->role->nama == 'dosen')) {
             // Tambahkan data dosen
             Dosen::create([
                 'user_id' => $user->id,
                 // tambahkan kolom lain sesuai kebutuhan
             ]);
-        } elseif ($user->role_id == 2) {
+        } elseif ($user->role_id == ($user->role->nama == 'mahasiswa')) {
             // Tambahkan data mahasiswa
             Mahasiswa::create([
                 'user_id' => $user->id,
@@ -96,15 +96,18 @@ class UserController extends Controller
         return redirect()->back()->with('success', 'Data berhasil diperbarui');
     }
 
-    public function destroy(Request $request)
+    public function destroy(User $user)
     {
-        $userId = $request->input('user_id');
-        $user = User::findOrFail($userId);
-
         // Menghapus user
-        if ($user->role->nama === 'dosen'){
+        if ($user->dosen){
             $user->dosen->delete();
-        } else if ($user->role->nama === 'mahasiswa'){
+            // Menghapus data dosen_pengujis terkait
+            $user->dosen->dosen_pengujis->delete();
+            // Menghapus data dosen_pembimbings terkait
+            $user->dosen->dosen_pembimbings->delete();
+            // Menghapus user
+            $user->delete();
+        } else if ($user->mahasiswa){
             $user->mahasiswa->delete();
         } else {
             $user->delete();
