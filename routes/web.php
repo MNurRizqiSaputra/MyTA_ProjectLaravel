@@ -28,7 +28,12 @@ Route::prefix("dashboard")
         Route::get("/overview", [DashboardController::class, "index"])->name("dashboard");
 
         Route::prefix('role')->name('role.')->group(function(){
-            Route::get('', [RoleController::class, 'index'])->name('index'); // all users
+            Route::get('', [RoleController::class, 'index'])->name('index')->middleware('admin'); // admin
+            Route::get('create', [RoleController::class, 'create'])->name('create')->middleware('admin'); // admin
+            Route::post('store', [RoleController::class, 'store'])->name('store')->middleware('admin'); // admin
+            Route::get('edit/{id}', [RoleController::class, 'edit'])->name('edit')->middleware('admin'); // admin
+            Route::put('update/{id}', [RoleController::class, 'update'])->name('update')->middleware('admin'); // admin
+            Route::delete('destroy/{id}', [RoleController::class, 'destroy'])->name('destroy')->middleware('admin'); // admin
         });
 
         Route::prefix('user')->name('user.')->group(function(){
@@ -50,7 +55,7 @@ Route::prefix("dashboard")
             Route::delete('destroy/{id}', [JurusanController::class, 'destroy'])->name('destroy')->middleware('admin'); //admin
         });
 
-        
+
 
         Route::prefix('dosen')->name('dosen.')->group(function(){
             Route::get('', [DosenController::class, 'index'])->name('index')->middleware('admin'); //admin
