@@ -7,7 +7,7 @@
 @section('content')
 <div class="content">
     <div class="row">
-        <div class="col-12">
+        <div class="col-12 d-flex align-items-center justify-content-between">
             <h2 class="content-title">Jurusan</h2>
             @auth
                 @if (Auth::user()->role->nama == 'admin')
