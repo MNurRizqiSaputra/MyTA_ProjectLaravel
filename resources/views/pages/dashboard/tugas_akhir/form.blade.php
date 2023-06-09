@@ -43,7 +43,7 @@
     <div class="row">
         <div class="col mb-3">
             <label for="dosen_pembimbing" class="form-label">Dosen Pembimbing</label>
-            <input type="text" class="form-control" value="{{ $tugasAkhir->dosen_pembimbing->dosen->user->nama ?? '' }}" readonly>
+            <p>{{ $tugasAkhir->dosen_pembimbing->dosen->user->nama ?? '' }}</p>
         </div>
     </div>
 
