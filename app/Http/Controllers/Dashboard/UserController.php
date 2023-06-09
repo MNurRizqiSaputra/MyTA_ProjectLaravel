@@ -50,61 +50,79 @@ class UserController extends Controller
         ]);
 
         // Cek role_id
-        if ($user->role_id == 1) {
+        if ($user->role_id == ($user->role->nama == 'dosen')) {
             // Tambahkan data dosen
             Dosen::create([
                 'user_id' => $user->id,
-                // tambahkan kolom lain sesuai kebutuhan
             ]);
-        } elseif ($user->role_id == 2) {
+        } elseif ($user->role_id == ($user->role->nama == 'mahasiswa')) {
             // Tambahkan data mahasiswa
             Mahasiswa::create([
                 'user_id' => $user->id,
-                // tambahkan kolom lain sesuai kebutuhan
             ]);
         }
 
         return redirect()->back()->with('success', 'Data user berhasil ditambahkan.');
     }
 
-    public function edit($id)
+    public function show(User $user)
     {
-        $user = User::findOrFail($id);
-        $roles = Role::all();
-
-        return view('pages.dashboard.user.edit', compact('user' ,'roles'));
+        return view('pages.dashboard.user.show', [
+            'user' => $user,
+            'roles' => Role::all()
+        ]);
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, User $user)
     {
-        $user = User::findOrFail($id);
-
         $request->validate([
             'nama' => 'required',
-            'email' => 'required|email|unique:users,email,' . $id,
+            'email' => 'required|email|unique:users,email,' . $user->id,
             'password' => 'nullable|min:8',
-            'role_id' => 'required|exists:roles,id',
+            'role_id' => 'required',
         ]);
 
         $user->update([
-            'nama' => $request->input('nama'),
-            'email' => $request->input('email'),
-            'password' => $request->input('password') ? bcrypt($request->input('password')) : $user->password,
-            'role_id' => $request->input('role_id'),
+            'nama' => $request->nama,
+            'email' => $request->email,
+            'password' => $request->password ? bcrypt($request->password) : $user->password,
+            'role_id' => $request->role_id,
         ]);
+
+        if ($request->role_id == Role::where('nama', 'dosen')->first()->id) {
+            // Periksa apakah user tersebut sudah memiliki data di tabel dosen
+            if (!$user->dosen) {
+                // Buat data baru pada tabel dosen
+                Dosen::create([
+                    'user_id' => $user->id,
+                ]);
+                $user->mahasiswa->delete();
+            }
+        }elseif ($request->role_id == Role::where('nama', 'mahasiswa')->first()->id){
+            if (!$user->mahasiswa) {
+                // Buat data baru pada tabel mahasiswa
+                Mahasiswa::create([
+                    'user_id' => $user->id,
+                ]);
+                $user->dosen->delete();
+            }
+        }
 
         return redirect()->back()->with('success', 'Data berhasil diperbarui');
     }
 
-    public function destroy(Request $request)
+    public function destroy(User $user)
     {
-        $userId = $request->input('user_id');
-        $user = User::findOrFail($userId);
-
         // Menghapus user
-        if ($user->role->nama === 'dosen'){
+        if ($user->dosen){
             $user->dosen->delete();
-        } else if ($user->role->nama === 'mahasiswa'){
+            // Menghapus data dosen_pengujis terkait
+            $user->dosen->dosen_pengujis->delete();
+            // Menghapus data dosen_pembimbings terkait
+            $user->dosen->dosen_pembimbings->delete();
+            // Menghapus user
+            $user->delete();
+        } else if ($user->mahasiswa){
             $user->mahasiswa->delete();
         } else {
             $user->delete();

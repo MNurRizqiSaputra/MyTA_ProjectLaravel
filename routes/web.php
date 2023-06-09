@@ -27,30 +27,34 @@ Route::prefix("dashboard")
     ->group(function () {
         Route::get("/overview", [DashboardController::class, "index"])->name("dashboard");
 
-        Route::prefix('role')->name('role.')->group(function(){
-            Route::get('', [RoleController::class, 'index'])->name('index')->middleware('admin'); // all users
-        });
-
         Route::prefix('user')->name('user.')->group(function(){
             Route::get('', [UserController::class, 'index'])->name('index')->middleware('admin'); // all users
             Route::get('create', [UserController::class, 'create'])->name('create')->middleware('admin'); // admin
             Route::post('store', [UserController::class, 'store'])->name('store')->middleware('admin'); // admin
-            Route::get('edit/{id}', [UserController::class, 'edit'])->name('edit')->middleware('admin'); //admin
-            Route::put('update/{id}', [UserController::class, 'update'])->name('update')->middleware('admin'); //admin
-            Route::delete('destroy/{id}', [UserController::class, 'destroy'])->name('destroy')->middleware('admin'); // admin
+            Route::get('{user}', [UserController::class, 'show'])->name('show')->middleware('admin'); //admin
+            Route::put('{user}', [UserController::class, 'update'])->name('update')->middleware('admin'); //admin
+            Route::delete('{user}', [UserController::class, 'destroy'])->name('destroy')->middleware('admin'); // admin
+        });
+
+        Route::prefix('role')->name('role.')->group(function(){
+            Route::get('', [RoleController::class, 'index'])->name('index')->middleware('admin'); // admin
+            Route::get('create', [RoleController::class, 'create'])->name('create')->middleware('admin'); // admin
+            Route::post('store', [RoleController::class, 'store'])->name('store')->middleware('admin'); // admin
+            Route::get('{role}', [RoleController::class, 'show'])->name('show')->middleware('admin'); // admin
+            Route::put('{role}', [RoleController::class, 'update'])->name('update')->middleware('admin'); // admin
+            Route::delete('{role}', [RoleController::class, 'destroy'])->name('destroy')->middleware('admin'); // admin
         });
 
         Route::prefix('jurusan')->name('jurusan.')->group(function(){
-
-            Route::get('', [JurusanController::class, 'index'])->name('index')->middleware('admin'); // all admin
-            Route::get('create', [JurusanController::class, 'create'])->name('create')->middleware('admin'); //admin
-            Route::post('store', [JurusanController::class, 'store'])->name('store')->middleware('admin'); //admin
-            Route::get('edit/{id}', [JurusanController::class, 'edit'])->name('edit')->middleware('admin'); //admin
-            Route::put('update/{id}', [JurusanController::class, 'update'])->name('update')->middleware('admin'); //admin
-            Route::delete('destroy/{id}', [JurusanController::class, 'destroy'])->name('destroy')->middleware('admin'); //admin
+            Route::get('', [JurusanController::class, 'index'])->name('index')->middleware('admin'); // admin
+            Route::get('create', [JurusanController::class, 'create'])->name('create')->middleware('admin'); // admin
+            Route::post('store', [JurusanController::class, 'store'])->name('store')->middleware('admin'); // admin
+            Route::get('{jurusan}', [JurusanController::class, 'show'])->name('show')->middleware('admin'); // admin
+            Route::put('{jurusan}', [JurusanController::class, 'update'])->name('update')->middleware('admin'); // admin
+            Route::delete('{jurusan}', [JurusanController::class, 'destroy'])->name('destroy')->middleware('admin'); // admin
         });
 
-        
+
 
         Route::prefix('dosen')->name('dosen.')->group(function(){
             Route::get('', [DosenController::class, 'index'])->name('index')->middleware('admin'); //admin
