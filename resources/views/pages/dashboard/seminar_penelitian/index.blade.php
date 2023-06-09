@@ -15,6 +15,7 @@
             <thead>
               <tr>
                 <th>No</th>
+                <th>Mahasiswa</th>
                 <th>Tugas Akhir</th>
                 <th>Tempat</th>
                 <th>Tanggal</th>
@@ -27,6 +28,7 @@
             @if ($seminarPenelitian->nilai_akhir)
             <tr class="bg-primary">
                 <td>{{ $loop->iteration }}</td>
+                <td>{{ $seminarPenelitian->tugas_akhir->mahasiswa->user->nama }}</td>
                 <td>{{ $seminarPenelitian->tugas_akhir->judul }}</td>
                 <td>{{ $seminarPenelitian->tempat }}</td>
                 <td>{{ $seminarPenelitian->tanggal }}</td>
@@ -36,6 +38,7 @@
             @else
             <tr class="bg-warning">
                 <td>{{ $loop->iteration }}</td>
+                <td>{{ $seminarPenelitian->tugas_akhir->mahasiswa->user->nama }}</td>
                 <td>{{ $seminarPenelitian->tugas_akhir->judul }}</td>
                 <td>{{ $seminarPenelitian->tempat }}</td>
                 <td>{{ $seminarPenelitian->tanggal }}</td>

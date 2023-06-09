@@ -30,7 +30,7 @@
                 <tr class="bg-primary">
                     <td>{{ $loop->iteration }}</td>
                     {{-- <td><a href="{{ route('seminar-proposal.show', ['seminarProposal' => $seminarProposal->id]) }}">{{ $seminarProposal->tugas_akhir->mahasiswa->user->nama }}</a></td> --}}
-                    <td>{{ $seminarProposal->tugas_akhir->mahasiswa->user->nama }}</a></td>
+                    <td>{{ $seminarProposal->tugas_akhir->mahasiswa->user->nama }}</td>
                     <td>{{ $seminarProposal->tugas_akhir->judul }}</td>
                     <td>{{ $seminarProposal->tempat }}</td>
                     <td>{{ $seminarProposal->tanggal }}</td>
