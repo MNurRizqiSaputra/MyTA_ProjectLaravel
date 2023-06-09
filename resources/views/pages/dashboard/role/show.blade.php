@@ -18,7 +18,7 @@
         <div class="col-12">
             <form action="{{ route('role.update', ['role' => $role->id]) }}" method="POST" enctype="multipart/form-data">
                 @method('PUT')
-                @include('pages.dashboard.role.form', ['tombol' => 'Edit'])
+                @include('pages.dashboard.role.form', ['tombol' => 'Simpan'])
             </form>
         </div>
     </div>
