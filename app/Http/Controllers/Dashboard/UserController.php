@@ -86,16 +86,33 @@ class UserController extends Controller
         $request->validate([
             'nama' => 'required',
             'email' => 'required|email|unique:users,email,' . $user->id,
-            'password' => 'nullable|min:8',
+            'tanggal_lahir' => 'required|date',
             'role_id' => 'required',
         ]);
 
-        $user->update([
-            'nama' => $request->nama,
-            'email' => $request->email,
-            'password' => $request->password ? bcrypt($request->password) : $user->password,
-            'role_id' => $request->role_id,
-        ]);
+        if($request->password) {
+            $password = bcrypt($request->password);
+        } else {
+            $password = $user->password;
+        }
+
+        if ($request->tanggal_lahir != $user->tanggal_lahir) {
+            //jika tanggal lahir diupdate maka update tanggal lahir saja
+            $user->update([
+                'nama' => $request->nama,
+                'email' => $request->email,
+                'tanggal_lahir' => $request->tanggal_lahir,
+                'role_id' => $request->role_id,
+            ]);
+        } else {
+            //jika password diupdate maka update password
+            $user->update([
+                'nama' => $request->nama,
+                'email' => $request->email,
+                'password' => $password,
+                'role_id' => $request->role_id,
+            ]);
+        }
 
         if ($request->role_id == Role::where('nama', 'dosen')->first()->id) {
             // Periksa apakah user tersebut sudah memiliki data di tabel dosen
