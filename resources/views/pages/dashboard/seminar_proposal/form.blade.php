@@ -20,7 +20,7 @@
 
     <div class="row">
         <div class="col mb-3">
-            <label for="file" class="form-label">file</label>
+            <label for="file" class="form-label">File</label>
             <input type="text" class="form-control" value="{{ basename($tugasAkhir->file) }}" readonly>
         </div>
     </div>
@@ -50,7 +50,7 @@
 
     <div class="row">
         <div class="col mb-3">
-            <label for="tanggal" class="form-label">tanggal</label>
+            <label for="tanggal" class="form-label">Tanggal</label>
             @if (Auth::user()->role->nama == 'admin')
                 <input type="date" name="tanggal" class="form-control" value="{{ old('tanggal') ?? ($seminarProposal->tanggal ?? '') }}" required>
             @else
@@ -90,7 +90,7 @@
     {{-- dosen penguji --}}
     <div class="row">
         <div class="col mb-3">
-            <label for="nilai_akhir" class="form-label">Nilai akhir</label>
+            <label for="nilai_akhir" class="form-label">Nilai Akhir</label>
             @if (Auth::user()->role->nama == 'admin' || Auth::user()->mahasiswa)
                 <input type="number" name="nilai_akhir" class="form-control" value="{{ old('nilai_akhir') ?? ($seminar_proposal->nilai_akhir ?? '') }}" readonly>
             @else
@@ -126,7 +126,7 @@
 
     <div class="row">
         <div class="col mb-3">
-            <label for="file" class="form-label">file</label>
+            <label for="file" class="form-label">File</label>
             <input type="text" class="form-control" value="{{ basename($seminarProposal->tugas_akhir->file) }}" readonly>
         </div>
     </div>
@@ -155,7 +155,7 @@
 
     <div class="row">
         <div class="col mb-3">
-            <label for="tanggal" class="form-label">tanggal</label>
+            <label for="tanggal" class="form-label">Tanggal</label>
             @if (Auth::user()->role->nama == 'admin')
                 <input type="date" name="tanggal" class="form-control" value="{{ old('tanggal') ?? ($seminarProposal->tanggal ?? '') }}" required>
             @else
@@ -194,7 +194,7 @@
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" name="dosen_penguji_id[]"  value="{{ $dosenSeminarProposal->id }}" {{ in_array($dosenSeminarProposal->id, $selectedDosenProposal) ? 'checked' : '' }}>
 
-                        <label class="form-check-label" for="dosen_penguji_{{ $dosenSeminarProposal->id }}">{{ $dosenSeminarProposal->dosen->user->nama }}</label>
+                        <label class="form-check-label" for="dosenpenguji{{ $dosenSeminarProposal->id }}">{{ $dosenSeminarProposal->dosen->user->nama }}</label>
                     </div>
                 @endforeach
             @else
@@ -202,7 +202,7 @@
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" name="dosen_penguji_id[]"  value="{{ $dosenSeminarProposal->id }}" {{ in_array($dosenSeminarProposal->dosen_penguji->id, $selectedDosenProposal) ? 'checked' : '' }}>
 
-                        <label class="form-check-label" for="dosen_penguji_{{ $dosenSeminarProposal->id }}">{{ $dosenSeminarProposal->dosen_penguji->dosen->user->nama }}</label>
+                        <label class="form-check-label" for="dosenpenguji{{ $dosenSeminarProposal->id }}">{{ $dosenSeminarProposal->dosen_penguji->dosen->user->nama }}</label>
                     </div>
                 @endforeach
             @endif
@@ -211,7 +211,7 @@
 
     <div class="row">
         <div class="col mb-3">
-            <label for="nilai_akhir" class="form-label">Nilai akhir</label>
+            <label for="nilai_akhir" class="form-label">Nilai Akhir</label>
             <input type="number" name="nilai_akhir" class="form-control" value="{{ old('nilai_akhir') ?? ($seminarProposal->nilai_akhir ?? '') }}" readonly>
             @error('nilai_akhir')
                 <span class="invalid-feedback" role="alert">

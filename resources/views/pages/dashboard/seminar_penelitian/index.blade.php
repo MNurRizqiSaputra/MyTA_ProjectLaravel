@@ -15,6 +15,7 @@
             <thead>
               <tr>
                 <th>No</th>
+                <th>Mahasiswa</th>
                 <th>Tugas Akhir</th>
                 <th>Tempat</th>
                 <th>Tanggal</th>
@@ -25,22 +26,24 @@
         <tbody>
             @foreach ($seminarPenelitians as $seminarPenelitian)
             @if ($seminarPenelitian->nilai_akhir)
-            <tr class="bg-primary">
+            <tr class="bg-light">
                 <td>{{ $loop->iteration }}</td>
+                <td>{{ $seminarPenelitian->tugas_akhir->mahasiswa->user->nama }}</td>
                 <td>{{ $seminarPenelitian->tugas_akhir->judul }}</td>
                 <td>{{ $seminarPenelitian->tempat }}</td>
                 <td>{{ $seminarPenelitian->tanggal }}</td>
                 <td>{{ $seminarPenelitian->waktu }}</td>
-                <td><a href="{{ route('seminar-penelitian.show', ['seminarPenelitian' => $seminarPenelitian->id]) }}">Edit</a></td>
+                <td><a href="{{ route('seminar-penelitian.show', ['seminarPenelitian' => $seminarPenelitian->id]) }}" class="btn btn-warning">Edit</a></td>
             </tr>
             @else
-            <tr class="bg-warning">
+            <tr class="bg-danger">
                 <td>{{ $loop->iteration }}</td>
+                <td>{{ $seminarPenelitian->tugas_akhir->mahasiswa->user->nama }}</td>
                 <td>{{ $seminarPenelitian->tugas_akhir->judul }}</td>
                 <td>{{ $seminarPenelitian->tempat }}</td>
                 <td>{{ $seminarPenelitian->tanggal }}</td>
                 <td>{{ $seminarPenelitian->waktu }}</td>
-                <td><a href="{{ route('seminar-penelitian.show', ['seminarPenelitian' => $seminarPenelitian->id]) }}">Edit</a></td>
+                <td><a href="{{ route('seminar-penelitian.show', ['seminarPenelitian' => $seminarPenelitian->id]) }}" class="btn btn-warning">Edit</a></td>
             </tr>
             @endif
             @endforeach

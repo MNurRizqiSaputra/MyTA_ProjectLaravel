@@ -11,7 +11,7 @@
             <h2 class="content-title">Jurusan</h2>
             @auth
                 @if (Auth::user()->role->nama == 'admin')
-                    <a href="{{ route('jurusan.create') }}">Tambah</a>
+                    <a href="{{ route('jurusan.create') }}" class="btn btn-primary mb-2">Tambah</a>
                 @endif
             @endauth
         </div>
@@ -30,11 +30,11 @@
                 <td>{{ $loop->iteration }}</td>
                 <td>{{ $jurusan->nama }}</td>
                 <td class="d-flex gap-2">
-                    <a href="{{ route('jurusan.show', ['jurusan' => $jurusan->id]) }}" class="btn btn-warning">Detail</a>
+                    <a href="{{ route('jurusan.show', ['jurusan' => $jurusan->id]) }}" class="btn btn-warning">Edit</a>
                     <form action="{{ route('jurusan.destroy', ['jurusan' => $jurusan->id]) }}" method="post">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="btn btn-danger">hapus</button>
+                        <button type="submit" class="btn btn-danger">Hapus</button>
                     </form>
                 </td>
             </tr>
