@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('nama');
             $table->string('email')->unique();
             $table->string('password');
+            $table->date('tanggal_lahir')->nullable();
             $table->foreignId('role_id')->constrained()->cascadeOnUpdate();
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();

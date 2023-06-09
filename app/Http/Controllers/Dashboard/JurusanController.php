@@ -16,53 +16,38 @@ class JurusanController extends Controller
 
     public function create()
     {
-        return view('pages.dashboard.jurusan.create', [
-            'jurusans' => Jurusan::all(),
-        ]);
+        return view('pages.dashboard.jurusan.create');
     }
 
     public function store(Request $request)
     {
-        $request->validate([
-            'nama' => 'required',
+        $validated = $request->validate([
+            'nama' => 'required|string|unique:jurusans,nama'
         ]);
 
-        Jurusan::create([
-            'nama' => $request->input('nama'),
-        ]);
-
-        return redirect()->back()->with('success', 'Data user berhasil ditambahkan.');
+        Jurusan::create($validated);
+        return redirect()->route('jurusan.index');
     }
 
-    public function edit($id)
+    public function show(Jurusan $jurusan)
     {
-        $jurusan = Jurusan::findOrFail($id);
-
-        return view('pages.dashboard.jurusan.edit', compact('jurusan'));
+        return view('pages.dashboard.jurusan.show', [
+            'jurusan' => $jurusan
+        ]);
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, Jurusan $jurusan)
     {
-        $jurusan = Jurusan::findOrFail($id);
-
-        $request->validate([
-            'nama' => 'required',
+        $validated = $request->validate([
+            'nama' => 'required|string|unique:jurusans,nama'
         ]);
-
-        $jurusan->update([
-            'nama' => $request->input('nama'),
-        ]);
-
-        return redirect()->back()->with('success', 'Data user berhasil ditambahkan.');
+        $jurusan->update($validated);
+        return redirect()->route('jurusan.index');
     }
 
-    public function destroy(Request $request)
+    public function destroy(Jurusan $jurusan)
     {
-        $jurusanId = $request->input('jurusan_id');
-        $jurusan = Jurusan::findOrfail($jurusanId);
-
         $jurusan->delete();
-
-        return redirect()->back()->with('success', 'Data berhasil dihapus.');
+        return redirect()->route('jurusan.index');
     }
 }
