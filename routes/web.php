@@ -138,4 +138,3 @@ Auth::routes();
 
 // Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/', [FrontendController::class, 'index'])->name('frontend.home');
-Route::get('/profile', [MenuProfileController::class, 'index'])->name('frontend.menuprofile.index');

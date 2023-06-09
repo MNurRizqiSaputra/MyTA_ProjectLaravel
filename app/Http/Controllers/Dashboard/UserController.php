@@ -37,17 +37,23 @@ class UserController extends Controller
         $request->validate([
             'nama' => 'required',
             'email' => 'required|email|unique:users,email',
-            'password' => 'required',
+            'tanggal_lahir' => 'required|date',
             'role_id' => 'required|exists:roles,id',
         ]);
 
-        // Tambahkan data user
-        $user = User::create([
+        $data = [
             'nama' => $request->input('nama'),
             'email' => $request->input('email'),
-            'password' => bcrypt($request->input('password')),
             'role_id' => $request->input('role_id'),
-        ]);
+        ];
+
+        if($request->has('tanggal_lahir')) {
+            $data['tanggal_lahir'] = $request->input('tanggal_lahir');
+            $data['password'] = bcrypt($request->input('tanggal_lahir'));
+        }
+
+        // Tambahkan data user
+        $user = User::create($data);
 
         // Cek role_id
         if ($user->role_id == ($user->role->nama == 'dosen')) {
@@ -62,7 +68,9 @@ class UserController extends Controller
             ]);
         }
 
-        return redirect()->back()->with('success', 'Data user berhasil ditambahkan.');
+        $user->save();
+
+        return redirect()->route('user.index')->with('success', 'Data user berhasil ditambahkan.');
     }
 
     public function show(User $user)
