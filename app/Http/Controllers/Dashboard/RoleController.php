@@ -21,48 +21,33 @@ class RoleController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'nama' => 'required'
+        $validated = $request->validate([
+            'nama' => 'required|string|unique:roles,nama'
         ]);
 
-        $role = Role::create([
-            'nama' => $request->input('nama')
-        ]);
-
-        $role->save();
-
-        return redirect()->route('role.index')->with('success', 'Data berhasil ditambah');
+        Role::create($validated);
+        return redirect()->route('role.index');
     }
 
-    public function edit($id)
+    public function show(Role $role)
     {
-        $role = Role::findOrFail($id);
-
-        return view('pages.dashboard.role.edit', compact('role'));
+        return view('pages.dashboard.role.show', [
+            'role' => $role
+        ]);
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, Role $role)
     {
-        $role = Role::findOrFail($id);
-
-        $request->validate([
-            'nama' => 'required'
+        $validated = $request->validate([
+            'nama' => 'required|string|unique:roles,nama'
         ]);
-
-        $role->update([
-            'nama' => $request->input('nama')
-        ]);
-
-        return redirect()->route('role.index')->with('success', 'Data berhasil perbarui');
+        $role->update($validated);
+        return redirect()->route('role.index');
     }
 
-    public function destroy(Request $request)
+    public function destroy(Role $role)
     {
-        $roleId = $request->input('role_id');
-        $role = Role::findOrFail($roleId);
-
         $role->delete();
-
-        return redirect()->route('role.index')->with('success', 'Data berhasil dihapus');
+        return redirect()->route('role.index');
     }
 }

@@ -38,7 +38,12 @@
             <label for="role_id" class="form-label">Role</label>
             <select name="role_id" id="role_id" class="form-select @error('role_id') is-invalid @enderror">
                 @foreach ($roles as $role)
-                    <option value="{{ $role->id }}"> {{ $role->nama }} </option>
+
+                    @if ($role->id == (old('role_id') ?? ($user->role_id ?? '')))
+                        <option value="{{ $role->id }}" selected> {{ $role->nama }} </option>
+                    @else
+                        <option value="{{ $role->id }}"> {{ $role->nama }} </option>
+                    @endif
                 @endforeach
             </select>
             @error('role_id')

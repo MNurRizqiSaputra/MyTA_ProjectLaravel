@@ -67,12 +67,14 @@ class SeminarPenelitianController extends Controller
         $seminarProposal = $tugasAkhir->seminar_proposal;
 
         // periksa nilai seminar proposal
-        if ($seminarProposal->nilai_akhir) {
+        if (!isset($seminarProposal->nilai_akhir)) {
+            return redirect()->back()->with('error', 'Mohon Maaf, Harap lengkapi penilaian Seminar Proposal Anda');
+        }
+        elseif ($seminarProposal->nilai_akhir) {
             return view('pages.dashboard.seminar_penelitian.create', [
                 'tugasAkhir' => $tugasAkhir
             ]);
         }
-        return redirect()->back()->with('error', 'Mohon Maaf, Harap lengkapi penilaian Seminar Proposal Anda');
     }
 
     public function store(Request $request)

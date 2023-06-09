@@ -10,9 +10,9 @@
         <div class="col-12">
             <h2 class="content-title">Roles</h2>
             @auth
-            @if (Auth::user()->role->nama == 'admin')
-            <a href="{{ route('role.create') }}" class="btn btn-primary mb-2">Tambah</a>
-            @endif
+              @if (Auth::user()->role->nama == 'admin')
+                <a href="{{ route('role.create') }}" class="btn btn-primary mb-2">Tambah</a>
+              @endif
             @endauth
         </div>
 
@@ -21,7 +21,7 @@
               <tr>
                 <th>No</th>
                 <th>Nama</th>
-                <th>Action</th>
+                <th>Aksi</th>
             </tr>
         </thead>
         <tbody>
@@ -30,6 +30,7 @@
                 <td>{{ $loop->iteration }}</td>
                 <td>{{ $role->nama }}</td>
                 <td>
+                    <a href="{{ route('role.show', ['role' => $role->id]) }}" class="btn btn-warning">Detail</a>
                     <a href="{{ url('dashboard/role/edit/'.$role->id) }}" class="btn btn-warning rounded border-0">Edit</a>
                     <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{$role->id}}">Hapus</button>
                 </td>
@@ -46,7 +47,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <form action="{{ route('role.destroy', ['id' => $role->id]) }}" method="POST">
+                            <form action="{{ route('role.destroy', ['role' => $role->id]) }}" method="POST">
                                 @csrf
                                 @method('DELETE')
                                 <input type="hidden" name="role_id" value="{{ $role->id }}">

@@ -3,7 +3,7 @@
     <div class="row">
         <div class="col mb-3">
             <label for="nama" class="form-label">Nama</label>
-            <input type="text" id="nama" class="form-control @error('nama') is-invalid @enderror" name="nama" placeholder="Nama Jurusan" value="{{ old('nama') ?? ($jurusan->nama ?? '') }}" required>
+            <input type="text" name="nama" id="nama" class="form-control" value="{{ old('nama') ?? ($jurusan->nama ?? '') }}">
             @error('nama')
                 <span class="invalid-feedback" role="alert">
                     <strong>{{ $message }}</strong>

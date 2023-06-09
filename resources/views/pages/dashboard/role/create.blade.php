@@ -11,12 +11,12 @@
                     <li class="breadcrumb-item">
                         <a href="{{ route('role.index') }}">Role</a>
                     </li>
-                    <li class="breadcrumb-item active">Tambah Roles</li>
+                    <li class="breadcrumb-item active">Tambah Data</li>
                 </ol>
             </nav>
         </div>
         <div class="col-12">
-            <form action="{{ route('role.store') }}" method="POST">
+            <form action="{{ route('role.store') }}" method="POST" enctype="multipart/form-data">
                 @include('pages.dashboard.role.form', ['tombol' => 'Add'])
             </form>
         </div>

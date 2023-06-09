@@ -42,6 +42,13 @@
 
     <div class="row">
         <div class="col mb-3">
+            <label for="dosen_pembimbing" class="form-label">Dosen Pembimbing</label>
+            <input type="text" class="form-control" value="{{ $tugasAkhir->dosen_pembimbing->dosen->user->nama ?? '' }}" readonly>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col mb-3">
             <label for="status_persetujuan" class="form-label">Status Persetujuan</label>
             @auth
 
