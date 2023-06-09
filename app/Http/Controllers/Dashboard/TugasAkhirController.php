@@ -80,8 +80,8 @@ class TugasAkhirController extends Controller
             return redirect()->route('tugas-akhir.index')->with('error', 'Anda sudah memiliki tugas akhir.');
         } else {
             // menambahkan data dosen pembimbing secara acak
-            $dosenPembimbingCount = DosenPembimbing::count();
-            $dosenId = rand(1, $dosenPembimbingCount);
+            $dosenPembimbingCount = array(DosenPembimbing::count());
+            $dosenId = $dosenPembimbingCount[array_rand($dosenPembimbingCount)];
 
             // Simpan file tugas akhir
             // $path = $request->file('file')->store('tugas-akhir', 'public');
