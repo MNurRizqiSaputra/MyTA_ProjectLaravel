@@ -31,7 +31,6 @@
                 <td>{{ $role->nama }}</td>
                 <td>
                     <a href="{{ route('role.show', ['role' => $role->id]) }}" class="btn btn-warning">Detail</a>
-                    <a href="{{ url('dashboard/role/edit/'.$role->id) }}" class="btn btn-warning rounded border-0">Edit</a>
                     <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{$role->id}}">Hapus</button>
                 </td>
                 <!-- Modal -->
