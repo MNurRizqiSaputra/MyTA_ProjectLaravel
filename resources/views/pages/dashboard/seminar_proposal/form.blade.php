@@ -83,7 +83,6 @@
     <div class="row">
         <div class="col mb-3">
             <label for="dosen_penguji_id" class="form-label">Dosen Penguji:</label>
-
         </div>
     </div>
 

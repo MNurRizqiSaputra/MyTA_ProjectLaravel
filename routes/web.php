@@ -28,7 +28,7 @@ Route::prefix("dashboard")
         Route::get("/overview", [DashboardController::class, "index"])->name("dashboard");
 
         Route::prefix('user')->name('user.')->group(function(){
-            Route::get('', [UserController::class, 'index'])->name('index')->middleware('admin'); // all users
+            Route::get('', [UserController::class, 'index'])->name('index')->middleware('admin'); // admin
             Route::get('create', [UserController::class, 'create'])->name('create')->middleware('admin'); // admin
             Route::post('store', [UserController::class, 'store'])->name('store')->middleware('admin'); // admin
             Route::get('{user}', [UserController::class, 'show'])->name('show')->middleware('admin'); //admin
@@ -53,8 +53,6 @@ Route::prefix("dashboard")
             Route::put('{jurusan}', [JurusanController::class, 'update'])->name('update')->middleware('admin'); // admin
             Route::delete('{jurusan}', [JurusanController::class, 'destroy'])->name('destroy')->middleware('admin'); // admin
         });
-
-
 
         Route::prefix('dosen')->name('dosen.')->group(function(){
             Route::get('', [DosenController::class, 'index'])->name('index')->middleware('admin'); //admin
@@ -84,8 +82,8 @@ Route::prefix("dashboard")
             Route::get('', [TugasAkhirController::class, 'index'])->name('index')->middleware('adminOrDosen'); // admin, dosen
             Route::get('create', [TugasAkhirController::class, 'create'])->name('create')->middleware('adminOrMahasiswa'); // admin, mahasiswa
             Route::post('store', [TugasAkhirController::class, 'store'])->name('store')->middleware('adminOrMahasiswa'); // admin, mahasiswa
-            Route::get('detail/{tugasAkhir}', [TugasAkhirController::class, 'show'])->name('show'); // admin, mahasiswa
-            Route::put('{tugasAkhir}', [TugasAkhirController::class, 'update'])->name('update'); // admin, mahasiswa
+            Route::get('detail/{tugasAkhir}', [TugasAkhirController::class, 'show'])->name('show');
+            Route::put('{tugasAkhir}', [TugasAkhirController::class, 'update'])->name('update');
         });
 
         Route::prefix('seminar-proposal')->name('seminar-proposal.')->group(function(){

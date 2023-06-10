@@ -28,14 +28,29 @@
                     <div class="mb-3 col-md-6">
                         <label for="nim" class="form-label">NIM</label>
                         <input class="form-control" type="number" id="nim" name="nim" value="{{ old('nim') ?? ($mahasiswa->nim ?? '') }}" required>
+                        @error('nim')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
                     </div>
                     <div class="mb-3 col-md-6">
                         <label for="nama" class="form-label">Nama Lengkap</label>
                         <input class="form-control" type="text" id="nama" name="nama" value="{{ old('nama') ?? ($mahasiswa->user->nama ?? '') }}" required>
+                        @error('nama')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
                     </div>
                     <div class="mb-3 col-md-6">
                         <label for="email" class="form-label">E-mail</label>
                         <input class="form-control" type="text" id="email" name="email" value="{{ old('email') ?? ($mahasiswa->user->email ?? '') }}" placeholder="john.doe@example.com" required>
+                        @error('email')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
                     </div>
                     <div class="mb-3 col-md-6">
                         <label for="jurusan" class="form-label">Jurusan</label>
@@ -53,6 +68,11 @@
                                     </option>
                                 @endif
                             @endforeach
+                            @error('jurusan_id')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </select>
                     </div>
                 </div>

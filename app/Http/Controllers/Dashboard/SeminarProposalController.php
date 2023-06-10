@@ -49,7 +49,8 @@ class SeminarProposalController extends Controller
             ]);
         } else {
             $dosenSeminarProposals = $seminarProposal->seminar_proposal_nilais()->with('dosen_penguji.dosen.user')->get();
-            $selectedDosenProposal = $seminarProposal->seminar_proposal_nilais()->pluck('dosen_penguji_id')->all();
+            // $selectedDosenProposal = $seminarProposal->seminar_proposal_nilais()->pluck('dosen_penguji_id')->all();
+            $selectedDosenProposal = $seminarProposal->seminar_proposal_nilais->pluck('dosen_penguji_id')->all();
 
             return view('pages.dashboard.seminar_proposal.show', [
                 'seminarProposal' => $seminarProposal,
@@ -70,7 +71,7 @@ class SeminarProposalController extends Controller
                 'tugasAkhir' => $mahasiswa->tugas_akhir
             ]);
         }
-        return redirect()->back()->with('error', 'Mohon Maaf, Harap lengkapi Tugas Akhir Anda');
+        return redirect()->back()->with('error', 'Mohon Maaf, Tugas Akhir Anda belum disetujui');
 
     }
 
