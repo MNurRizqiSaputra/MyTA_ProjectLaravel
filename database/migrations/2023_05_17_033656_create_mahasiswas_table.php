@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('mahasiswas', function (Blueprint $table) {
             $table->id();
             $table->char('nim', 10)->nullable()->unique();
+            $table->char('nohp', 15)->nullable();
             $table->text('foto')->nullable();
             $table->foreignId('user_id')->constrained()->cascadeOnUpdate();
             $table->foreignId('jurusan_id')->nullable()->constrained()->cascadeOnUpdate();

@@ -22,13 +22,10 @@
                 @if (Auth::check())
                 <li>
                     <div class="dropdown">
-                        <a class="getstarted scrollto dropdown-toggle" href="#" role="button" id="dropdownMenuProfile" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="getstarted scrollto dropdown-toggle overflow-hidden" href="#" role="button" id="dropdownMenuProfile" data-bs-toggle="dropdown" aria-expanded="false">
                             Hello! {{ Auth::user()->nama }}
                         </a>
                         <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuProfile">
-                            <li>
-                                <a href="{{ route('frontend.menuprofile.index') }}" class="dropdown-item"><i class="ri-user-fill mr-1"></i>Profile</a>
-                            </li>
                             <li>
                                 <a class="" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="bx bx-power-off"></i>{{ __('Logout') }}
                                 </a>

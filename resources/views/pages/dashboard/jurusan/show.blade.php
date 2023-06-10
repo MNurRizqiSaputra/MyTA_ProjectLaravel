@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 @section('title')
-    Tambah Jurusan
+    Detail Jurusan
 @endsection
 @section('content')
 <div class="content">
@@ -11,13 +11,14 @@
                     <li class="breadcrumb-item">
                         <a href="{{ route('jurusan.index') }}">Jurusan</a>
                     </li>
-                    <li class="breadcrumb-item active">Tambah Data</li>
+                    <li class="breadcrumb-item active">Detail Data</li>
                 </ol>
             </nav>
         </div>
         <div class="col-12">
-            <form action="{{ route('jurusan.store') }}" method="POST" enctype="multipart/form-data">
-                @include('pages.dashboard.jurusan.form', ['tombol' => 'Add'])
+            <form action="{{ route('jurusan.update', ['jurusan' => $jurusan->id]) }}" method="POST" enctype="multipart/form-data">
+                @method('PUT')
+                @include('pages.dashboard.jurusan.form', ['tombol' => 'Edit'])
             </form>
         </div>
     </div>
