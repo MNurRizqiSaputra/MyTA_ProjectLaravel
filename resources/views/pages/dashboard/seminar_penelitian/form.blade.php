@@ -194,7 +194,7 @@
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" name="dosen_penguji_[]"  value="{{ $dosenSeminarPenelitian->id }}" {{ in_array($dosenSeminarPenelitian->id, $selectedDosenPenelitian) ? 'checked' : '' }}>
 
-                        <label class="form-check-label" for="dosen_penguji_{{ $dosenSeminarPenelitian->id }}">{{ $dosenSeminarPenelitian->dosen->user->nama }}</label>
+                        <label class="form-check-label" for="dosen_penguji_{{ $dosenSeminarPenelitian->id }}">{{ $dosenSeminarPenelitian->nama }}</label>
                     </div>
                 @endforeach
             @else

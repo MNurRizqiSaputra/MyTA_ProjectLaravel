@@ -14,16 +14,9 @@ class MahasiswaController extends Controller
 {
     public function index()
     {
-        $mahasiswas = DB::table('mahasiswas')
-        ->join('jurusans', 'mahasiswas.jurusan_id', '=', 'jurusans.id')
-        ->join('users', 'mahasiswas.user_id', '=', 'users.id')
-        ->select(
-            'mahasiswas.id as id',
-            'mahasiswas.nim as nim',
-            'users.nama as nama',
-            'users.email as email',
-            'jurusans.nama as jurusan'
-        )->orderBy('users.nama')->get();
+
+        $mahasiswas = Mahasiswa::with('user')->join('users', 'mahasiswas.user_id', '=', 'users.id')->orderBy('users.nama')->get();
+
         return view('pages.dashboard.mahasiswa.index', [
             'mahasiswas' => $mahasiswas,
         ]);

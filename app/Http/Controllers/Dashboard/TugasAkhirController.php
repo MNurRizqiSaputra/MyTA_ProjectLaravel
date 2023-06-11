@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use App\Models\DosenPembimbing;
-use App\Models\Mahasiswa;
 use App\Models\TugasAkhir;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -13,18 +12,13 @@ class TugasAkhirController extends Controller
 {
     public function index()
     {
-        if (Auth::user()->role->nama == 'mahasiswa') {
-            $mahasiswaId = Auth::user()->mahasiswa->id; // get id mahasiswa yang login
-            $tugasAkhir = TugasAkhir::where('mahasiswa_id', $mahasiswaId)->get();
-        }
-
-        elseif (Auth::user()->role->nama == 'dosen' && Auth::user()->dosen->dosen_pembimbings->pluck('id')){
+        if (Auth::user()->dosen && Auth::user()->dosen->dosen_pembimbings->pluck('id')){
             $dosenPembimbingId = Auth::user()->dosen->dosen_pembimbings->pluck('id'); // get id dosen pembimbing yang login
-            $tugasAkhir = TugasAkhir::where('dosen_pembimbing_id', $dosenPembimbingId)->get();
+            $tugasAkhir = TugasAkhir::where('dosen_pembimbing_id', $dosenPembimbingId)->orderByDesc('created_at')->get();
         }
 
         else {
-            $tugasAkhir = TugasAkhir::all();
+            $tugasAkhir = TugasAkhir::orderByDesc('created_at')->get();
         }
 
         return view('pages.dashboard.tugas_akhir.index', [

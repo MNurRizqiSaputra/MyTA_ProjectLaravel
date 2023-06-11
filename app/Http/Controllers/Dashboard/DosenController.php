@@ -12,7 +12,7 @@ class DosenController extends Controller
     public function index()
     {
         return view('pages.dashboard.dosen.index', [
-        'dosens' => Dosen::all(),
+        'dosens' => Dosen::with('user')->join('users', 'dosens.user_id', '=', 'users.id')->orderBy('users.nama')->get(),
         ]);
     }
     public function show(Dosen $dosen)

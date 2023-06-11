@@ -14,7 +14,7 @@ class SidangAkhirNilaiController extends Controller
     public function index()
     {
         return view('pages.dashboard.sidang_akhir_nilai.index', [
-            'sidang_akhir_nilais' => SidangAkhirNilai::all(),
+            'sidang_akhir_nilais' => SidangAkhirNilai::orderByDesc('created_at')->get(),
         ]);
     }
 

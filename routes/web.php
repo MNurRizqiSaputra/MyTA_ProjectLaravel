@@ -19,7 +19,6 @@ use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\Frontend\MenuProfileController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
 
 
 Route::prefix("dashboard")
@@ -87,12 +86,11 @@ Route::prefix("dashboard")
         });
 
         Route::prefix('seminar-proposal')->name('seminar-proposal.')->group(function(){
-            Route::get('', [SeminarProposalController::class, 'index'])->name('index')->middleware('adminOrDosen'); // admin, dosen
-            Route::get('detail/{seminarProposal}', [SeminarProposalController::class, 'show'])->name('show'); // all
-            Route::get('create', [SeminarProposalController::class, 'create'])->name('create')->middleware('mahasiswa'); // mahasiswa
-            Route::post('store', [SeminarProposalController::class, 'store'])->name('store'); //
-            // Route::get('edit/{seminarProposal}', [SeminarProposalController::class, 'edit'])->name('edit'); // admin
-            Route::put('{seminarProposal}', [SeminarProposalController::class, 'update'])->name('update'); //
+            Route::get('', [SeminarProposalController::class, 'index'])->name('index')->middleware('adminOrDosen');
+            Route::get('detail/{seminarProposal}', [SeminarProposalController::class, 'show'])->name('show');
+            Route::get('create', [SeminarProposalController::class, 'create'])->name('create')->middleware('mahasiswa');
+            Route::post('store', [SeminarProposalController::class, 'store'])->name('store')->middleware('mahasiswa');
+            Route::put('{seminarProposal}', [SeminarProposalController::class, 'update'])->name('update');
         });
 
         Route::prefix('seminar-proposal-nilai')->name('seminar-proposal-nilai.')->group(function(){
@@ -105,8 +103,7 @@ Route::prefix("dashboard")
             Route::get('', [SeminarPenelitianController::class, 'index'])->name('index')->middleware('adminOrDosen'); // admin dosen
             Route::get('detail/{seminarPenelitian}', [SeminarPenelitianController::class, 'show'])->name('show'); //
             Route::get('create', [SeminarPenelitianController::class, 'create'])->name('create')->middleware('mahasiswa'); //
-            Route::post('store', [SeminarPenelitianController::class, 'store'])->name('store'); //
-            // Route::get('edit/{seminarPenelitian}', [SeminarPenelitianController::class, 'edit'])->name('edit'); //
+            Route::post('store', [SeminarPenelitianController::class, 'store'])->name('store')->middleware('mahasiswa'); // mahasiswa
             Route::put('{seminarPenelitian}', [SeminarPenelitianController::class, 'update'])->name('update');
         });
 
@@ -120,8 +117,7 @@ Route::prefix("dashboard")
             Route::get('', [SidangAkhirController::class, 'index'])->name('index')->middleware('adminOrDosen'); // admin dosen
             Route::get('detail/{sidangAkhir}', [SidangAkhirController::class, 'show'])->name('show'); //
             Route::get('create', [SidangAkhirController::class, 'create'])->name('create')->middleware('mahasiswa'); //
-            Route::post('store', [SidangAkhirController::class, 'store'])->name('store'); //
-            // Route::get('edit/{sidangAkhir}', [SidangAkhirController::class, 'edit'])->name('edit'); //
+            Route::post('store', [SidangAkhirController::class, 'store'])->name('store')->middleware('mahasiswa'); // mahasiswa
             Route::put('{sidangAkhir}', [SidangAkhirController::class, 'update'])->name('update'); //
         });
 
@@ -134,6 +130,5 @@ Route::prefix("dashboard")
 
 Auth::routes();
 
-// Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/', [FrontendController::class, 'index'])->name('frontend.home');
 Route::get('/profile', [MenuProfileController::class, 'index'])->name('frontend.menuprofile.index');

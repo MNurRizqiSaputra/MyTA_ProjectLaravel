@@ -10,7 +10,7 @@ class JurusanController extends Controller
     public function index()
     {
         return view('pages.dashboard.jurusan.index', [
-            'jurusans' => Jurusan::all(),
+            'jurusans' => Jurusan::orderBy('nama')->get(),
         ]);
     }
 

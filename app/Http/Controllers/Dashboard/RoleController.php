@@ -10,7 +10,7 @@ class RoleController extends Controller
     public function index()
     {
         return view('pages.dashboard.role.index', [
-            'roles' => Role::all(),
+            'roles' => Role::orderBy('nama')->get(),
         ]);
     }
 
