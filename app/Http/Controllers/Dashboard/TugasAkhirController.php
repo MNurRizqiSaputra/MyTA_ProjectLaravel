@@ -14,14 +14,12 @@ class TugasAkhirController extends Controller
     public function index()
     {
         if (Auth::user()->role->nama == 'mahasiswa') {
-            // get id mahasiswa yang login
-            $mahasiswaId = Auth::user()->mahasiswa->id;
+            $mahasiswaId = Auth::user()->mahasiswa->id; // get id mahasiswa yang login
             $tugasAkhir = TugasAkhir::where('mahasiswa_id', $mahasiswaId)->get();
         }
 
         elseif (Auth::user()->role->nama == 'dosen' && Auth::user()->dosen->dosen_pembimbings->pluck('id')){
-            // get id dosen pembimbing yang login
-            $dosenPembimbingId = Auth::user()->dosen->dosen_pembimbings->pluck('id');
+            $dosenPembimbingId = Auth::user()->dosen->dosen_pembimbings->pluck('id'); // get id dosen pembimbing yang login
             $tugasAkhir = TugasAkhir::where('dosen_pembimbing_id', $dosenPembimbingId)->get();
         }
 
@@ -36,18 +34,18 @@ class TugasAkhirController extends Controller
 
     public function show(TugasAkhir $tugasAkhir)
     {
-        if (Auth::user()->role->nama === 'dosen') {
-            $selectedDosenPembimbing = $tugasAkhir->with('dosen_pembimbing.dosen.user')->get();
-            // Pemeriksaan apakah dosen pembimbing yang terkait dengan tugas akhir tersebut
+        if (Auth::user()->dosen) {
+            $selectedDosenPembimbing = $tugasAkhir->dosen_pembimbing; // mendapatkan data dosen pembimbing terkait.
             $dosenPembimbingId = Auth::user()->dosen->dosen_pembimbings->pluck('id')->toArray();
-            if (in_array($tugasAkhir->dosen_pembimbing_id, $dosenPembimbingId)) {
+
+            if (in_array($selectedDosenPembimbing->id, $dosenPembimbingId)) {
                 return view('pages.dashboard.tugas_akhir.show', [
                     'tugasAkhir' => $tugasAkhir,
                     'selectedDosenPembimbing' => $selectedDosenPembimbing
                 ]);
             }
-        } elseif (Auth::user()->role->nama === 'mahasiswa') {
-            $selectedDosenPembimbing = $tugasAkhir->with('dosen_pembimbing.dosen.user')->get();
+        } elseif (Auth::user()->mahasiswa) {
+            $selectedDosenPembimbing = $tugasAkhir->dosen_pembimbing; // mendapatkan data dosen pembimbing terkait.
 
             if ($tugasAkhir->mahasiswa_id === Auth::user()->mahasiswa->id) {
                 return view('pages.dashboard.tugas_akhir.show', [
@@ -55,12 +53,11 @@ class TugasAkhirController extends Controller
                     'selectedDosenPembimbing' => $selectedDosenPembimbing
                 ]);
             }
-        }
-
-        // ADMIN
-        elseif (Auth::user()->role->nama === 'admin') {
+        } elseif (Auth::user()->role->nama === 'admin') {
             $dosenPembimbings = DosenPembimbing::with('dosen.user')->get();
-            $selectedDosenPembimbing = $tugasAkhir->pluck('dosen_pembimbing_id')->all();
+
+            $selectedDosenPembimbing = $tugasAkhir->dosen_pembimbing_id; // mendapatkan data dosen pembimbing di tabel tugas akhir.
+
             return view('pages.dashboard.tugas_akhir.show', [
                 'tugasAkhir' => $tugasAkhir,
                 'dosenPembimbings' => $dosenPembimbings,
@@ -138,7 +135,7 @@ class TugasAkhirController extends Controller
             return redirect()->route('tugas-akhir.show', ['tugasAkhir' => $tugasAkhir])->with('success', 'Berhasil mengubah data tugas akhir.');
         }
         elseif ($user->role->nama == 'admin') {
-            // Ambil daftar dosen pembimbing
+            // Ambil request form daftar dosen pembimbing
             $selectedDosenPembimbing = $request->input('dosen_pembimbing_', []);
 
             // Tambahkan dosen pembimbing ke data tugas akhir mahasiswa

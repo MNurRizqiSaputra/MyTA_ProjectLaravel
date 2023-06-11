@@ -24,14 +24,21 @@ class SeminarProposalController extends Controller
             // Tampilkan daftar seminar proposal yang terkait
             $seminarProposals = SeminarProposal::whereIn('id', $seminarProposalId)->get();
 
+            // Ambil seminar proposal yang belum dinilai
+            $pengujiNilai = SeminarProposalNilai::where('dosen_penguji_id', $dosenPengujiId)->whereNull('nilai')->pluck('seminar_proposal_id');
+
             return view('pages.dashboard.seminar_proposal.index', [
+                'dosenPengujiId' => $dosenPengujiId,
                 'seminarProposals' => $seminarProposals,
+                'pengujiNilai' => $pengujiNilai
             ]);
         } else {
             $seminarProposals = SeminarProposal::all();
+            $pengujiNilai = SeminarProposalNilai::whereNull('nilai')->pluck('seminar_proposal_id');
 
             return view('pages.dashboard.seminar_proposal.index', [
                 'seminarProposals' => $seminarProposals,
+                'pengujiNilai' => $pengujiNilai
             ]);
         }
     }
@@ -49,7 +56,6 @@ class SeminarProposalController extends Controller
             ]);
         } else {
             $dosenSeminarProposals = $seminarProposal->seminar_proposal_nilais()->with('dosen_penguji.dosen.user')->get();
-            // $selectedDosenProposal = $seminarProposal->seminar_proposal_nilais()->pluck('dosen_penguji_id')->all();
             $selectedDosenProposal = $seminarProposal->seminar_proposal_nilais->pluck('dosen_penguji_id')->all();
 
             return view('pages.dashboard.seminar_proposal.show', [
@@ -119,7 +125,7 @@ class SeminarProposalController extends Controller
         $seminarProposal->update($validate);
 
         // Ambil daftar dosen penguji yang dipilih
-        $selectedDosenPengujiIds = $request->input('dosen_penguji_id', []);
+        $selectedDosenPengujiIds = $request->input('dosen_penguji_', []);
 
         // hapus data dosen penguji yang tidak dipilih pada tabel seminar_proposal_nilai
         $seminarProposal->seminar_proposal_nilais()->whereNotIn('dosen_penguji_id', $selectedDosenPengujiIds)->delete();

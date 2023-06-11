@@ -21,14 +21,14 @@ class UserController extends Controller
     public function index()
     {
         return view('pages.dashboard.user.index', [
-            'users' => User::with('role')->get(),
+            'users' => User::with('role')->orderBy('nama')->get(),
         ]);
     }
 
     public function create()
     {
         return view('pages.dashboard.user.create', [
-            'roles' => Role::all(),
+            'roles' => Role::orderBy('nama')->get(),
         ]);
     }
 
@@ -69,7 +69,7 @@ class UserController extends Controller
     {
         return view('pages.dashboard.user.show', [
             'user' => $user,
-            'roles' => Role::all()
+            'roles' => Role::orderBy('nama')->get()
         ]);
     }
 
