@@ -12,7 +12,7 @@ class SeminarProposalNilaiController extends Controller
     public function index()
     {
         return view('pages.dashboard.seminar_proposal_nilai.index', [
-            'seminar_proposal_nilais' => SeminarProposalNilai::all(),
+            'seminar_proposal_nilais' => SeminarProposalNilai::orderByDesc('created_at')->get(),
         ]);
     }
 

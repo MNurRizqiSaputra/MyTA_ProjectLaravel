@@ -15,17 +15,10 @@ class SeminarPenelitianController extends Controller
     {
         if (Auth::user()->dosen && Auth::user()->dosen->dosen_pengujis->pluck('id')) {
             $dosenPenguji = auth()->user()->dosen->dosen_pengujis;
-            // get id dosen penguji yang login
-            $dosenPengujiId = $dosenPenguji->pluck('id');
-
-            // Ambil daftar seminar penelitian yang terkait dengan dosen penguji
-            $seminarPenelitianId = SeminarPenelitianNilai::whereIn('dosen_penguji_id', $dosenPengujiId)->pluck('seminar_penelitian_id');
-
-            // Tampilkan daftar seminar penelitian yang terkait
-            $seminarPenelitians = SeminarPenelitian::whereIn('id', $seminarPenelitianId)->get();
-
-            // Ambil dosen penguji yang belum memberikan nilai
-            $pengujiNilai = SeminarPenelitianNilai::where('dosen_penguji_id', $dosenPengujiId)->whereNull('nilai')->pluck('seminar_penelitian_id');
+            $dosenPengujiId = $dosenPenguji->pluck('id'); // get id dosen penguji yang login
+            $seminarPenelitianId = SeminarPenelitianNilai::whereIn('dosen_penguji_id', $dosenPengujiId)->pluck('seminar_penelitian_id'); // Ambil daftar seminar penelitian yang terkait dengan dosen penguji
+            $seminarPenelitians = SeminarPenelitian::whereIn('id', $seminarPenelitianId)->orderByDesc('created_at')->get(); // Tampilkan daftar seminar penelitian yang terkait
+            $pengujiNilai = SeminarPenelitianNilai::where('dosen_penguji_id', $dosenPengujiId)->whereNull('nilai')->pluck('seminar_penelitian_id'); // Ambil dosen penguji yang belum memberikan nilai
 
             return view('pages.dashboard.seminar_penelitian.index', [
                 'seminarPenelitians' => $seminarPenelitians,
@@ -33,11 +26,11 @@ class SeminarPenelitianController extends Controller
                 'pengujiNilai' => $pengujiNilai
             ]);
         } else {
-            $seminarPenelitians = SeminarPenelitian::all();
+            $seminarPenelitians = SeminarPenelitian::orderByDesc('created_at')->get();
             $pengujiNilai = SeminarPenelitianNilai::whereNull('nilai')->pluck('seminar_penelitian_id');
 
             return view('pages.dashboard.seminar_penelitian.index', [
-                'seminarPenelitians' => SeminarPenelitian::all(),
+                'seminarPenelitians' => $seminarPenelitians,
                 'pengujiNilai' => $pengujiNilai
 
             ]);
@@ -48,7 +41,13 @@ class SeminarPenelitianController extends Controller
     {
         $admin = Auth::user()->role->nama == 'admin';
         if ($admin) {
-            $dosenSeminarPenelitians = DosenPenguji::with('dosen.user')->get();
+            $dosenSeminarPenelitians = DosenPenguji::with('dosen')
+                                                    ->join('dosens', 'dosen_pengujis.dosen_id', '=', 'dosens.id')
+                                                    ->join('users', 'dosens.user_id', '=', 'users.id')
+                                                    ->select(
+                                                        'dosen_pengujis.id as id',
+                                                        'users.nama as nama'
+                                                    )->orderBy('users.nama')->get(); //mengambil daftar dosen seminar penelitian
             $selectedDosenPenelitian = $seminarPenelitian->seminar_penelitian_nilais->pluck('dosen_penguji_id')->all();
 
             return view('pages.dashboard.seminar_penelitian.show', [
@@ -57,7 +56,13 @@ class SeminarPenelitianController extends Controller
                 'selectedDosenPenelitian' => $selectedDosenPenelitian
             ]);
         } else {
-            $dosenSeminarPenelitians = $seminarPenelitian->seminar_penelitian_nilais()->with('dosen_penguji.dosen.user')->get();
+            $dosenSeminarPenelitians = $seminarPenelitian->seminar_penelitian_nilais()->with('dosen_penguji.dosen.user')
+                                                                                        ->join('dosen_pengujis', 'seminar_penelitian_nilai.dosen_penguji_id', '=', 'dosen_pengujis.id')
+                                                                                        ->join('dosens', 'dosen_pengujis.dosen_id', '=', 'dosens.id')
+                                                                                        ->join('users', 'dosens.user_id', '=', 'users.id')
+                                                                                        ->where('seminar_penelitian_nilai.seminar_penelitian_id', $seminarPenelitian->id)
+                                                                                        ->orderBy('users.nama')
+                                                                                        ->get(); //mengambil daftar dosen seminar proposal yang terkait dengan seminar proposal
             $selectedDosenPenelitian = $seminarPenelitian->seminar_penelitian_nilais->pluck('dosen_penguji_id')->all();
 
             return view('pages.dashboard.seminar_penelitian.show', [
@@ -116,11 +121,8 @@ class SeminarPenelitianController extends Controller
 
         $seminarPenelitian->update($validate);
 
-        // Ambil daftar dosen penguji yang dipilih
-        $selectedDosenPengujiIds = $request->input('dosen_penguji_', []);
-
-        // hapus data dosen penguji yang tidak dipilih pada tabel seminar_penelitian_nilai
-        $seminarPenelitian->seminar_penelitian_nilais()->whereNotIn('dosen_penguji_id', $selectedDosenPengujiIds)->delete();
+        $selectedDosenPengujiIds = $request->input('dosen_penguji_', []); // Ambil daftar dosen penguji yang dipilih
+        $seminarPenelitian->seminar_penelitian_nilais()->whereNotIn('dosen_penguji_id', $selectedDosenPengujiIds)->delete(); // hapus data dosen penguji yang tidak dipilih pada tabel seminar_penelitian_nilai
 
         // Tambahkan data dosen penguji terpilih ke seminar_penelitian_nilai
         foreach ($selectedDosenPengujiIds as $dosenPengujiId) {

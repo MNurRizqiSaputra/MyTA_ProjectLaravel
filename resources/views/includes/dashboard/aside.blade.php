@@ -206,7 +206,7 @@
     <h5 class="sidebar-title">Others</h5>
     @auth
         {{-- arahkan ke halaman index --}}
-        @if (Auth::user()->dosen || Auth::user()->role->nama == 'admin')
+        @if (Auth::user()->role->nama == 'admin' || Auth::user()->dosen->dosen_pengujis->count() > 0)
         <a href="{{ route('seminar-proposal.index') }}" class="sidebar-item {{ request()->is('dashboard/seminar-proposal') ? 'active' : '' }}" onclick="toggleActive(this)">
             <!-- <img src="./assets/img/global/box.svg" alt=""> -->
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -263,7 +263,7 @@
 
     @auth
         {{-- arahkan ke halaman index --}}
-        @if (Auth::user()->dosen || Auth::user()->role->nama == 'admin')
+        @if ( Auth::user()->role->nama == 'admin' || Auth::user()->dosen->dosen_pengujis->count() > 0)
         <a href="{{ route('seminar-penelitian.index') }}" class="sidebar-item {{ request()->is('dashboard/seminar-penelitian') ? 'active' : '' }}" onclick="toggleActive(this)">
             <!-- <img src="./assets/img/global/home.svg" alt=""> -->
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -314,7 +314,7 @@
 
     @auth
         {{-- arahkan ke halaman index --}}
-        @if (Auth::user()->dosen || Auth::user()->role->nama == 'admin')
+        @if (Auth::user()->role->nama == 'admin' || Auth::user()->dosen->dosen_pengujis->count() > 0)
         <a href="{{ route('sidang-akhir.index') }}" class="sidebar-item {{ request()->is('dashboard/sidang-akhir') ? 'active' : '' }}" onclick="toggleActive(this)">
             <!-- <img src="./assets/img/global/gift.svg" alt=""> -->
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -378,7 +378,7 @@
     @endauth
 
     @auth
-        @if (Auth::user()->role->nama == 'admin' || Auth::user()->dosen)
+        @if (Auth::user()->role->nama == 'admin' || Auth::user()->dosen->dosen_pengujis->count() > 0)
             <a href="{{ route('seminar-proposal-nilai.index') }}" class="sidebar-item {{ request()->is('dashboard/seminar-proposal-nilai') ? 'active' : '' }}" onclick="toggleActive(this)">
                 <!-- <img src="./assets/img/global/box.svg" alt=""> -->
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none"

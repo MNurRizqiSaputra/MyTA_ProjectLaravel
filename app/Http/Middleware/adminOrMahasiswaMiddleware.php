@@ -21,6 +21,6 @@ class adminOrMahasiswaMiddleware
             return $next($request);
         }
 
-        return redirect('/dashboard/overview');
+        return redirect()->back();
     }
 }
