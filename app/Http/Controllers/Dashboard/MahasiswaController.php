@@ -7,21 +7,32 @@ use App\Models\Jurusan;
 use App\Models\Mahasiswa;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class MahasiswaController extends Controller
 {
     public function index()
     {
+        $mahasiswas = DB::table('mahasiswas')
+        ->join('jurusans', 'mahasiswas.jurusan_id', '=', 'jurusans.id')
+        ->join('users', 'mahasiswas.user_id', '=', 'users.id')
+        ->select(
+            'mahasiswas.id as id',
+            'mahasiswas.nim as nim',
+            'users.nama as nama',
+            'users.email as email',
+            'jurusans.nama as jurusan'
+        )->orderBy('users.nama')->get();
         return view('pages.dashboard.mahasiswa.index', [
-            'mahasiswas' => Mahasiswa::all(),
+            'mahasiswas' => $mahasiswas,
         ]);
     }
     public function show(Mahasiswa $mahasiswa)
     {
         return view('pages.dashboard.mahasiswa.show', [
             'mahasiswa' => $mahasiswa,
-            'jurusans' => Jurusan::all(),
+            'jurusans' => Jurusan::orderBy('nama')->get(),
         ]);
     }
 

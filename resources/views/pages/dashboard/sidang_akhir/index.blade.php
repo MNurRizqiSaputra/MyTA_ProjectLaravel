@@ -25,8 +25,8 @@
         </thead>
         <tbody>
             @foreach ($sidangAkhirs as $sidangAkhir)
-            @if ($sidangAkhir->nilai_akhir)
-            <tr class="bg-primary">
+            @if ($pengujiNilai->contains($sidangAkhir->id))
+            <tr class="bg-warning">
                 <td>{{ $loop->iteration }}</td>
                 <td>{{ $sidangAkhir->tugas_akhir->mahasiswa->user->nama }}</td>
                 <td>{{ $sidangAkhir->tugas_akhir->judul }}</td>
@@ -36,7 +36,7 @@
                 <td><a href="{{ route('sidang-akhir.show', ['sidangAkhir' => $sidangAkhir->id]) }}">Edit</a></td>
             </tr>
             @else
-            <tr class="bg-warning">
+            <tr>
                 <td>{{ $loop->iteration }}</td>
                 <td>{{ $sidangAkhir->tugas_akhir->mahasiswa->user->nama }}</td>
                 <td>{{ $sidangAkhir->tugas_akhir->judul }}</td>

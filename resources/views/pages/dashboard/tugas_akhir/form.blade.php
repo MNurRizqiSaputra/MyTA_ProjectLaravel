@@ -150,16 +150,14 @@
             @if (Auth::user()->role->nama == 'admin')
                 @foreach ($dosenPembimbings as $dosenPembimbing)
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="dosen_pembimbing_[]"  value="{{ $dosenPembimbing->id }}" {{ in_array($dosenPembimbing->id, $selectedDosenPembimbing) ? 'checked' : '' }}>
+                    <input class="form-check-input" type="radio" name="dosen_pembimbing_[]"  value="{{ $dosenPembimbing->id }}" {{ $dosenPembimbing->id == $selectedDosenPembimbing ? 'checked' : '' }}>
 
                     <label class="form-check-label" for="dosen_pembimbing_{{ $dosenPembimbing->id }}">{{ $dosenPembimbing->dosen->user->nama }}</label>
                 </div>
                 @endforeach
             @elseif (Auth::user()->dosen || Auth::user()->mahasiswa)
-                @if ($tugasAkhir->dosen_pembimbing)
-                    @foreach ($selectedDosenPembimbing as $tugasAkhir)
-                    <label for="" class="form-label">{{ $tugasAkhir->dosen_pembimbing->dosen->user->nama }}</label>
-                    @endforeach
+                @if ($selectedDosenPembimbing)
+                    <label for="" class="form-label">{{ $selectedDosenPembimbing->dosen->user->nama }}</label>
                 @else
                     <br><label for="" class="form-label">Tidak ada data</label>
                 @endif

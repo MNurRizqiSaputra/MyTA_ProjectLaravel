@@ -30,10 +30,10 @@
             @foreach ($dosen_pembimbings as $dosen_pembimbing)
             <tr>
                 <td>{{ $loop->iteration }}</td>
-                <td>{{ $dosen_pembimbing->dosen->nip ?? ''}}</td>
-                <td>{{ $dosen_pembimbing->dosen->user->nama ?? '' }}</td>
-                <td>{{ $dosen_pembimbing->dosen->user->email ?? '' }}</td>
-                <td>{{ $dosen_pembimbing->dosen->jurusan->nama ?? '' }}</td>
+                <td>{{ $dosen_pembimbing->nip ?? ''}}</td>
+                <td>{{ $dosen_pembimbing->nama ?? ''}}</td>
+                <td>{{ $dosen_pembimbing->email ?? ''}}</td>
+                <td>{{ $dosen_pembimbing->jurusan ?? ''}}</td>
             </tr>
             @endforeach
         </tbody>

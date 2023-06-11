@@ -24,14 +24,22 @@ class SidangAkhirController extends Controller
             // Tampilkan daftar sidang akhir yang terkait
             $sidangAkhirs = SidangAkhir::whereIn('id', $sidangAkhirId)->get();
 
+            // Ambil dosen penguji yang belum memberikan nilai
+            $pengujiNilai = SidangAkhirNilai::where('dosen_penguji_id', $dosenPengujiId)->whereNull('nilai')->pluck('sidang_akhir_id');
+
             return view('pages.dashboard.sidang_akhir.index', [
                 'sidangAkhirs' => $sidangAkhirs,
+                'dosenPengujiId' => $dosenPengujiId,
+                'pengujiNilai' => $pengujiNilai
             ]);
         } else {
             $sidangAkhirs = SidangAkhir::all();
+            // Ambil dosen penguji yang belum memberikan nilai
+            $pengujiNilai = SidangAkhirNilai::whereNull('nilai')->pluck('sidang_akhir_id');
 
             return view('pages.dashboard.sidang_akhir.index', [
                 'sidangAkhirs' => SidangAkhir::all(),
+                'pengujiNilai' => $pengujiNilai
             ]);
         }
     }
@@ -49,7 +57,7 @@ class SidangAkhirController extends Controller
             ]);
         } else {
             $dosenSidangAkhirs = $sidangAkhir->sidang_akhir_nilais()->with('dosen_penguji.dosen.user')->get();
-            $selectedDosenSidangAkhir = $sidangAkhir->sidang_akhir_nilais()->pluck('dosen_penguji_id')->all();
+            $selectedDosenSidangAkhir = $sidangAkhir->sidang_akhir_nilais->pluck('dosen_penguji_id')->all();
 
             return view('pages.dashboard.sidang_akhir.show', [
                 'sidangAkhir' => $sidangAkhir,
@@ -106,7 +114,7 @@ class SidangAkhirController extends Controller
         $sidangAkhir->update($validate);
 
         // Ambil daftar dosen penguji yang dipilih
-        $selectedDosenPengujiIds = $request->input('dosen_penguji_id', []);
+        $selectedDosenPengujiIds = $request->input('dosen_penguji_', []);
 
         // hapus data dosen penguji yang tidak dipilih pada tabel sidang_akhir_nilai
         $sidangAkhir->sidang_akhir_nilais()->whereNotIn('dosen_penguji_id', $selectedDosenPengujiIds)->delete();

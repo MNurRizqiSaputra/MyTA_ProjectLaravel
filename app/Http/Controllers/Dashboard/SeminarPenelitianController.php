@@ -24,14 +24,22 @@ class SeminarPenelitianController extends Controller
             // Tampilkan daftar seminar penelitian yang terkait
             $seminarPenelitians = SeminarPenelitian::whereIn('id', $seminarPenelitianId)->get();
 
+            // Ambil dosen penguji yang belum memberikan nilai
+            $pengujiNilai = SeminarPenelitianNilai::where('dosen_penguji_id', $dosenPengujiId)->whereNull('nilai')->pluck('seminar_penelitian_id');
+
             return view('pages.dashboard.seminar_penelitian.index', [
                 'seminarPenelitians' => $seminarPenelitians,
+                'dosenPengujiId' => $dosenPengujiId,
+                'pengujiNilai' => $pengujiNilai
             ]);
         } else {
             $seminarPenelitians = SeminarPenelitian::all();
+            $pengujiNilai = SeminarPenelitianNilai::whereNull('nilai')->pluck('seminar_penelitian_id');
 
             return view('pages.dashboard.seminar_penelitian.index', [
                 'seminarPenelitians' => SeminarPenelitian::all(),
+                'pengujiNilai' => $pengujiNilai
+
             ]);
         }
     }
@@ -50,7 +58,7 @@ class SeminarPenelitianController extends Controller
             ]);
         } else {
             $dosenSeminarPenelitians = $seminarPenelitian->seminar_penelitian_nilais()->with('dosen_penguji.dosen.user')->get();
-            $selectedDosenPenelitian = $seminarPenelitian->seminar_penelitian_nilais()->pluck('dosen_penguji_id')->all();
+            $selectedDosenPenelitian = $seminarPenelitian->seminar_penelitian_nilais->pluck('dosen_penguji_id')->all();
 
             return view('pages.dashboard.seminar_penelitian.show', [
                 'seminarPenelitian' => $seminarPenelitian,
@@ -109,7 +117,7 @@ class SeminarPenelitianController extends Controller
         $seminarPenelitian->update($validate);
 
         // Ambil daftar dosen penguji yang dipilih
-        $selectedDosenPengujiIds = $request->input('dosen_penguji_id', []);
+        $selectedDosenPengujiIds = $request->input('dosen_penguji_', []);
 
         // hapus data dosen penguji yang tidak dipilih pada tabel seminar_penelitian_nilai
         $seminarPenelitian->seminar_penelitian_nilais()->whereNotIn('dosen_penguji_id', $selectedDosenPengujiIds)->delete();

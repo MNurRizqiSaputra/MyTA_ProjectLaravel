@@ -21,17 +21,6 @@ class TugasAkhir extends Model
         return $this->belongsTo(DosenPembimbing::class);
     }
 
-    public function set_dosen_pembimbing($dosenId)
-    {
-        $dosen = Dosen::find($dosenId);
-        if (!$dosen) {
-            throw new Exception('Dosen Not Found');
-        }
-
-        $this->dosen_pembimbing()->associate($dosen);
-        $this->save();
-    }
-
     public function seminar_proposal()
     {
         return $this->hasOne(SeminarProposal::class);
