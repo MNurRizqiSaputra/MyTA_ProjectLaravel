@@ -215,10 +215,10 @@
             @php
                 $mahasiswaLogin = Auth::user()->mahasiswa ? Auth::user()->mahasiswa->tugas_akhir->sidang_akhir->id : null;
                 $dosenPengujiLogin = Auth::user()->dosen ? Auth::user()->dosen->dosen_pengujis->pluck('id')->first() : null;
-                $nilaiDosenPenguji = $sidangAkhir->sidang_akhir_nilais()->where('dosen_penguji_id', $dosenPengujiLogin)->value('nilai');
+                $nilaiSidangAkhirDosenPengujiLogin = $sidangAkhir->sidang_akhir_nilais()->where('dosen_penguji_id', $dosenPengujiLogin)->value('nilai');
             @endphp
 
-            @if ($mahasiswaLogin || ($dosenPengujiLogin && $nilaiDosenPenguji))
+            @if ($mahasiswaLogin || ($dosenPengujiLogin && $nilaiSidangAkhirDosenPengujiLogin))
                 <input type="number" name="nilai_akhir" class="form-control" value="{{ old('nilai_akhir') ?? ($sidangAkhir->nilai_akhir ?? '') }}" readonly>
             @else
                 <input type="number" name="nilai_akhir" class="form-control" value="" readonly>

@@ -212,7 +212,17 @@
     <div class="row">
         <div class="col mb-3">
             <label for="nilai_akhir" class="form-label">Nilai akhir</label>
-            <input type="number" name="nilai_akhir" class="form-control" value="{{ old('nilai_akhir') ?? ($seminarPenelitian->nilai_akhir ?? '') }}" readonly>
+            @php
+                $mahasiswaLogin = Auth::user()->mahasiswa ? Auth::user()->mahasiswa->tugas_akhir->seminar_penelitian->id : null;
+                $dosenPengujiLogin = Auth::user()->dosen ? Auth::user()->dosen->dosen_pengujis->pluck('id')->first() : null;
+                $nilaiPenelitianDosenPengujiLogin = $seminarPenelitian->seminar_penelitian_nilais->where('dosen_penguji_id', $dosenPengujiLogin)->value('nilai');
+            @endphp
+
+            @if ($mahasiswaLogin || ($dosenPengujiLogin && $nilaiPenelitianDosenPengujiLogin))
+                <input type="number" name="nilai_akhir" class="form-control" value="{{ old('nilai_akhir') ?? ($seminarPenelitian->nilai_akhir ?? '') }}" readonly>
+            @else
+                <input type="number" name="nilai_akhir" class="form-control" value="" readonly>
+            @endif
             @error('nilai_akhir')
                 <span class="invalid-feedback" role="alert">
                     <strong>{{ $message }}</strong>

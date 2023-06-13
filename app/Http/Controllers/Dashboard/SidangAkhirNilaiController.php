@@ -43,9 +43,9 @@ class SidangAkhirNilaiController extends Controller
         $sidangAkhirNilai->update($validated);
 
         // membandingkan jumlah nilai sidang akhir yang diberikan oleh semua dosen penguji dengan jumlah total dosen penguji yang seharusnya memberikan nilai.
-        $nilaiAkhirSidangAkhir = ($sidangAkhir->sidang_akhir_nilais()->count() == $sidangAkhir->sidang_akhir_nilais->pluck('dosen_penguji_id')->count());
+        $countNilaiSidangAkhir = ($sidangAkhir->sidang_akhir_nilais()->count() == $sidangAkhir->sidang_akhir_nilais->pluck('dosen_penguji_id')->count());
 
-        if ($nilaiAkhirSidangAkhir) {
+        if ($countNilaiSidangAkhir) {
             $totalNilai = $sidangAkhir->sidang_akhir_nilais()->sum('nilai');
             $nilaiAkhir = $totalNilai / $sidangAkhir->sidang_akhir_nilais->count();
 
