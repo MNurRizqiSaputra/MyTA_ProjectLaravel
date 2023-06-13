@@ -1,4 +1,3 @@
-
 @extends('layouts.admin')
 
 @section('title')
@@ -16,6 +15,7 @@
             <thead>
               <tr>
                 <th>No</th>
+                <th>Mahasiswa</th>
                 <th>Tugas Akhir</th>
                 <th>Tempat</th>
                 <th>Tanggal</th>
@@ -25,29 +25,30 @@
         </thead>
         <tbody>
             @foreach ($seminarPenelitians as $seminarPenelitian)
-                @if ($pengujiNilai->contains($seminarPenelitian->id))
-                    <tr class="bg-warning">
-                        <td>{{ $loop->iteration }}</td>
-                        <td>{{ $seminarPenelitian->tugas_akhir->judul }}</td>
-                        <td>{{ $seminarPenelitian->tempat }}</td>
-                        <td>{{ $seminarPenelitian->tanggal }}</td>
-                        <td>{{ $seminarPenelitian->waktu }}</td>
-                        <td><a href="{{ route('seminar-penelitian.show', ['seminarPenelitian' => $seminarPenelitian->id]) }}">Edit</a></td>
-                    </tr>
-                @else
-                    <tr>
-                        <td>{{ $loop->iteration }}</td>
-                        <td>{{ $seminarPenelitian->tugas_akhir->judul }}</td>
-                        <td>{{ $seminarPenelitian->tempat }}</td>
-                        <td>{{ $seminarPenelitian->tanggal }}</td>
-                        <td>{{ $seminarPenelitian->waktu }}</td>
-                        <td><a href="{{ route('seminar-penelitian.show', ['seminarPenelitian' => $seminarPenelitian->id]) }}">Edit</a></td>
-                    </tr>
-                @endif
+            @if ($seminarPenelitian->nilai_akhir)
+            <tr class="bg-light">
+                <td>{{ $loop->iteration }}</td>
+                <td>{{ $seminarPenelitian->tugas_akhir->mahasiswa->user->nama }}</td>
+                <td>{{ $seminarPenelitian->tugas_akhir->judul }}</td>
+                <td>{{ $seminarPenelitian->tempat }}</td>
+                <td>{{ $seminarPenelitian->tanggal }}</td>
+                <td>{{ $seminarPenelitian->waktu }}</td>
+                <td><a href="{{ route('seminar-penelitian.show', ['seminarPenelitian' => $seminarPenelitian->id]) }}" class="btn btn-warning">Edit</a></td>
+            </tr>
+            @else
+            <tr class="bg-danger">
+                <td>{{ $loop->iteration }}</td>
+                <td>{{ $seminarPenelitian->tugas_akhir->mahasiswa->user->nama }}</td>
+                <td>{{ $seminarPenelitian->tugas_akhir->judul }}</td>
+                <td>{{ $seminarPenelitian->tempat }}</td>
+                <td>{{ $seminarPenelitian->tanggal }}</td>
+                <td>{{ $seminarPenelitian->waktu }}</td>
+                <td><a href="{{ route('seminar-penelitian.show', ['seminarPenelitian' => $seminarPenelitian->id]) }}" class="btn btn-warning">Edit</a></td>
+            </tr>
+            @endif
             @endforeach
         </tbody>
         </table>
     </div>
 </div>
 @endsection
-

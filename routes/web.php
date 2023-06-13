@@ -131,4 +131,3 @@ Route::prefix("dashboard")
 Auth::routes();
 
 Route::get('/', [FrontendController::class, 'index'])->name('frontend.home');
-Route::get('/profile', [MenuProfileController::class, 'index'])->name('frontend.menuprofile.index');
