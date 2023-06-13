@@ -42,16 +42,16 @@ class SidangAkhirNilaiController extends Controller
         $sidangAkhirNilai = $sidangAkhir->sidang_akhir_nilais()->where('dosen_penguji_id', $dosenPengujiId)->first();
         $sidangAkhirNilai->update($validated);
 
-        // setelah memberi nilai, hitung nilai akhir dari semua nilai sidang
-        $semuaNilaiAkhir = ($sidangAkhir->sidang_akhir_nilais()->count() == $sidangAkhir->sidang_akhir_nilais->pluck('dosen_penguji_id')->count());
+        // membandingkan jumlah nilai sidang akhir yang diberikan oleh semua dosen penguji dengan jumlah total dosen penguji yang seharusnya memberikan nilai.
+        $nilaiAkhirSidangAkhir = ($sidangAkhir->sidang_akhir_nilais()->count() == $sidangAkhir->sidang_akhir_nilais->pluck('dosen_penguji_id')->count());
 
-        if ($semuaNilaiAkhir) {
-            $totalNilaiAkhir = $sidangAkhir->sidang_akhir_nilais()->sum('nilai');
-            $nilaiAkhirSidang = $totalNilaiAkhir / $sidangAkhir->sidang_akhir_nilais->count();
+        if ($nilaiAkhirSidangAkhir) {
+            $totalNilai = $sidangAkhir->sidang_akhir_nilais()->sum('nilai');
+            $nilaiAkhir = $totalNilai / $sidangAkhir->sidang_akhir_nilais->count();
 
             // update data nilai akhir sidang akhir
             $sidangAkhir->update([
-                'nilai_akhir' => $nilaiAkhirSidang
+                'nilai_akhir' => $nilaiAkhir
             ]);
         }
 

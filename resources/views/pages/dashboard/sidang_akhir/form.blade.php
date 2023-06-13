@@ -213,10 +213,12 @@
         <div class="col mb-3">
             <label for="nilai_akhir" class="form-label">Nilai akhir</label>
             @php
-                $dosenPengujiLogin = Auth::user()->dosen->dosen_pengujis->pluck('id')->first();
+                $mahasiswaLogin = Auth::user()->mahasiswa ? Auth::user()->mahasiswa->tugas_akhir->sidang_akhir->id : null;
+                $dosenPengujiLogin = Auth::user()->dosen ? Auth::user()->dosen->dosen_pengujis->pluck('id')->first() : null;
                 $nilaiSidangAkhir = $sidangAkhir->sidang_akhir_nilais()->where('dosen_penguji_id', $dosenPengujiLogin)->value('nilai');
             @endphp
-            @if ($nilaiSidangAkhir)
+
+            @if ($mahasiswaLogin || ($dosenPengujiLogin && $nilaiSidangAkhir))
                 <input type="number" name="nilai_akhir" class="form-control" value="{{ old('nilai_akhir') ?? ($sidangAkhir->nilai_akhir ?? '') }}" readonly>
             @else
                 <input type="number" name="nilai_akhir" class="form-control" value="" readonly>
