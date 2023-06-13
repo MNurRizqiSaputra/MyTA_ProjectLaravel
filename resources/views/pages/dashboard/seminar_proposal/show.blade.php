@@ -11,9 +11,9 @@
                     <li class="breadcrumb-item">
                         {{-- admin dan dosen penguji --}}
                         @if(Auth::user()->mahasiswa)
-                        <p>Seminar Proposal</p>
-                        @elseif (Auth::user()->role->nama == 'admin' || Auth::user()->dosen->dosen_pengujis)
-                        <a href="{{ route('seminar-proposal.index') }}">Seminar Proposal</a>
+                            <p>Seminar Proposal</p>
+                        @elseif (Auth::user()->role->nama == 'admin' || Auth::user()->dosen->dosen_penguji)
+                            <a href="{{ route('seminar-proposal.index') }}">Seminar Proposal</a>
                         @endif
                     </li>
                     <li class="breadcrumb-item active">Detail Data</li>

@@ -19,22 +19,23 @@
                 <th>Judul</th>
                 <th>Tempat</th>
                 <th>Tanggal</th>
-                <th>Waktu</th>
+                <th>Waktu mulai</th>
+                <th>Waktu selesai</th>
                 <th>Aksi</th>
             </tr>
         </thead>
         <tbody>
-
             @foreach ($seminarProposals as $seminarProposal)
             {{-- Berikan warna yang berbeda untuk seminar proposal yang sudah atau belum di nilai --}}
-            @if ($pengujiNilai->contains($seminarProposal->id))
+            @if ($pengujiBelumNilai->contains($seminarProposal->id))
                 <tr class="bg-warning">
                     <td>{{ $loop->iteration }}</td>
                     <td>{{ $seminarProposal->tugas_akhir->mahasiswa->user->nama }}</a></td>
                     <td>{{ $seminarProposal->tugas_akhir->judul }}</td>
                     <td>{{ $seminarProposal->tempat }}</td>
                     <td>{{ $seminarProposal->tanggal }}</td>
-                    <td>{{ $seminarProposal->waktu }}</td>
+                    <td>{{ $seminarProposal->waktu_mulai }}</td>
+                    <td>{{ $seminarProposal->waktu_selesai }}</td>
                     <td><a href="{{ route('seminar-proposal.show', ['seminarProposal' => $seminarProposal->id]) }}">Edit</a></td>
                 </tr>
             @else
@@ -44,7 +45,8 @@
                     <td>{{ $seminarProposal->tugas_akhir->judul }}</td>
                     <td>{{ $seminarProposal->tempat }}</td>
                     <td>{{ $seminarProposal->tanggal }}</td>
-                    <td>{{ $seminarProposal->waktu }}</td>
+                    <td>{{ $seminarProposal->waktu_mulai }}</td>
+                    <td>{{ $seminarProposal->waktu_selesai }}</td>
                     <td><a href="{{ route('seminar-proposal.show', ['seminarProposal' => $seminarProposal->id]) }}">Edit</a></td>
                 </tr>
             @endif

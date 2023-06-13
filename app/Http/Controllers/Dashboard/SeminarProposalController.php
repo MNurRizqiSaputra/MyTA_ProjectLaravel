@@ -14,31 +14,26 @@ class SeminarProposalController extends Controller
 {
     public function index()
     {
-        if (Auth::user()->dosen && Auth::user()->dosen->dosen_pengujis->pluck('id')) {
-            // get id dosen penguji yang login
-            $dosenPengujiId = Auth::user()->dosen->dosen_pengujis->pluck('id');
-
-            // Ambil daftar seminar proposal yang terkait dengan dosen penguji
-            $seminarProposalId = SeminarProposalNilai::whereIn('dosen_penguji_id', $dosenPengujiId)->pluck('seminar_proposal_id');
-
-            // Tampilkan daftar seminar proposal yang terkait
-            $seminarProposals = SeminarProposal::whereIn('id', $seminarProposalId)->orderByDesc('created_at')->get();
+        if (Auth::user()->dosen && Auth::user()->dosen->dosen_penguji) {
+            $dosenPengujiId = Auth::user()->dosen->dosen_penguji->id; // get id dosen penguji yang login
+            $seminarProposalId = SeminarProposalNilai::where('dosen_penguji_id', $dosenPengujiId)->pluck('seminar_proposal_id'); // Ambil daftar seminar proposal yang terkait dengan dosen penguji
+            $seminarProposals = SeminarProposal::whereIn('id', $seminarProposalId)->orderByDesc('created_at')->get(); // Tampilkan daftar seminar proposal yang terkait
 
             // Ambil seminar proposal yang belum dinilai
-            $pengujiNilai = SeminarProposalNilai::where('dosen_penguji_id', $dosenPengujiId)->whereNull('nilai')->pluck('seminar_proposal_id');
+            $pengujiBelumNilai = SeminarProposalNilai::where('dosen_penguji_id', $dosenPengujiId)->whereNull('nilai')->pluck('seminar_proposal_id');
 
             return view('pages.dashboard.seminar_proposal.index', [
                 'dosenPengujiId' => $dosenPengujiId,
                 'seminarProposals' => $seminarProposals,
-                'pengujiNilai' => $pengujiNilai
+                'pengujiBelumNilai' => $pengujiBelumNilai
             ]);
         } else {
             $seminarProposals = SeminarProposal::orderByDesc('created_at')->get();
-            $pengujiNilai = SeminarProposalNilai::whereNull('nilai')->pluck('seminar_proposal_id');
+            $pengujiBelumNilai = SeminarProposalNilai::whereNull('nilai')->pluck('seminar_proposal_id');
 
             return view('pages.dashboard.seminar_proposal.index', [
                 'seminarProposals' => $seminarProposals,
-                'pengujiNilai' => $pengujiNilai
+                'pengujiBelumNilai' => $pengujiBelumNilai
             ]);
         }
     }
@@ -127,11 +122,8 @@ class SeminarProposalController extends Controller
 
         $seminarProposal->update($validate);
 
-        // Ambil daftar dosen penguji yang dipilih
-        $selectedDosenPengujiIds = $request->input('dosen_penguji_', []);
-
-        // hapus data dosen penguji yang tidak dipilih pada tabel seminar_proposal_nilai
-        $seminarProposal->seminar_proposal_nilais()->whereNotIn('dosen_penguji_id', $selectedDosenPengujiIds)->delete();
+        $selectedDosenPengujiIds = $request->input('dosen_penguji_', []); // Ambil daftar dosen penguji yang dipilih
+        $seminarProposal->seminar_proposal_nilais()->whereNotIn('dosen_penguji_id', $selectedDosenPengujiIds)->delete(); // hapus data dosen penguji yang tidak dipilih pada tabel seminar_proposal_nilai
 
         // Tambahkan data dosen penguji terpilih ke seminar_proposal_nilai
         foreach ($selectedDosenPengujiIds as $dosenPengujiId) {

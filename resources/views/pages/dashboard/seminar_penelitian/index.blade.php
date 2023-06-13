@@ -19,19 +19,21 @@
                 <th>Tugas Akhir</th>
                 <th>Tempat</th>
                 <th>Tanggal</th>
-                <th>Waktu</th>
+                <th>Waktu mulai</th>
+                <th>Waktu selesai</th>
                 <th>Aksi</th>
             </tr>
         </thead>
         <tbody>
             @foreach ($seminarPenelitians as $seminarPenelitian)
-                @if ($pengujiNilai->contains($seminarPenelitian->id))
+                @if ($pengujiBelumNilai->contains($seminarPenelitian->id))
                     <tr class="bg-warning">
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $seminarPenelitian->tugas_akhir->judul }}</td>
                         <td>{{ $seminarPenelitian->tempat }}</td>
                         <td>{{ $seminarPenelitian->tanggal }}</td>
-                        <td>{{ $seminarPenelitian->waktu }}</td>
+                        <td>{{ $seminarPenelitian->waktu_mulai }}</td>
+                        <td>{{ $seminarPenelitian->waktu_selesai }}</td>
                         <td><a href="{{ route('seminar-penelitian.show', ['seminarPenelitian' => $seminarPenelitian->id]) }}">Edit</a></td>
                     </tr>
                 @else
@@ -40,7 +42,8 @@
                         <td>{{ $seminarPenelitian->tugas_akhir->judul }}</td>
                         <td>{{ $seminarPenelitian->tempat }}</td>
                         <td>{{ $seminarPenelitian->tanggal }}</td>
-                        <td>{{ $seminarPenelitian->waktu }}</td>
+                        <td>{{ $seminarPenelitian->waktu_mulai }}</td>
+                        <td>{{ $seminarPenelitian->waktu_selesai }}</td>
                         <td><a href="{{ route('seminar-penelitian.show', ['seminarPenelitian' => $seminarPenelitian->id]) }}">Edit</a></td>
                     </tr>
                 @endif

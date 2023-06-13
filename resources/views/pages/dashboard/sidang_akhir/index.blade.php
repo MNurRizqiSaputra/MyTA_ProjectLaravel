@@ -19,20 +19,22 @@
                 <th>Tugas Akhir</th>
                 <th>Tempat</th>
                 <th>Tanggal</th>
-                <th>Waktu</th>
+                <th>Waktu Mulai</th>
+                <th>Waktu Selesai</th>
                 <th>Aksi</th>
             </tr>
         </thead>
         <tbody>
             @foreach ($sidangAkhirs as $sidangAkhir)
-            @if ($pengujiNilai->contains($sidangAkhir->id))
+            @if ($pengujiBelumNilai->contains($sidangAkhir->id))
             <tr class="bg-warning">
                 <td>{{ $loop->iteration }}</td>
                 <td>{{ $sidangAkhir->tugas_akhir->mahasiswa->user->nama }}</td>
                 <td>{{ $sidangAkhir->tugas_akhir->judul }}</td>
                 <td>{{ $sidangAkhir->tempat }}</td>
                 <td>{{ $sidangAkhir->tanggal }}</td>
-                <td>{{ $sidangAkhir->waktu }}</td>
+                <td>{{ $sidangAkhir->waktu_mulai }}</td>
+                <td>{{ $sidangAkhir->waktu_selesai }}</td>
                 <td><a href="{{ route('sidang-akhir.show', ['sidangAkhir' => $sidangAkhir->id]) }}">Edit</a></td>
             </tr>
             @else
@@ -42,7 +44,8 @@
                 <td>{{ $sidangAkhir->tugas_akhir->judul }}</td>
                 <td>{{ $sidangAkhir->tempat }}</td>
                 <td>{{ $sidangAkhir->tanggal }}</td>
-                <td>{{ $sidangAkhir->waktu }}</td>
+                <td>{{ $sidangAkhir->waktu_mulai }}</td>
+                <td>{{ $sidangAkhir->waktu_selesai }}</td>
                 <td><a href="{{ route('sidang-akhir.show', ['sidangAkhir' => $sidangAkhir->id]) }}">Edit</a></td>
             </tr>
             @endif

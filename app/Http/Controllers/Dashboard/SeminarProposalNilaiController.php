@@ -18,7 +18,7 @@ class SeminarProposalNilaiController extends Controller
 
     public function nilai(SeminarProposal $seminarProposal)
     {
-        $dosenPengujiId = auth()->user()->dosen->dosen_pengujis->pluck('id');
+        $dosenPengujiId = auth()->user()->dosen->dosen_penguji->id;
         $seminarProposalNilai = $seminarProposal->seminar_proposal_nilais()->where('dosen_penguji_id', $dosenPengujiId)->first();
 
         return view('pages.dashboard.seminar_proposal.nilai', [
@@ -29,7 +29,7 @@ class SeminarProposalNilaiController extends Controller
 
     public function update(Request $request, SeminarProposal $seminarProposal)
     {
-        $dosenPenguji = auth()->user()->dosen->dosen_pengujis->pluck('id');
+        $dosenPengujiId = auth()->user()->dosen->dosen_penguji->id;
 
         $validated = $request->validate([
             'dosen_penguji_id' => 'required',
@@ -37,7 +37,7 @@ class SeminarProposalNilaiController extends Controller
             'nilai' => 'required|integer'
         ]);
 
-        $seminarProposalNilai = $seminarProposal->seminar_proposal_nilais()->where('dosen_penguji_id', $dosenPenguji)->first();
+        $seminarProposalNilai = $seminarProposal->seminar_proposal_nilais()->where('dosen_penguji_id', $dosenPengujiId)->first();
         $seminarProposalNilai->update($validated);
 
         // membandingkan jumlah nilai seminar proposal yang diberikan oleh semua dosen penguji dengan jumlah total dosen penguji yang seharusnya memberikan nilai.
