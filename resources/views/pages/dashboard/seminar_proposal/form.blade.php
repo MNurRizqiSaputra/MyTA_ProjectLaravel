@@ -209,7 +209,6 @@
             @endif
         </div>
     </div>
-
     <div class="row">
         <div class="col mb-3">
             <label for="nilai_akhir" class="form-label">Nilai akhir</label>
