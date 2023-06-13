@@ -98,8 +98,9 @@ class SeminarProposalController extends Controller
     {
         $request->validate([
             'tempat' => 'nullable',
-            'tanggal' => 'nullable',
-            'waktu' => 'nullable',
+            'tanggal' => 'nullable|date',
+            'waktu_mulai' => 'nullable',
+            'waktu_selesai' => 'nullable',
             'tugas_akhir_id' => 'required|exists:tugas_akhirs,id'
         ]);
 
@@ -119,7 +120,8 @@ class SeminarProposalController extends Controller
     {
         $validate = $request->validate([
             'tanggal' => 'required|date',
-            'waktu' => 'required',
+            'waktu_mulai' => 'required',
+            'waktu_selesai' => 'required',
             'tempat' => 'required',
         ]);
 

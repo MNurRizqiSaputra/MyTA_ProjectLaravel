@@ -208,12 +208,12 @@
     </div>
 
     @auth
-        @if ((Auth::user()->dosen && Auth::user()->dosen->dosen_pembimbings->contains('id', $tugasAkhir->dosen_pembimbing_id)) || (Auth::user()->mahasiswa && Auth::user()->mahasiswa->tugas_akhir) || Auth::user()->role->nama == 'admin')
+        @if (!isset(Auth::user()->mahasiswa->tugas_akhir) && $tugasAkhir->status_persetujuan == 'Disetujui')
+            <input type="hidden" name="">
+        @elseif ((Auth::user()->dosen && Auth::user()->dosen->dosen_pembimbings->contains('id', $tugasAkhir->dosen_pembimbing_id)) || (Auth::user()->mahasiswa && Auth::user()->mahasiswa->tugas_akhir) || Auth::user()->role->nama == 'admin')
             <button type="submit" id="edit" class="btn btn-primary">{{ $tombol }}</button>
-
         @elseif (Auth::user()->mahasiswa)
             <button type="submit" id="tambah" class="btn btn-primary">{{ $tombol }}</button>
-
         @elseif(!Auth::user()->mahasiswa)
             <input type="hidden" name="">
         @endif

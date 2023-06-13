@@ -76,13 +76,18 @@ class SidangAkhirController extends Controller
         $tugasAkhir = $mahasiswa->tugas_akhir;
         $seminarPenelitian = $tugasAkhir->seminar_penelitian;
 
-        // periksa nilai seminar penelitian
-        if (!isset($seminarPenelitian->nilai_akhir)) {
-            return redirect()->back()->with('error', 'Mohon Maaf, Harap lengkapi penilaian Seminar Penelitian Anda');
-        } elseif($seminarPenelitian->nilai_akhir) {
-            return view('pages.dashboard.sidang_akhir.create', [
-                'tugasAkhir' => $tugasAkhir
-            ]);
+        if ($seminarPenelitian) {
+            $dosenPengujiBelumNilai = $seminarPenelitian->seminar_penelitian_nilais()->whereNull('nilai')->with('dosen_penguji')->get();
+
+            if ($dosenPengujiBelumNilai) {
+                return redirect()->back()->with('error', 'Mohon Maaf, Harap lengkapi penilaian Seminar Penelitian Anda');
+            } else {
+                return view('pages.dashboard.sidang_akhir.create', [
+                    'tugasAkhir' => $tugasAkhir
+                ]);
+            }
+        } else {
+            return redirect()->back()->with('error', 'Mohon Maaf, Anda belum memiliki Seminar Penelitian');
         }
     }
 
