@@ -1,8 +1,7 @@
 <aside class="sidebar">
     <a href="#" class="sidebar-logo">
         <div class="d-flex justify-content-start align-items-center">
-            <img src="./assets/img/global/logo.svg" alt="">
-            <span>MyTA</span>
+        <img src="./assets/img/global/buatfavicon.png" alt="" style="width: 150px; height: 120px; border-radius: 10%;">
         </div>
 
         <button id="toggle-navbar" onclick="toggleNavbar()">

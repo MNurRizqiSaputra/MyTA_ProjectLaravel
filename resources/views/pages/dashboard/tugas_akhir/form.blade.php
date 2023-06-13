@@ -78,7 +78,7 @@
 
     <div class="row">
         <div class="col mb-3">
-            <label for="total_nilai" class="form-label">total nilai</label>
+            <label for="total_nilai" class="form-label">Total Nilai</label>
 
             <input class="form-control" type="number" name="total_nilai" id="total_nilai" value="{{ old('total_nilai') ?? ($tugasAkhir->total_nilai ?? '') }}" required readonly>
 

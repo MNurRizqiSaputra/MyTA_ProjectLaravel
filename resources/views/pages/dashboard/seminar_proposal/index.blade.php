@@ -39,7 +39,7 @@
                     <td><a href="{{ route('seminar-proposal.show', ['seminarProposal' => $seminarProposal->id]) }}">Edit</a></td>
                 </tr>
             @else
-                <tr>
+                <tr class="bg-danger">
                     <td>{{ $loop->iteration }}</td>
                     <td>{{ $seminarProposal->tugas_akhir->mahasiswa->user->nama }}</a></td>
                     <td>{{ $seminarProposal->tugas_akhir->judul }}</td>
@@ -56,4 +56,3 @@
     </div>
 </div>
 @endsection
-

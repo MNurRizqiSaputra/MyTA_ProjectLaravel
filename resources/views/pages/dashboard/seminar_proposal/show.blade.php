@@ -23,7 +23,7 @@
         <div class="col-12">
             <form action="{{ route('seminar-proposal.update', ['seminarProposal' => $seminarProposal->id]) }}" method="POST" enctype="multipart/form-data">
                 @method('PUT')
-                @include('pages.dashboard.seminar_proposal.form', ['tombol' => 'Edit'])
+                @include('pages.dashboard.seminar_proposal.form', ['tombol' => 'Simpan'])
             </form>
         </div>
     </div>

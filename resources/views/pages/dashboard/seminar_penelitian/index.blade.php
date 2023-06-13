@@ -1,4 +1,3 @@
-
 @extends('layouts.admin')
 
 @section('title')
@@ -16,6 +15,7 @@
             <thead>
               <tr>
                 <th>No</th>
+                <th>Mahasiswa</th>
                 <th>Tugas Akhir</th>
                 <th>Tempat</th>
                 <th>Tanggal</th>
@@ -53,4 +53,3 @@
     </div>
 </div>
 @endsection
-

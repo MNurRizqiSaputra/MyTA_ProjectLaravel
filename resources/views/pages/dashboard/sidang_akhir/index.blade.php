@@ -38,7 +38,7 @@
                 <td><a href="{{ route('sidang-akhir.show', ['sidangAkhir' => $sidangAkhir->id]) }}">Edit</a></td>
             </tr>
             @else
-            <tr>
+            <tr class="bg-danger">
                 <td>{{ $loop->iteration }}</td>
                 <td>{{ $sidangAkhir->tugas_akhir->mahasiswa->user->nama }}</td>
                 <td>{{ $sidangAkhir->tugas_akhir->judul }}</td>
@@ -55,4 +55,3 @@
     </div>
 </div>
 @endsection
-
