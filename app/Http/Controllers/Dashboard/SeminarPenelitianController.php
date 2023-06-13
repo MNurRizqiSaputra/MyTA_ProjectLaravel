@@ -78,15 +78,20 @@ class SeminarPenelitianController extends Controller
         $mahasiswa = auth()->user()->mahasiswa;
         $tugasAkhir = $mahasiswa->tugas_akhir;
         $seminarProposal = $tugasAkhir->seminar_proposal;
-        $dosenPengujiBelumNilai = $seminarProposal->seminar_proposal_nilais()->whereNull('nilai')->with('dosen_penguji')->get();
 
-        if ($dosenPengujiBelumNilai) {
-            return redirect()->back()->with('error', 'Mohon Maaf, Masih terdapat Dosen Penguji yang belum menilai Seminar Proposal Anda');
-        }
-        else {
-            return view('pages.dashboard.seminar_penelitian.create', [
-                'tugasAkhir' => $tugasAkhir
-            ]);
+        if ($seminarProposal) {
+            $dosenPengujiBelumNilai = $seminarProposal->seminar_proposal_nilais()->whereNull('nilai')->with('dosen_penguji')->get();
+
+            if ($dosenPengujiBelumNilai) {
+                return redirect()->back()->with('error', 'Mohon Maaf, Masih terdapat Dosen Penguji yang belum menilai Seminar Proposal Anda');
+            }
+            else {
+                return view('pages.dashboard.seminar_penelitian.create', [
+                    'tugasAkhir' => $tugasAkhir
+                ]);
+            }
+        } else {
+            return redirect()->back()->with('error', 'Mohon Maaf, Anda belum memiliki Seminar Proposal');
         }
     }
 

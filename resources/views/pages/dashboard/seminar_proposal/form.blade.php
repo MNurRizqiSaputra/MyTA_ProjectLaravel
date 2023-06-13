@@ -67,13 +67,29 @@
 
     <div class="row">
         <div class="col mb-3">
-            <label for="waktu" class="form-label">Waktu</label>
+            <label for="waktu_mulai" class="form-label">Waktu Mulai</label>
             @if (Auth::user()->role->nama == 'admin')
-                <input type="time" name="waktu" class="form-control" value="{{ old('waktu') ?? ($seminarProposal->waktu ?? '') }}" required>
+                <input type="time" name="waktu_mulai" class="form-control" value="{{ old('waktu_mulai') ?? ($seminarProposal->waktu_mulai ?? '') }}" required>
             @else
-                <input type="time" name="waktu" class="form-control" value="{{ old('waktu') ?? ($seminarProposal->waktu ?? '') }}" readonly>
+                <input type="time" name="waktu_mulai" class="form-control" value="{{ old('waktu_mulai') ?? ($seminarProposal->waktu_mulai ?? '') }}" readonly>
             @endif
-            @error('waktu')
+            @error('waktu_mulai')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+            @enderror
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col mb-3">
+            <label for="waktu_selesai" class="form-label">Waktu Selesai</label>
+            @if (Auth::user()->role->nama == 'admin')
+                <input type="time" name="waktu_selesai" class="form-control" value="{{ old('waktu_selesai') ?? ($seminarProposal->waktu_selesai ?? '') }}" required>
+            @else
+                <input type="time" name="waktu_selesai" class="form-control" value="{{ old('waktu_selesai') ?? ($seminarProposal->waktu_selesai ?? '') }}" readonly>
+            @endif
+            @error('waktu_selesai')
                 <span class="invalid-feedback" role="alert">
                     <strong>{{ $message }}</strong>
                 </span>
@@ -172,13 +188,29 @@
 
     <div class="row">
         <div class="col mb-3">
-            <label for="waktu" class="form-label">Waktu</label>
+            <label for="waktu_mulai" class="form-label">Waktu Mulai</label>
             @if (Auth::user()->role->nama == 'admin')
-                <input type="time" name="waktu" class="form-control" value="{{ old('waktu') ?? ($seminarProposal->waktu ?? '') }}" required>
+                <input type="time" name="waktu_mulai" class="form-control" value="{{ old('waktu_mulai') ?? ($seminarProposal->waktu_mulai ?? '') }}" required>
             @else
-                <input type="time" name="waktu" class="form-control" value="{{ old('waktu') ?? ($seminarProposal->waktu ?? '') }}" readonly>
+                <input type="time" name="waktu_mulai" class="form-control" value="{{ old('waktu_mulai') ?? ($seminarProposal->waktu_mulai ?? '') }}" readonly>
             @endif
-            @error('waktu')
+            @error('waktu_mulai')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+            @enderror
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col mb-3">
+            <label for="waktu_selesai" class="form-label">Waktu Selesai</label>
+            @if (Auth::user()->role->nama == 'admin')
+                <input type="time" name="waktu_selesai" class="form-control" value="{{ old('waktu_selesai') ?? ($seminarProposal->waktu_selesai ?? '') }}" required>
+            @else
+                <input type="time" name="waktu_selesai" class="form-control" value="{{ old('waktu_selesai') ?? ($seminarProposal->waktu_selesai ?? '') }}" readonly>
+            @endif
+            @error('waktu_selesai')
                 <span class="invalid-feedback" role="alert">
                     <strong>{{ $message }}</strong>
                 </span>
