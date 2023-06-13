@@ -12,8 +12,16 @@ class DosenPembimbingController extends Controller
     public function index()
     {
         $dosen_pembimbings = DosenPembimbing::with('dosen')
-                                            ->join('dosens', 'dosen_pembimbings.dosen_id', '=', 'dosens.id')
-                                            ->join('users', 'dosens.user_id', '=', 'users.id')
+                                            ->leftJoin('dosens', 'dosen_pembimbings.dosen_id', '=', 'dosens.id')
+                                            ->leftJoin('users', 'dosens.user_id', '=', 'users.id')
+                                            ->leftJoin('jurusans', 'dosens.jurusan_id', '=', 'jurusans.id')
+                                            ->select(
+                                                'dosens.id as id',
+                                                'dosens.nip as nip',
+                                                'users.nama as nama',
+                                                'users.email as email',
+                                                'jurusans.nama as jurusan',
+                                            )
                                             ->orderBy('users.nama')->get();
 
         return view('pages.dashboard.dosen_pembimbing.index', [

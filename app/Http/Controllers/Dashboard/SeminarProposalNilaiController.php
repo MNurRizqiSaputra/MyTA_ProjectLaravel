@@ -41,9 +41,9 @@ class SeminarProposalNilaiController extends Controller
         $seminarProposalNilai->update($validated);
 
         // membandingkan jumlah nilai seminar proposal yang diberikan oleh semua dosen penguji dengan jumlah total dosen penguji yang seharusnya memberikan nilai.
-        $nilaiAkhirSeminarProposal = ($seminarProposal->seminar_proposal_nilais()->count() == $seminarProposal->seminar_proposal_nilais->pluck('dosen_penguji_id')->count());
+        $countNilaiProposal = ($seminarProposal->seminar_proposal_nilais()->count() == $seminarProposal->seminar_proposal_nilais->pluck('dosen_penguji_id')->count());
 
-        if ($nilaiAkhirSeminarProposal) {
+        if ($countNilaiProposal) {
             $totalNilai = $seminarProposal->seminar_proposal_nilais()->sum('nilai');
             $nilaiAkhir = $totalNilai / $seminarProposal->seminar_proposal_nilais()->count();
 

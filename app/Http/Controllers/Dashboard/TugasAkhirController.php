@@ -72,7 +72,7 @@ class TugasAkhirController extends Controller
     {
         $request->validate([
             'judul' => 'required|string|min:3',
-            'file' => 'required|mimes:pdf|max:2048',
+            'file' => 'required|mimes:pdf',
         ]);
 
         // Cek apakah mahasiswa sudah memiliki tugas akhir
@@ -104,7 +104,7 @@ class TugasAkhirController extends Controller
     {
         $request->validate([
             'judul' => 'required|string|min:3',
-            'file' => 'nullable|mimes:pdf|max:2048',
+            'file' => 'nullable|mimes:pdf',
         ]);
 
         $user = auth()->user();
