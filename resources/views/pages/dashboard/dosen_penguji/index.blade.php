@@ -11,7 +11,7 @@
             <h2 class="content-title">Dosen Penguji</h2>
             @auth
                 @if (Auth::user()->role->nama == 'admin')
-                    <a href="{{ route('dosen-penguji.create') }}">Tambah</a>
+                    <a href="{{ route('dosen-penguji.create') }}" class="btn btn-primary mb-2">Tambah</a>
                 @endif
             @endauth
         </div>

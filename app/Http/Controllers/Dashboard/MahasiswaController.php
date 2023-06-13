@@ -47,6 +47,7 @@ class MahasiswaController extends Controller
             'nim' => 'required|string|max:10|unique:mahasiswas,nim,' . $mahasiswa->id,
             'jurusan_id' => 'required|exists:jurusans,id',
             'nama' => 'required|string',
+            'password' => 'nullable|min:8',
             'tanggal_lahir' => 'required|date',
             'nohp' => 'required|string|max:15',
             'email' => 'required|email|unique:users,email,' . $mahasiswa->user->id,
@@ -54,8 +55,9 @@ class MahasiswaController extends Controller
         ]);
         // Update data pada model User
         $user = $mahasiswa->user;
-        $user->nama = $request->input('nama');
-        $user->email = $request->input('email');
+        $user->nama = $request->nama;
+        $user->password = bcrypt($request->input('password'));
+        $user->email = $request->email;
         $user->tanggal_lahir = $request->input('tanggal_lahir');
         $user->save();
 

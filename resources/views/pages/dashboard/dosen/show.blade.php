@@ -55,6 +55,15 @@
                         @enderror
                     </div>
                     <div class="mb-3 col-md-6">
+                        <label for="password" class="form-label">Password</label>
+                        <input class="form-control @error('password') is-invalid @enderror" type="text" id="password" name="password" value="{{ old('password') ?? ($dosen->user->password ?? '') }}" placeholder="*******" required>
+                        @error('password')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+                    <div class="mb-3 col-md-6">
                         <label for="jurusan" class="form-label @error('jurusan_id') is-invalid @enderror">Jurusan</label>
 
                         <select name="jurusan_id" id="jurusan_id"

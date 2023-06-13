@@ -61,6 +61,15 @@
                         @enderror
                     </div>
                     <div class="mb-3 col-md-6">
+                        <label for="password" class="form-label">Password</label>
+                        <input class="form-control" type="password" id="password" name="password" value="{{ old('password') ?? ($mahasiswa->user->password ?? '') }}" placeholder="j*******" required>
+                        @error('password')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+                    <div class="mb-3 col-md-6">
                         <label for="jurusan" class="form-label">Jurusan</label>
 
                         <select name="jurusan_id" id="jurusan_id"
