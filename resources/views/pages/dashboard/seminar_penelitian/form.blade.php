@@ -250,7 +250,7 @@
                 $nilaiPenelitianDosenPengujiLogin = $seminarPenelitian->seminar_penelitian_nilais->where('dosen_penguji_id', $dosenPengujiLogin)->value('nilai');
             @endphp
 
-            @if ($mahasiswaLogin || ($dosenPengujiLogin && $nilaiPenelitianDosenPengujiLogin))
+            @if ($mahasiswaLogin || ($dosenPengujiLogin && $nilaiPenelitianDosenPengujiLogin) || Auth::user()->role->nama == 'admin')
                 <input type="number" name="nilai_akhir" class="form-control" value="{{ old('nilai_akhir') ?? ($seminarPenelitian->nilai_akhir ?? '') }}" readonly>
             @else
                 <input type="number" name="nilai_akhir" class="form-control" value="" readonly>
@@ -263,8 +263,10 @@
         </div>
     </div>
 
-    @if (Auth::user()->role->nama == 'admin')
+    @if (Auth::user()->role->nama == 'admin' && !$seminarPenelitian->nilai_akhir)
         <button type="submit" id="edit" class="btn btn-primary">{{ $tombol }}</button>
+    @elseif ($seminarPenelitian->nilai_akhir)
+        <input type="hidden" name="">
     @endif
 
     {{-- menampilkan tombol jika login sebagai dosen penguji --}}

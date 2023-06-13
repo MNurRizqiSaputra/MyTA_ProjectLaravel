@@ -16,7 +16,7 @@
               <tr>
                 <th>No</th>
                 <th>Mahasiswa</th>
-                <th>Tugas Akhir</th>
+                <th>Judul</th>
                 <th>Tempat</th>
                 <th>Tanggal</th>
                 <th>Waktu mulai</th>
@@ -29,6 +29,7 @@
                 @if ($pengujiBelumNilai->contains($seminarPenelitian->id))
                     <tr class="bg-warning">
                         <td>{{ $loop->iteration }}</td>
+                        <td>{{ $seminarPenelitian->tugas_akhir->mahasiswa->user->nama }}</a></td>
                         <td>{{ $seminarPenelitian->tugas_akhir->judul }}</td>
                         <td>{{ $seminarPenelitian->tempat }}</td>
                         <td>{{ $seminarPenelitian->tanggal }}</td>
@@ -37,8 +38,9 @@
                         <td><a href="{{ route('seminar-penelitian.show', ['seminarPenelitian' => $seminarPenelitian->id]) }}">Edit</a></td>
                     </tr>
                 @else
-                    <tr>
+                    <tr class="bg-danger">
                         <td>{{ $loop->iteration }}</td>
+                        <td>{{ $seminarPenelitian->tugas_akhir->mahasiswa->user->nama }}</a></td>
                         <td>{{ $seminarPenelitian->tugas_akhir->judul }}</td>
                         <td>{{ $seminarPenelitian->tempat }}</td>
                         <td>{{ $seminarPenelitian->tanggal }}</td>
