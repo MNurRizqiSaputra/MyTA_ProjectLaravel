@@ -36,7 +36,7 @@
                 <td>{{ $loop->iteration }}</td>
                 <td><a href="{{ route('tugas-akhir.show', ['tugasAkhir' => $tugasAkhir->id]) }}">{{ $tugasAkhir->judul }}</a></td>
                 <td>{{ $tugasAkhir->mahasiswa->user->nama }}</td>
-                <td>{{ $tugasAkhir->dosen_pembimbing->dosen->user->nama }}</td>
+                <td>{{ $tugasAkhir->dosen_pembimbing->dosen->user->nama  ?? ''}}</td>
                 <td>{{ $tugasAkhir->status_persetujuan }}</td>
                 <td>{{ $tugasAkhir->total_nilai }}</td>
             </tr>

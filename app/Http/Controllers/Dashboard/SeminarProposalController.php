@@ -22,16 +22,23 @@ class SeminarProposalController extends Controller
             $seminarProposalId = SeminarProposalNilai::whereIn('dosen_penguji_id', $dosenPengujiId)->pluck('seminar_proposal_id');
 
             // Tampilkan daftar seminar proposal yang terkait
-            $seminarProposals = SeminarProposal::whereIn('id', $seminarProposalId)->get();
+            $seminarProposals = SeminarProposal::whereIn('id', $seminarProposalId)->orderByDesc('created_at')->get();
+
+            // Ambil seminar proposal yang belum dinilai
+            $pengujiNilai = SeminarProposalNilai::where('dosen_penguji_id', $dosenPengujiId)->whereNull('nilai')->pluck('seminar_proposal_id');
 
             return view('pages.dashboard.seminar_proposal.index', [
+                'dosenPengujiId' => $dosenPengujiId,
                 'seminarProposals' => $seminarProposals,
+                'pengujiNilai' => $pengujiNilai
             ]);
         } else {
-            $seminarProposals = SeminarProposal::all();
+            $seminarProposals = SeminarProposal::orderByDesc('created_at')->get();
+            $pengujiNilai = SeminarProposalNilai::whereNull('nilai')->pluck('seminar_proposal_id');
 
             return view('pages.dashboard.seminar_proposal.index', [
                 'seminarProposals' => $seminarProposals,
+                'pengujiNilai' => $pengujiNilai
             ]);
         }
     }
@@ -39,7 +46,14 @@ class SeminarProposalController extends Controller
     public function show(SeminarProposal $seminarProposal)
     {
         if (Auth::user()->role->nama == 'admin') {
-            $dosenSeminarProposals = DosenPenguji::with('dosen.user')->get();
+            $dosenSeminarProposals = DosenPenguji::with('dosen')
+                                                ->join('dosens', 'dosen_pengujis.dosen_id', '=', 'dosens.id')
+                                                ->join('users', 'dosens.user_id', '=', 'users.id')
+                                                ->select(
+                                                    'dosen_pengujis.id as id',
+                                                    'users.nama as nama'
+                                                )
+                                                ->orderBy('users.nama')->get(); //mengambil daftar dosen seminar proposal
             $selectedDosenProposal = $seminarProposal->seminar_proposal_nilais->pluck('dosen_penguji_id')->all();
 
             return view('pages.dashboard.seminar_proposal.show', [
@@ -48,8 +62,14 @@ class SeminarProposalController extends Controller
                 'selectedDosenProposal' => $selectedDosenProposal
             ]);
         } else {
-            $dosenSeminarProposals = $seminarProposal->seminar_proposal_nilais()->with('dosen_penguji.dosen.user')->get();
-            $selectedDosenProposal = $seminarProposal->seminar_proposal_nilais()->pluck('dosen_penguji_id')->all();
+            $dosenSeminarProposals = $seminarProposal->seminar_proposal_nilais()->with('dosen_penguji.dosen.user')
+                                                                                ->join('dosen_pengujis', 'seminar_proposal_nilai.dosen_penguji_id', '=', 'dosen_pengujis.id')
+                                                                                ->join('dosens', 'dosen_pengujis.dosen_id', '=', 'dosens.id')
+                                                                                ->join('users', 'dosens.user_id', '=', 'users.id')
+                                                                                ->where('seminar_proposal_nilai.seminar_proposal_id', $seminarProposal->id)
+                                                                                ->orderBy('users.nama')
+                                                                                ->get(); //mengambil daftar dosen seminar proposal yang terkait dengan seminar proposal
+            $selectedDosenProposal = $seminarProposal->seminar_proposal_nilais->pluck('dosen_penguji_id')->all();
 
             return view('pages.dashboard.seminar_proposal.show', [
                 'seminarProposal' => $seminarProposal,
@@ -70,7 +90,7 @@ class SeminarProposalController extends Controller
                 'tugasAkhir' => $mahasiswa->tugas_akhir
             ]);
         }
-        return redirect()->back()->with('error', 'Mohon Maaf, Harap lengkapi Tugas Akhir Anda');
+        return redirect()->back()->with('error', 'Mohon Maaf, Tugas Akhir Anda belum disetujui');
 
     }
 
@@ -95,18 +115,6 @@ class SeminarProposalController extends Controller
             ->with('success', 'Seminar Proposal berhasil ditambahkan.');
     }
 
-    // public function edit(SeminarProposal $seminarProposal)
-    // {
-    //     $daftarDosenPenguji = DosenPenguji::with('dosen.user')->get();
-    //     $selectedDosenPenguji = $seminarProposal->seminar_proposal_nilais->pluck('dosen_penguji_id')->all();
-
-    //     return view('pages.dashboard.seminar_proposal.edit', [
-    //         'seminarProposal' => $seminarProposal,
-    //         'daftarDosenPenguji' => $daftarDosenPenguji,
-    //         'selectedDosenPenguji' => $selectedDosenPenguji
-    //     ]);
-    // }
-
     public function update(Request $request, SeminarProposal $seminarProposal)
     {
         $validate = $request->validate([
@@ -118,7 +126,7 @@ class SeminarProposalController extends Controller
         $seminarProposal->update($validate);
 
         // Ambil daftar dosen penguji yang dipilih
-        $selectedDosenPengujiIds = $request->input('dosen_penguji_id', []);
+        $selectedDosenPengujiIds = $request->input('dosen_penguji_', []);
 
         // hapus data dosen penguji yang tidak dipilih pada tabel seminar_proposal_nilai
         $seminarProposal->seminar_proposal_nilais()->whereNotIn('dosen_penguji_id', $selectedDosenPengujiIds)->delete();

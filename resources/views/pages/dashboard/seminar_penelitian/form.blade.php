@@ -192,15 +192,15 @@
                 <!-- Loop untuk menampilkan daftar dosen penguji -->
                 @foreach ($dosenSeminarPenelitians as $dosenSeminarPenelitian)
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="dosen_penguji_id[]"  value="{{ $dosenSeminarPenelitian->id }}" {{ in_array($dosenSeminarPenelitian->id, $selectedDosenPenelitian) ? 'checked' : '' }}>
+                        <input class="form-check-input" type="checkbox" name="dosen_penguji_[]"  value="{{ $dosenSeminarPenelitian->id }}" {{ in_array($dosenSeminarPenelitian->id, $selectedDosenPenelitian) ? 'checked' : '' }}>
 
-                        <label class="form-check-label" for="dosen_penguji_{{ $dosenSeminarPenelitian->id }}">{{ $dosenSeminarPenelitian->dosen->user->nama }}</label>
+                        <label class="form-check-label" for="dosen_penguji_{{ $dosenSeminarPenelitian->id }}">{{ $dosenSeminarPenelitian->nama }}</label>
                     </div>
                 @endforeach
             @else
                 @foreach ($dosenSeminarPenelitians as $dosenSeminarPenelitian)
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="dosen_penguji_id[]"  value="{{ $dosenSeminarPenelitian->id }}" {{ in_array($dosenSeminarPenelitian->dosen_penguji->id, $selectedDosenPenelitian) ? 'checked' : '' }}>
+                        <input class="form-check-input" type="checkbox" name="dosen_penguji_[]"  value="{{ $dosenSeminarPenelitian->id }}" {{ in_array($dosenSeminarPenelitian->dosen_penguji->id, $selectedDosenPenelitian) ? 'checked' : '' }}>
 
                         <label class="form-check-label" for="dosen_penguji_{{ $dosenSeminarPenelitian->id }}">{{ $dosenSeminarPenelitian->dosen_penguji->dosen->user->nama }}</label>
                     </div>

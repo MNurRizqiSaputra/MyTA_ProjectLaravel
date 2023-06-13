@@ -10,14 +10,18 @@ class DosenPengujiController extends Controller
 {
     public function index()
     {
+        $dosen_pengujis = DosenPenguji::with('dosen')
+                                        ->join('dosens', 'dosen_pengujis.dosen_id', '=', 'dosens.id')
+                                        ->join('users', 'dosens.user_id', '=', 'users.id')
+                                        ->orderBy('users.nama')->get();
         return view('pages.dashboard.dosen_penguji.index', [
-            'dosen_pengujis' => DosenPenguji::all(),
+            'dosen_pengujis' => $dosen_pengujis,
         ]);
     }
     public function create()
     {
         return view('pages.dashboard.dosen_penguji.create', [
-            'dosens' => Dosen::all()
+            'dosens' => Dosen::with('user')->join('users', 'dosens.user_id', '=', 'users.id')->orderBy('users.nama')->get(),
         ]);
     }
     public function store(Request $request)

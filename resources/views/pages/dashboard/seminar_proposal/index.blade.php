@@ -24,37 +24,33 @@
             </tr>
         </thead>
         <tbody>
+
             @foreach ($seminarProposals as $seminarProposal)
             {{-- Berikan warna yang berbeda untuk seminar proposal yang sudah atau belum di nilai --}}
-                @if ($seminarProposal->nilai_akhir)
+            @if ($pengujiNilai->contains($seminarProposal->id))
                 <tr class="bg-light">
                     <td>{{ $loop->iteration }}</td>
-                    {{-- <td><a href="{{ route('seminar-proposal.show', ['seminarProposal' => $seminarProposal->id]) }}">{{ $seminarProposal->tugas_akhir->mahasiswa->user->nama }}</a></td> --}}
-                    <td>{{ $seminarProposal->tugas_akhir->mahasiswa->user->nama }}</td>
-                    <td>{{ $seminarProposal->tugas_akhir->judul }}</td>
-                    <td>{{ $seminarProposal->tempat }}</td>
-                    <td>{{ $seminarProposal->tanggal }}</td>
-                    <td>{{ $seminarProposal->waktu }}</td>
-                    {{-- <td><a href="{{ route('seminar-proposal.edit', ['seminarProposal' => $seminarProposal->id]) }}">Edit</a></td> --}}
-                    <td><a href="{{ route('seminar-proposal.show', ['seminarProposal' => $seminarProposal->id]) }}" class="btn btn-warning">Edit</a></td>
-                </tr>
-                @else
-                <tr class="bg-danger">
-                    <td>{{ $loop->iteration }}</td>
-                    {{-- <td><a href="{{ route('seminar-proposal.show', ['seminarProposal' => $seminarProposal->id]) }}">{{ $seminarProposal->tugas_akhir->mahasiswa->user->nama }}</a></td> --}}
                     <td>{{ $seminarProposal->tugas_akhir->mahasiswa->user->nama }}</a></td>
                     <td>{{ $seminarProposal->tugas_akhir->judul }}</td>
                     <td>{{ $seminarProposal->tempat }}</td>
                     <td>{{ $seminarProposal->tanggal }}</td>
                     <td>{{ $seminarProposal->waktu }}</td>
-                    {{-- <td><a href="{{ route('seminar-proposal.edit', ['seminarProposal' => $seminarProposal->id]) }}">Edit</a></td> --}}
                     <td><a href="{{ route('seminar-proposal.show', ['seminarProposal' => $seminarProposal->id]) }}" class="btn btn-warning font-bold">Edit</a></td>
                 </tr>
-                @endif
+            @else
+                <tr class="bg-danger">
+                    <td>{{ $loop->iteration }}</td>
+                    <td>{{ $seminarProposal->tugas_akhir->mahasiswa->user->nama }}</a></td>
+                    <td>{{ $seminarProposal->tugas_akhir->judul }}</td>
+                    <td>{{ $seminarProposal->tempat }}</td>
+                    <td>{{ $seminarProposal->tanggal }}</td>
+                    <td>{{ $seminarProposal->waktu }}</td>
+                    <td><a href="{{ route('seminar-proposal.show', ['seminarProposal' => $seminarProposal->id]) }}" class="btn btn-warning font-bold">Edit</a></td>
+                </tr>
+            @endif
             @endforeach
         </tbody>
         </table>
     </div>
 </div>
 @endsection
-

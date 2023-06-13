@@ -11,7 +11,7 @@ class SeminarPenelitianNilaiController extends Controller
     public function index()
     {
         return view('pages.dashboard.seminar_penelitian_nilai.index', [
-            'seminar_penelitian_nilais' => SeminarPenelitianNilai::all(),
+            'seminar_penelitian_nilais' => SeminarPenelitianNilai::orderByDesc('created_at')->get(),
         ]);
     }
 

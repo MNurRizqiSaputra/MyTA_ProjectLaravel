@@ -6,29 +6,23 @@ use Exception;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\Dosen;
-use App\Models\Jurusan;
 use App\Models\Mahasiswa;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Hash;
-use App\Http\Requests\CreateRoleRequest;
-use App\Http\Requests\CreateUserRequest;
-use App\Http\Requests\UpdateUserRequest;
-use App\Http\Requests\DeleteUserRequest;
 
 class UserController extends Controller
 {
     public function index()
     {
         return view('pages.dashboard.user.index', [
-            'users' => User::with('role')->get(),
+            'users' => User::with('role')->orderBy('nama')->get(),
         ]);
     }
 
     public function create()
     {
         return view('pages.dashboard.user.create', [
-            'roles' => Role::all(),
+            'roles' => Role::orderBy('nama')->get(),
         ]);
     }
 
@@ -61,7 +55,9 @@ class UserController extends Controller
             Dosen::create([
                 'user_id' => $user->id,
             ]);
-        } elseif ($user->role_id == ($user->role->nama == 'mahasiswa')) {
+        }
+
+        if ($user->role_id == ($user->role->nama == 'mahasiswa')) {
             // Tambahkan data mahasiswa
             Mahasiswa::create([
                 'user_id' => $user->id,
@@ -77,7 +73,7 @@ class UserController extends Controller
     {
         return view('pages.dashboard.user.show', [
             'user' => $user,
-            'roles' => Role::all()
+            'roles' => Role::orderBy('nama')->get()
         ]);
     }
 
@@ -123,7 +119,9 @@ class UserController extends Controller
                 ]);
                 $user->mahasiswa->delete();
             }
-        }elseif ($request->role_id == Role::where('nama', 'mahasiswa')->first()->id){
+        }
+
+        if ($request->role_id == Role::where('nama', 'mahasiswa')->first()->id){
             if (!$user->mahasiswa) {
                 // Buat data baru pada tabel mahasiswa
                 Mahasiswa::create([

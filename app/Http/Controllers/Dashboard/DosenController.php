@@ -12,7 +12,7 @@ class DosenController extends Controller
     public function index()
     {
         return view('pages.dashboard.dosen.index', [
-        'dosens' => Dosen::all(),
+        'dosens' => Dosen::with('user')->join('users', 'dosens.user_id', '=', 'users.id')->orderBy('users.nama')->get(),
         ]);
     }
     public function show(Dosen $dosen)
@@ -27,7 +27,7 @@ class DosenController extends Controller
     {
         // Validasi input data
         $request->validate([
-            'nip' => 'required|string|max:10|unique:dosens,nip,' . $dosen->id,
+            'nip' => 'required|string|size:10|unique:dosens,nip,' . $dosen->id,
             'jurusan_id' => 'required|exists:jurusans,id',
             'nama' => 'required|string',
             'tanggal_lahir' => 'required|date',

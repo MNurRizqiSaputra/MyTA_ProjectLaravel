@@ -25,7 +25,7 @@
         </thead>
         <tbody>
             @foreach ($sidangAkhirs as $sidangAkhir)
-            @if ($sidangAkhir->nilai_akhir)
+            @if ($pengujiNilai->contains($sidangAkhir->id))
             <tr class="bg-light">
                 <td>{{ $loop->iteration }}</td>
                 <td>{{ $sidangAkhir->tugas_akhir->mahasiswa->user->nama }}</td>
@@ -52,4 +52,3 @@
     </div>
 </div>
 @endsection
-

@@ -17,10 +17,10 @@ class DosenPengujiMiddleware
     {
         $user = auth()->user();
 
-        if ($user->dosen && $user->dosen->dosen_pengujis->pluck('id')->first()) {
+        if ($user->dosen && $user->dosen->dosen_pengujis->count() > 0) {
             return $next($request);
         } else {
-            return redirect('/dashboard/overview');
+            return redirect()->back();
         }
 
     }

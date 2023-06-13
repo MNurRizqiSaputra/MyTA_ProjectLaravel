@@ -192,15 +192,15 @@
                 <!-- Loop untuk menampilkan daftar dosen penguji -->
                 @foreach ($dosenSidangAkhirs as $dosenSidangAkhir)
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="dosen_penguji_id[]"  value="{{ $dosenSidangAkhir->id }}" {{ in_array($dosenSidangAkhir->id, $selectedDosenSidangAkhir) ? 'checked' : '' }}>
+                        <input class="form-check-input" type="checkbox" name="dosen_penguji_[]"  value="{{ $dosenSidangAkhir->id }}" {{ in_array($dosenSidangAkhir->id, $selectedDosenSidangAkhir) ? 'checked' : '' }}>
 
-                        <label class="form-check-label" for="dosen_penguji_{{ $dosenSidangAkhir->id }}">{{ $dosenSidangAkhir->dosen->user->nama }}</label>
+                        <label class="form-check-label" for="dosen_penguji_{{ $dosenSidangAkhir->id }}">{{ $dosenSidangAkhir->nama }}</label>
                     </div>
                 @endforeach
             @else
                 @foreach ($dosenSidangAkhirs as $dosenSidangAkhir)
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="dosen_penguji_id[]"  value="{{ $dosenSidangAkhir->id }}" {{ in_array($dosenSidangAkhir->dosen_penguji->id, $selectedDosenSidangAkhir) ? 'checked' : '' }}>
+                        <input class="form-check-input" type="checkbox" name="dosen_penguji_[]"  value="{{ $dosenSidangAkhir->id }}" {{ in_array($dosenSidangAkhir->dosen_penguji->id, $selectedDosenSidangAkhir) ? 'checked' : '' }}>
 
                         <label class="form-check-label" for="dosen_penguji_{{ $dosenSidangAkhir->id }}">{{ $dosenSidangAkhir->dosen_penguji->dosen->user->nama }}</label>
                     </div>
@@ -211,8 +211,18 @@
 
     <div class="row">
         <div class="col mb-3">
-            <label for="nilai_akhir" class="form-label">Nilai Akhir</label>
-            <input type="number" name="nilai_akhir" class="form-control" value="{{ old('nilai_akhir') ?? ($sidangAkhir->nilai_akhir ?? '') }}" readonly>
+            <label for="nilai_akhir" class="form-label">Nilai akhir</label>
+            @php
+                $mahasiswaLogin = Auth::user()->mahasiswa ? Auth::user()->mahasiswa->tugas_akhir->sidang_akhir->id : null;
+                $dosenPengujiLogin = Auth::user()->dosen ? Auth::user()->dosen->dosen_pengujis->pluck('id')->first() : null;
+                $nilaiDosenPenguji = $sidangAkhir->sidang_akhir_nilais()->where('dosen_penguji_id', $dosenPengujiLogin)->value('nilai');
+            @endphp
+
+            @if ($mahasiswaLogin || ($dosenPengujiLogin && $nilaiDosenPenguji))
+                <input type="number" name="nilai_akhir" class="form-control" value="{{ old('nilai_akhir') ?? ($sidangAkhir->nilai_akhir ?? '') }}" readonly>
+            @else
+                <input type="number" name="nilai_akhir" class="form-control" value="" readonly>
+            @endif
             @error('nilai_akhir')
                 <span class="invalid-feedback" role="alert">
                     <strong>{{ $message }}</strong>
@@ -231,4 +241,3 @@
     @endif
 </div>
 @endif
-
