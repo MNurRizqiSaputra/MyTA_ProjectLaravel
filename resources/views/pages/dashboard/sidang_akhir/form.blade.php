@@ -246,7 +246,7 @@
             <label for="nilai_akhir" class="form-label">Nilai akhir</label>
             @php
                 $mahasiswaLogin = Auth::user()->mahasiswa ? Auth::user()->mahasiswa->tugas_akhir->sidang_akhir->id : null;
-                $dosenPengujiLogin = Auth::user()->dosen ? Auth::user()->dosen->dosen_pengujis->pluck('id')->first() : null;
+                $dosenPengujiLogin = Auth::user()->dosen ? Auth::user()->dosen->dosen_penguji->id : null;
                 $nilaiSidangAkhirDosenPengujiLogin = $sidangAkhir->sidang_akhir_nilais()->where('dosen_penguji_id', $dosenPengujiLogin)->value('nilai');
             @endphp
 
@@ -268,7 +268,7 @@
     @endif
 
     {{-- menampilkan tombol jika login sebagai dosen penguji --}}
-    @if (Auth::user()->dosen && Auth::user()->dosen->dosen_pengujis->count() > 0)
+    @if (Auth::user()->dosen && Auth::user()->dosen->dosen_penguji)
         <a href="{{ route('sidang-akhir-nilai.nilai', ['sidangAkhir' => $sidangAkhir->id]) }}" class="btn btn-primary">Berikan Nilai</a>
     @endif
 </div>

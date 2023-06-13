@@ -12,8 +12,8 @@ class TugasAkhirController extends Controller
 {
     public function index()
     {
-        if (Auth::user()->dosen && Auth::user()->dosen->dosen_pembimbings->pluck('id')){
-            $dosenPembimbingId = Auth::user()->dosen->dosen_pembimbings->pluck('id'); // get id dosen pembimbing yang login
+        if (Auth::user()->dosen && Auth::user()->dosen->dosen_pembimbing->id){
+            $dosenPembimbingId = Auth::user()->dosen->dosen_pembimbing->id; // get id dosen pembimbing yang login
             $tugasAkhir = TugasAkhir::where('dosen_pembimbing_id', $dosenPembimbingId)->orderByDesc('created_at')->get();
         }
 
@@ -30,9 +30,9 @@ class TugasAkhirController extends Controller
     {
         if (Auth::user()->dosen) {
             $selectedDosenPembimbing = $tugasAkhir->dosen_pembimbing; // mendapatkan data dosen pembimbing terkait.
-            $dosenPembimbingId = Auth::user()->dosen->dosen_pembimbings->pluck('id')->toArray();
+            $dosenPembimbingId = Auth::user()->dosen->dosen_pembimbing->id;
 
-            if (in_array($selectedDosenPembimbing->id, $dosenPembimbingId)) {
+            if ($selectedDosenPembimbing->id == $dosenPembimbingId) {
                 return view('pages.dashboard.tugas_akhir.show', [
                     'tugasAkhir' => $tugasAkhir,
                     'selectedDosenPembimbing' => $selectedDosenPembimbing
@@ -143,7 +143,7 @@ class TugasAkhirController extends Controller
                 }
             }
         }
-        elseif ($user->dosen->dosen_pembimbings->pluck('id')->first() === $tugasAkhir->dosen_pembimbing_id) {
+        elseif ($user->dosen->dosen_pembimbing->pluck('id')->first() === $tugasAkhir->dosen_pembimbing_id) {
             $request->validate([
                 'status_persetujuan' => 'required|in:Disetujui,Tidak Disetujui'
             ]);
