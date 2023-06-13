@@ -36,7 +36,7 @@
                     <td>{{ $seminarProposal->tanggal }}</td>
                     <td>{{ $seminarProposal->waktu }}</td>
                     {{-- <td><a href="{{ route('seminar-proposal.edit', ['seminarProposal' => $seminarProposal->id]) }}">Edit</a></td> --}}
-                    <td><a href="{{ route('seminar-proposal.show', ['seminarProposal' => $seminarProposal->id]) }}">Edit</a></td>
+                    <td><a class="btn btn-warning btn-sm" href="{{ route('seminar-proposal.show', ['seminarProposal' => $seminarProposal->id]) }}">Edit</a></td>
                 </tr>
                 @else
                 <tr class="bg-warning">

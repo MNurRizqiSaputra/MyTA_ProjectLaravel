@@ -33,7 +33,7 @@
                 <td>{{ $sidangAkhir->tempat }}</td>
                 <td>{{ $sidangAkhir->tanggal }}</td>
                 <td>{{ $sidangAkhir->waktu }}</td>
-                <td><a href="{{ route('sidang-akhir.show', ['sidangAkhir' => $sidangAkhir->id]) }}">Edit</a></td>
+                <td><a class="btn btn-warning btn-sm" href="{{ route('sidang-akhir.show', ['sidangAkhir' => $sidangAkhir->id]) }}">Edit</a></td>
             </tr>
             @else
             <tr class="bg-warning">
@@ -43,7 +43,7 @@
                 <td>{{ $sidangAkhir->tempat }}</td>
                 <td>{{ $sidangAkhir->tanggal }}</td>
                 <td>{{ $sidangAkhir->waktu }}</td>
-                <td><a href="{{ route('sidang-akhir.show', ['sidangAkhir' => $sidangAkhir->id]) }}">Edit</a></td>
+                <td><a class="btn btn-warning btn-sm" href="{{ route('sidang-akhir.show', ['sidangAkhir' => $sidangAkhir->id]) }}">Edit</a></td>
             </tr>
             @endif
             @endforeach

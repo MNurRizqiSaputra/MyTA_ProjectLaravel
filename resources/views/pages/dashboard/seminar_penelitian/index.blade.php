@@ -31,7 +31,7 @@
                 <td>{{ $seminarPenelitian->tempat }}</td>
                 <td>{{ $seminarPenelitian->tanggal }}</td>
                 <td>{{ $seminarPenelitian->waktu }}</td>
-                <td><a href="{{ route('seminar-penelitian.show', ['seminarPenelitian' => $seminarPenelitian->id]) }}">Edit</a></td>
+                <td><a class="btn btn-warning btn-sm" href="{{ route('seminar-penelitian.show', ['seminarPenelitian' => $seminarPenelitian->id]) }}">Edit</a></td>
             </tr>
             @else
             <tr class="bg-warning">
@@ -40,7 +40,7 @@
                 <td>{{ $seminarPenelitian->tempat }}</td>
                 <td>{{ $seminarPenelitian->tanggal }}</td>
                 <td>{{ $seminarPenelitian->waktu }}</td>
-                <td><a href="{{ route('seminar-penelitian.show', ['seminarPenelitian' => $seminarPenelitian->id]) }}">Edit</a></td>
+                <td><a class="btn btn-warning btn-sm" href="{{ route('seminar-penelitian.show', ['seminarPenelitian' => $seminarPenelitian->id]) }}">Edit</a></td>
             </tr>
             @endif
             @endforeach
