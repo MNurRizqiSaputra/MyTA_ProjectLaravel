@@ -216,10 +216,10 @@
             @php
                 $mahasiswaLogin = Auth::user()->mahasiswa ? Auth::user()->mahasiswa->tugas_akhir->seminar_proposal->id : null;
                 $dosenPengujiLogin = Auth::user()->dosen ? Auth::user()->dosen->dosen_pengujis->pluck('id')->first() : null;
-                $nilaiSeminarProposal = $seminarProposal->seminar_proposal_nilais()->where('dosen_penguji_id', $dosenPengujiLogin)->value('nilai');
+                $nilaiDosenPenguji = $seminarProposal->seminar_proposal_nilais()->where('dosen_penguji_id', $dosenPengujiLogin)->value('nilai');
             @endphp
 
-            @if ($mahasiswaLogin || ($dosenPengujiLogin && $nilaiSeminarProposal))
+            @if ($mahasiswaLogin || ($dosenPengujiLogin && $nilaiDosenPenguji))
                 <input type="number" name="nilai_akhir" class="form-control" value="{{ old('nilai_akhir') ?? ($seminarProposal->nilai_akhir ?? '') }}" readonly>
             @else
                 <input type="number" name="nilai_akhir" class="form-control" value="" readonly>
