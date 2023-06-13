@@ -27,9 +27,9 @@
             <tr>
                 <td>{{ $loop->iteration }}</td>
                 <td>{{ $dosen->nip ?? ''}}</td>
-                <td>{{ $dosen->user->nama ?? '' }}</td>
-                <td>{{ $dosen->user->email ?? '' }}</td>
-                <td>{{ $dosen->jurusan->nama ?? '' }}</td>
+                <td>{{ $dosen->nama ?? '' }}</td>
+                <td>{{ $dosen->email ?? '' }}</td>
+                <td>{{ $dosen->jurusan ?? '' }}</td>
                 <td><a href="{{ route('dosen.show', ['dosen' => $dosen->id]) }}">Edit</a></td>
             </tr>
             @endforeach
