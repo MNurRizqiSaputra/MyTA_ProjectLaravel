@@ -26,24 +26,24 @@
         <tbody>
             @foreach ($sidangAkhirs as $sidangAkhir)
             @if ($pengujiNilai->contains($sidangAkhir->id))
-            <tr class="bg-warning">
+            <tr class="bg-light">
                 <td>{{ $loop->iteration }}</td>
                 <td>{{ $sidangAkhir->tugas_akhir->mahasiswa->user->nama }}</td>
                 <td>{{ $sidangAkhir->tugas_akhir->judul }}</td>
                 <td>{{ $sidangAkhir->tempat }}</td>
                 <td>{{ $sidangAkhir->tanggal }}</td>
                 <td>{{ $sidangAkhir->waktu }}</td>
-                <td><a href="{{ route('sidang-akhir.show', ['sidangAkhir' => $sidangAkhir->id]) }}">Edit</a></td>
+                <td><a href="{{ route('sidang-akhir.show', ['sidangAkhir' => $sidangAkhir->id]) }}" class="btn btn-warning">Edit</a></td>
             </tr>
             @else
-            <tr>
+            <tr class="bg-danger">
                 <td>{{ $loop->iteration }}</td>
                 <td>{{ $sidangAkhir->tugas_akhir->mahasiswa->user->nama }}</td>
                 <td>{{ $sidangAkhir->tugas_akhir->judul }}</td>
                 <td>{{ $sidangAkhir->tempat }}</td>
                 <td>{{ $sidangAkhir->tanggal }}</td>
                 <td>{{ $sidangAkhir->waktu }}</td>
-                <td><a href="{{ route('sidang-akhir.show', ['sidangAkhir' => $sidangAkhir->id]) }}">Edit</a></td>
+                <td><a href="{{ route('sidang-akhir.show', ['sidangAkhir' => $sidangAkhir->id]) }}" class="btn btn-warning">Edit</a></td>
             </tr>
             @endif
             @endforeach
@@ -52,4 +52,3 @@
     </div>
 </div>
 @endsection
-

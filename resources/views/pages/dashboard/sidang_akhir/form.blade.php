@@ -20,7 +20,7 @@
 
     <div class="row">
         <div class="col mb-3">
-            <label for="file" class="form-label">file</label>
+            <label for="file" class="form-label">File</label>
             <input type="text" class="form-control" value="{{ basename($tugasAkhir->file) }}" readonly>
         </div>
     </div>
@@ -50,7 +50,7 @@
 
     <div class="row">
         <div class="col mb-3">
-            <label for="tanggal" class="form-label">tanggal</label>
+            <label for="tanggal" class="form-label">Tanggal</label>
             @if (Auth::user()->role->nama == 'admin')
                 <input type="date" name="tanggal" class="form-control" value="{{ old('tanggal') ?? ($sidangAkhir->tanggal ?? '') }}" required>
             @else
@@ -90,7 +90,7 @@
     {{-- dosen penguji --}}
     <div class="row">
         <div class="col mb-3">
-            <label for="nilai_akhir" class="form-label">Nilai akhir</label>
+            <label for="nilai_akhir" class="form-label">Nilai Akhir</label>
             @if (Auth::user()->role->nama == 'admin' || Auth::user()->mahasiswa)
                 <input type="number" name="nilai_akhir" class="form-control" value="{{ old('nilai_akhir') ?? ($sidang_akhir->nilai_akhir ?? '') }}" readonly>
             @else
@@ -126,7 +126,7 @@
 
     <div class="row">
         <div class="col mb-3">
-            <label for="file" class="form-label">file</label>
+            <label for="file" class="form-label">File</label>
             <input type="text" class="form-control" value="{{ basename($sidangAkhir->tugas_akhir->file) }}" readonly>
         </div>
     </div>
@@ -155,7 +155,7 @@
 
     <div class="row">
         <div class="col mb-3">
-            <label for="tanggal" class="form-label">tanggal</label>
+            <label for="tanggal" class="form-label">Tanggal</label>
             @if (Auth::user()->role->nama == 'admin')
                 <input type="date" name="tanggal" class="form-control" value="{{ old('tanggal') ?? ($sidangAkhir->tanggal ?? '') }}" required>
             @else
@@ -241,4 +241,3 @@
     @endif
 </div>
 @endif
-

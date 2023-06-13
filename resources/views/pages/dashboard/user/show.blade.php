@@ -18,7 +18,7 @@
         <div class="col-12">
             <form action="{{ route('user.update', ['user' => $user->id]) }}" method="POST">
                 @method('PUT')
-                @include('pages.dashboard.user.form', ['tombol' => 'Edit'])
+                @include('pages.dashboard.user.form', ['tombol' => 'Simpan'])
             </form>
         </div>
     </div>

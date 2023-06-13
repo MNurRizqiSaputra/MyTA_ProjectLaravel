@@ -18,7 +18,7 @@
         <div class="col-12">
             <form action="{{ route('jurusan.update', ['jurusan' => $jurusan->id]) }}" method="POST" enctype="multipart/form-data">
                 @method('PUT')
-                @include('pages.dashboard.jurusan.form', ['tombol' => 'Edit'])
+                @include('pages.dashboard.jurusan.form', ['tombol' => 'Simpan'])
             </form>
         </div>
     </div>
