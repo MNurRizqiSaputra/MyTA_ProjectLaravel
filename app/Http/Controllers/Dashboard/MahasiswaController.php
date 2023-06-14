@@ -20,6 +20,7 @@ class MahasiswaController extends Controller
                                 ->leftJoin('jurusans', 'mahasiswas.jurusan_id', '=', 'jurusans.id')
                                 ->select(
                                     'mahasiswas.id as id',
+                                    'mahasiswas.nim as nim',
                                     'users.nama as nama',
                                     'users.email as email',
                                     'jurusans.nama as jurusan',

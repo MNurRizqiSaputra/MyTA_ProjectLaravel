@@ -17,6 +17,7 @@ class DosenController extends Controller
                         ->leftJoin('jurusans', 'dosens.jurusan_id', '=', 'jurusans.id')
                         ->select(
                             'dosens.id as id',
+                            'dosens.nip as nip',
                             'users.nama as nama',
                             'users.email as email',
                             'jurusans.nama as jurusan',

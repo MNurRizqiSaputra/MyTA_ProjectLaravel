@@ -120,6 +120,26 @@ class SeminarProposalController extends Controller
             'tempat' => 'required',
         ]);
 
+        $tanggal = $request->tanggal;
+        $tempat = $request->tempat;
+
+        $bentrok = SeminarProposal::where('id', '!=', $seminarProposal->id)
+                    ->where('tempat', $tempat)
+                    ->where('tanggal', $tanggal)
+                    ->where(function($query) use ($validate){
+                        $query->where(function ($query) use ($validate) {
+                            $query->whereBetween('waktu_mulai', [$validate['waktu_mulai'], $validate['waktu_selesai']])
+                                ->orWhereBetween('waktu_selesai', [$validate['waktu_mulai'], $validate['waktu_selesai']]);
+                        })
+                        ->orWhere(function ($query) use ($validate) {
+                            $query->where('waktu_mulai', '<=', $validate['waktu_mulai'])
+                                ->where('waktu_selesai', '>=', $validate['waktu_selesai']);
+                        });
+                    })->exists();
+        if ($bentrok) {
+            return redirect()->back()->with('error', 'Maaf, terdapat bentrok dengan acara lain pada waktu dan tempat tersebut.');
+        }
+
         $seminarProposal->update($validate);
 
         $selectedDosenPengujiIds = $request->input('dosen_penguji_', []); // Ambil daftar dosen penguji yang dipilih

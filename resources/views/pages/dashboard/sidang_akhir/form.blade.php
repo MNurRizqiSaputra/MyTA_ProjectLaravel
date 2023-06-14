@@ -250,7 +250,7 @@
                 $nilaiSidangAkhirDosenPengujiLogin = $sidangAkhir->sidang_akhir_nilais()->where('dosen_penguji_id', $dosenPengujiLogin)->value('nilai');
             @endphp
 
-            @if ($mahasiswaLogin || ($dosenPengujiLogin && $nilaiSidangAkhirDosenPengujiLogin))
+            @if ($mahasiswaLogin || ($dosenPengujiLogin && $nilaiSidangAkhirDosenPengujiLogin) || Auth::user()->role->nama == 'admin')
                 <input type="number" name="nilai_akhir" class="form-control" value="{{ old('nilai_akhir') ?? ($sidangAkhir->nilai_akhir ?? '') }}" readonly>
             @else
                 <input type="number" name="nilai_akhir" class="form-control" value="" readonly>
@@ -263,8 +263,10 @@
         </div>
     </div>
 
-    @if (Auth::user()->role->nama == 'admin')
+    @if (Auth::user()->role->nama == 'admin' && !$sidangAkhir->nilai_akhir)
         <button type="submit" id="edit" class="btn btn-primary">{{ $tombol }}</button>
+    @elseif ($sidangAkhir->nilai_akhir)
+        <input type="hidden" name="">
     @endif
 
     {{-- menampilkan tombol jika login sebagai dosen penguji --}}

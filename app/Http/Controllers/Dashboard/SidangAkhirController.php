@@ -13,8 +13,8 @@ class SidangAkhirController extends Controller
 {
     public function index()
     {
-        if (Auth::user()->dosen && Auth::user()->dosen->dosen_pengujis) {
-            $dosenPengujiId = auth()->user()->dosen->dosen_penguji->id; // get id dosen penguji yang login
+        if (Auth::user()->dosen && Auth::user()->dosen->dosen_penguji) {
+            $dosenPengujiId = Auth::user()->dosen->dosen_penguji->id; // get id dosen penguji yang login
             $sidangAkhirId = SidangAkhirNilai::where('dosen_penguji_id', $dosenPengujiId)->pluck('sidang_akhir_id'); // Ambil daftar sidang akhir yang terkait dengan dosen penguji
             $sidangAkhirs = SidangAkhir::whereIn('id', $sidangAkhirId)->orderByDesc('created_at')->get(); // Tampilkan daftar sidang akhir yang terkait
 
@@ -75,7 +75,7 @@ class SidangAkhirController extends Controller
         $tugasAkhirMahasiswa = auth()->user()->mahasiswa->tugas_akhir;
         $seminarPenelitian = $tugasAkhirMahasiswa->seminar_penelitian;
 
-        if ($seminarPenelitian) {
+        if ($seminarPenelitian->nilai_akhir) {
             $dosenPengujiBelumNilai = $seminarPenelitian->seminar_penelitian_nilais()->whereNull('nilai')->with('dosen_penguji')->get();
 
             if ($dosenPengujiBelumNilai->isEmpty()) {
@@ -120,6 +120,26 @@ class SidangAkhirController extends Controller
             'waktu_selesai' => 'required',
             'tempat' => 'required',
         ]);
+
+        $tanggal = $request->tanggal;
+        $tempat = $request->tempat;
+
+        $bentrok = SidangAkhir::where('id', '!=', $sidangAkhir->id)
+                    ->where('tempat', $tempat)
+                    ->where('tanggal', $tanggal)
+                    ->where(function($query) use ($validate){
+                        $query->where(function ($query) use ($validate) {
+                            $query->whereBetween('waktu_mulai', [$validate['waktu_mulai'], $validate['waktu_selesai']])
+                                ->orWhereBetween('waktu_selesai', [$validate['waktu_mulai'], $validate['waktu_selesai']]);
+                        })
+                        ->orWhere(function ($query) use ($validate) {
+                            $query->where('waktu_mulai', '<=', $validate['waktu_mulai'])
+                                ->where('waktu_selesai', '>=', $validate['waktu_selesai']);
+                        });
+                    })->exists();
+        if ($bentrok) {
+            return redirect()->back()->with('error', 'Maaf, terdapat bentrok dengan acara lain pada waktu dan tempat tersebut.');
+        }
 
         $sidangAkhir->update($validate);
 

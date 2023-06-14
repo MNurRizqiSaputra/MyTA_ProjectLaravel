@@ -143,7 +143,7 @@ class TugasAkhirController extends Controller
                 }
             }
         }
-        elseif ($user->dosen->dosen_pembimbing->pluck('id')->first() === $tugasAkhir->dosen_pembimbing_id) {
+        elseif ($user->dosen->dosen_pembimbing->id === $tugasAkhir->dosen_pembimbing_id) {
             $request->validate([
                 'status_persetujuan' => 'required|in:Disetujui,Tidak Disetujui'
             ]);

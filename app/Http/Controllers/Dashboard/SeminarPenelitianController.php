@@ -78,7 +78,7 @@ class SeminarPenelitianController extends Controller
         $tugasAkhirMahasiswa = Auth::user()->mahasiswa->tugas_akhir;
         $seminarProposal = $tugasAkhirMahasiswa->seminar_proposal;
 
-        if ($seminarProposal) {
+        if ($seminarProposal->nilai_akhir) {
             $dosenPengujiBelumNilai = $seminarProposal->seminar_proposal_nilais()->whereNull('nilai')->with('dosen_penguji')->get();
 
             if ($dosenPengujiBelumNilai->isEmpty()) {
@@ -123,6 +123,26 @@ class SeminarPenelitianController extends Controller
             'waktu_selesai' => 'required',
             'tempat' => 'required',
         ]);
+
+        $tanggal = $request->tanggal;
+        $tempat = $request->tempat;
+
+        $bentrok = SeminarPenelitian::where('id', '!=', $seminarPenelitian->id)
+                    ->where('tempat', $tempat)
+                    ->where('tanggal', $tanggal)
+                    ->where(function($query) use ($validate){
+                        $query->where(function ($query) use ($validate) {
+                            $query->whereBetween('waktu_mulai', [$validate['waktu_mulai'], $validate['waktu_selesai']])
+                                ->orWhereBetween('waktu_selesai', [$validate['waktu_mulai'], $validate['waktu_selesai']]);
+                        })
+                        ->orWhere(function ($query) use ($validate) {
+                            $query->where('waktu_mulai', '<=', $validate['waktu_mulai'])
+                                ->where('waktu_selesai', '>=', $validate['waktu_selesai']);
+                        });
+                    })->exists();
+        if ($bentrok) {
+            return redirect()->back()->with('error', 'Maaf, terdapat bentrok dengan acara lain pada waktu dan tempat tersebut.');
+        }
 
         $seminarPenelitian->update($validate);
 
