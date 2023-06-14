@@ -43,6 +43,7 @@ class DosenPembimbingController extends Controller
         ]);
 
         DosenPembimbing::create($validated);
+        session()->flash('success', 'Data Dosen Pembimbing berhasil ditambah');
         return redirect()->route('dosen-pembimbing.index');
     }
 }

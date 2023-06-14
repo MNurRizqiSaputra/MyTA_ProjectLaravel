@@ -81,6 +81,7 @@ class MahasiswaController extends Controller
 
         $mahasiswa->save();
 
-        return redirect()->route('mahasiswa.show', ['mahasiswa' => $mahasiswa])->with('success', 'Berhasil mengubah data mahasiswa.');
+        session()->flash('success', 'Data Mahasiswa berhasil diperbarui');
+        return redirect()->route('mahasiswa.show', ['mahasiswa' => $mahasiswa]);
     }
 }

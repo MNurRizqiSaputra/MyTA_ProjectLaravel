@@ -66,7 +66,9 @@ class UserController extends Controller
 
         $user->save();
 
-        return redirect()->route('user.index')->with('success', 'Data user berhasil ditambahkan.');
+        session()->flash('success', 'Data User berhasil ditambah');
+
+        return redirect()->route('user.index');
     }
 
     public function show(User $user)
@@ -131,7 +133,9 @@ class UserController extends Controller
             }
         }
 
-        return redirect()->back()->with('success', 'Data berhasil diperbarui');
+        session()->flash('success', 'Data User berhasil diperbarui');
+
+        return redirect()->route('user.index');
     }
 
     public function destroy(User $user)
@@ -151,6 +155,8 @@ class UserController extends Controller
             $user->delete();
         }
 
-        return redirect()->back()->with('success', 'Pengguna berhasil dihapus.');
+        session()->flash('success', 'Data User berhasil dihapus');
+
+        return redirect()->route('user.index');
     }
 }

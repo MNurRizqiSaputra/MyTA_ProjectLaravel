@@ -38,6 +38,7 @@ class DosenPengujiController extends Controller
             'dosen_id' => 'required|exists:dosens,id|unique:dosen_pengujis,dosen_id'
         ]);
         DosenPenguji::create($validated);
+        session()->flash('success', 'Data Dosen Penguji berhasil ditambah');
         return redirect()->route('dosen-penguji.index');
     }
 }

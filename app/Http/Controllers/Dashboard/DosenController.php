@@ -74,6 +74,7 @@ class DosenController extends Controller
 
         $dosen->save();
 
-        return redirect()->route('dosen.show', ['dosen' => $dosen])->with('success', 'Berhasil mengubah data dosen.');
+        session()->flash('success', 'Data Dosen berhasil diperbarui');
+        return redirect()->route('dosen.show', ['dosen' => $dosen]);
     }
 }
