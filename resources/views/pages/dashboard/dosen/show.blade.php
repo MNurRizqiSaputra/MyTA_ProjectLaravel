@@ -56,8 +56,17 @@
                     </div>
                     <div class="mb-3 col-md-6">
                         <label for="password" class="form-label">Password</label>
-                        <input class="form-control @error('password') is-invalid @enderror" type="text" id="password" name="password" value="{{ old('password') ?? ($dosen->user->password ?? '') }}" placeholder="*******" required>
+                        <input class="form-control @error('password') is-invalid @enderror" type="password" id="password" name="password" value="" placeholder="********" autocomplete="new-password" required>
                         @error('password')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+                    <div class="mb-3 col-md-6">
+                        <label for="password" class="form-label">Konfirmasi Password</label>
+                        <input class="form-control @error('password_confirmation') is-invalid @enderror" type="password" id="password" name="password_confirmation" value="" placeholder="********" autocomplete="new-password" required>
+                        @error('password_confirmation')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
                             </span>

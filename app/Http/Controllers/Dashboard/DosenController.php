@@ -50,7 +50,7 @@ class DosenController extends Controller
         // Update data pada model User
         $user = $dosen->user;
         $user->nama = $request->nama;
-        $user->password = $request->input('password');
+        $user->password = bcrypt($request->input('password'));
         $user->email = $request->email;
         $user->tanggal_lahir = $request->input('tanggal_lahir');
         $user->save();
