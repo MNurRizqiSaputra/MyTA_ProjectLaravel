@@ -75,7 +75,7 @@ class SidangAkhirController extends Controller
         $tugasAkhirMahasiswa = auth()->user()->mahasiswa->tugas_akhir;
         $seminarPenelitian = $tugasAkhirMahasiswa->seminar_penelitian;
 
-        if ($seminarPenelitian->nilai_akhir) {
+        if (isset($seminarPenelitian->nilai_akhir)) {
             $dosenPengujiBelumNilai = $seminarPenelitian->seminar_penelitian_nilais()->whereNull('nilai')->with('dosen_penguji')->get();
 
             if ($dosenPengujiBelumNilai->isEmpty()) {
