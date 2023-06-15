@@ -23,6 +23,11 @@
                 </div>
             </div>
             <hr class="my-0">
+            @if(session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+            @endif
             <div class="card-body">
                 <div class="row">
                     <div class="mb-3 col-md-6">
@@ -55,6 +60,24 @@
                         <label for="email" class="form-label">E-mail</label>
                         <input class="form-control" type="text" id="email" name="email" value="{{ old('email') ?? ($mahasiswa->user->email ?? '') }}" placeholder="john.doe@example.com" required>
                         @error('email')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+                    <div class="mb-3 col-md-6">
+                        <label for="password" class="form-label">Password</label>
+                        <input class="form-control @error('password') is-invalid @enderror" type="password" id="password" name="password" value="" placeholder="********" autocomplete="new-password">
+                        @error('password')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+                    <div class="mb-3 col-md-6">
+                        <label for="password" class="form-label">Konfirmasi Password</label>
+                        <input class="form-control @error('password_confirmation') is-invalid @enderror" type="password" id="password" name="password_confirmation" value="" placeholder="********" autocomplete="new-password">
+                        @error('password_confirmation')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
                             </span>

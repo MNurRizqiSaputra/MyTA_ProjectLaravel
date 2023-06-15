@@ -19,6 +19,17 @@
         @if (Auth::user()->role->nama == 'mahasiswa' && !Auth::user()->mahasiswa->tugas_akhir)
             <p>Tambahkan Tugas Akhir</p>
         @else
+
+        @if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+        @else
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+        @endif
+
         <table id="example" class="display" style="width:100%">
             <thead>
               <tr>

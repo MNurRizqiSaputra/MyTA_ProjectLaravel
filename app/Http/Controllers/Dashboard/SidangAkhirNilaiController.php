@@ -57,7 +57,8 @@ class SidangAkhirNilaiController extends Controller
 
         // Panggil metode updateTotalNilai() setelah nilai akhir sidang akhir berhasil diisi
         $this->updateTotalNilai($sidangAkhir->tugas_akhir);
-        return redirect()->route('sidang-akhir.show', ['sidangAkhir' => $sidangAkhir->id])->with('success', 'Sidang Akhir berhasil dinilai.');
+        session()->flash('success', 'Sidak Akhir berhasil dinilai');
+        return redirect()->route('sidang-akhir.show', ['sidangAkhir' => $sidangAkhir->id]);
     }
 
     public function updateTotalNilai(TugasAkhir $tugasAkhir)

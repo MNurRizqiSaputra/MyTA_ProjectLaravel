@@ -16,9 +16,9 @@ class RoleFactory extends Factory
      */
     public function definition(): array
     {
-        $daftar_role = ['mahasiswa', 'dosen'];
+        $daftar_role = ['mahasiswa', 'dosen', 'admin'];
         return [
-            'nama' => $this->faker->randomElement($daftar_role),
+            'nama' => $this->faker->unique()->randomElement($daftar_role),
         ];
     }
 }
