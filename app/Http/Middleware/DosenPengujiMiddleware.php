@@ -17,7 +17,7 @@ class DosenPengujiMiddleware
     {
         $user = auth()->user();
 
-        if ($user->dosen && $user->dosen->dosen_pengujis->count() > 0) {
+        if ($user->dosen && $user->dosen->dosen_penguji->first()) {
             return $next($request);
         } else {
             return redirect()->back();

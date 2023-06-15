@@ -13,25 +13,25 @@ class SidangAkhirController extends Controller
 {
     public function index()
     {
-        if (Auth::user()->dosen && Auth::user()->dosen->dosen_pengujis->pluck('id')) {
-            $dosenPenguji = auth()->user()->dosen->dosen_pengujis;
-            $dosenPengujiId = $dosenPenguji->pluck('id'); // get id dosen penguji yang login
-            $sidangAkhirId = SidangAkhirNilai::whereIn('dosen_penguji_id', $dosenPengujiId)->pluck('sidang_akhir_id'); // Ambil daftar sidang akhir yang terkait dengan dosen penguji
+        if (Auth::user()->dosen && Auth::user()->dosen->dosen_penguji) {
+            $dosenPengujiId = Auth::user()->dosen->dosen_penguji->id; // get id dosen penguji yang login
+            $sidangAkhirId = SidangAkhirNilai::where('dosen_penguji_id', $dosenPengujiId)->pluck('sidang_akhir_id'); // Ambil daftar sidang akhir yang terkait dengan dosen penguji
             $sidangAkhirs = SidangAkhir::whereIn('id', $sidangAkhirId)->orderByDesc('created_at')->get(); // Tampilkan daftar sidang akhir yang terkait
-            $pengujiNilai = SidangAkhirNilai::where('dosen_penguji_id', $dosenPengujiId)->whereNull('nilai')->pluck('sidang_akhir_id'); // Ambil dosen penguji yang belum memberikan nilai
+
+            $pengujiBelumNilai = SidangAkhirNilai::where('dosen_penguji_id', $dosenPengujiId)->whereNull('nilai')->pluck('sidang_akhir_id'); // Ambil dosen penguji yang belum memberikan nilai
 
             return view('pages.dashboard.sidang_akhir.index', [
                 'sidangAkhirs' => $sidangAkhirs,
                 'dosenPengujiId' => $dosenPengujiId,
-                'pengujiNilai' => $pengujiNilai
+                'pengujiBelumNilai' => $pengujiBelumNilai
             ]);
         } else {
             $sidangAkhirs = SidangAkhir::orderByDesc('created_at')->get();
-            $pengujiNilai = SidangAkhirNilai::whereNull('nilai')->pluck('sidang_akhir_id'); // Ambil dosen penguji yang belum memberikan nilai
+            $pengujiBelumNilai = SidangAkhirNilai::whereNull('nilai')->pluck('sidang_akhir_id'); // Ambil dosen penguji yang belum memberikan nilai
 
             return view('pages.dashboard.sidang_akhir.index', [
                 'sidangAkhirs' => $sidangAkhirs,
-                'pengujiNilai' => $pengujiNilai
+                'pengujiBelumNilai' => $pengujiBelumNilai
             ]);
         }
     }
@@ -72,20 +72,18 @@ class SidangAkhirController extends Controller
     }
     public function create()
     {
-        $mahasiswa = auth()->user()->mahasiswa;
-        $tugasAkhir = $mahasiswa->tugas_akhir;
-        $seminarPenelitian = $tugasAkhir->seminar_penelitian;
+        $tugasAkhirMahasiswa = auth()->user()->mahasiswa->tugas_akhir;
+        $seminarPenelitian = $tugasAkhirMahasiswa->seminar_penelitian;
 
-        if ($seminarPenelitian) {
+        if ($seminarPenelitian->nilai_akhir) {
             $dosenPengujiBelumNilai = $seminarPenelitian->seminar_penelitian_nilais()->whereNull('nilai')->with('dosen_penguji')->get();
 
-            if ($dosenPengujiBelumNilai) {
-                session()->flash('error', 'Mohon Maaf, Harap lengkapi penilaian Seminar Penelitian Anda');
-                return redirect()->back();
-            } else {
+            if ($dosenPengujiBelumNilai->isEmpty()) {
                 return view('pages.dashboard.sidang_akhir.create', [
-                    'tugasAkhir' => $tugasAkhir
+                    'tugasAkhir' => $tugasAkhirMahasiswa
                 ]);
+            } else {
+                return redirect()->back()->with('error', 'Mohon Maaf, Harap lengkapi penilaian Seminar Penelitian Anda');
             }
         } else {
             session()->flash('error', 'Mohon Maaf, Anda belum memiliki Seminar Penelitian');
@@ -98,7 +96,8 @@ class SidangAkhirController extends Controller
         $request->validate([
             'tempat' => 'nullable',
             'tanggal' => 'nullable',
-            'waktu' => 'nullable',
+            'waktu_mulai' => 'nullable',
+            'waktu_selesai' => 'nullable',
             'tugas_akhir_id' => 'required|exists:tugas_akhirs,id'
         ]);
 
@@ -120,9 +119,30 @@ class SidangAkhirController extends Controller
     {
         $validate = $request->validate([
             'tanggal' => 'required|date',
-            'waktu' => 'required',
+            'waktu_mulai' => 'required',
+            'waktu_selesai' => 'required',
             'tempat' => 'required',
         ]);
+
+        $tanggal = $request->tanggal;
+        $tempat = $request->tempat;
+
+        $bentrok = SidangAkhir::where('id', '!=', $sidangAkhir->id)
+                    ->where('tempat', $tempat)
+                    ->where('tanggal', $tanggal)
+                    ->where(function($query) use ($validate){
+                        $query->where(function ($query) use ($validate) {
+                            $query->whereBetween('waktu_mulai', [$validate['waktu_mulai'], $validate['waktu_selesai']])
+                                ->orWhereBetween('waktu_selesai', [$validate['waktu_mulai'], $validate['waktu_selesai']]);
+                        })
+                        ->orWhere(function ($query) use ($validate) {
+                            $query->where('waktu_mulai', '<=', $validate['waktu_mulai'])
+                                ->where('waktu_selesai', '>=', $validate['waktu_selesai']);
+                        });
+                    })->exists();
+        if ($bentrok) {
+            return redirect()->back()->with('error', 'Maaf, terdapat bentrok dengan acara lain pada waktu dan tempat tersebut.');
+        }
 
         $sidangAkhir->update($validate);
 

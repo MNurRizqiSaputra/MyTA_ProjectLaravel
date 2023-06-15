@@ -20,7 +20,7 @@ class SidangAkhirNilaiController extends Controller
 
     public function nilai(SidangAkhir $sidangAkhir)
     {
-        $dosenPengujiId = auth()->user()->dosen->dosen_pengujis->pluck('id');
+        $dosenPengujiId = auth()->user()->dosen->dosen_penguji->id;
         $sidangAkhirNilai = $sidangAkhir->sidang_akhir_nilais()->where('dosen_penguji_id', $dosenPengujiId)->first();
 
         return view('pages.dashboard.sidang_akhir.nilai', [
@@ -31,7 +31,7 @@ class SidangAkhirNilaiController extends Controller
 
     public function update(Request $request, SidangAkhir $sidangAkhir)
     {
-        $dosenPengujiId = auth()->user()->dosen->dosen_pengujis->pluck('id');
+        $dosenPengujiId = auth()->user()->dosen->dosen_penguji->id;
 
         $validated = $request->validate([
             'dosen_penguji_id' => 'required',

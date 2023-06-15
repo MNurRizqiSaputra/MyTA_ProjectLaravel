@@ -29,13 +29,19 @@ class DosenPengujiController extends Controller
     public function create()
     {
         return view('pages.dashboard.dosen_penguji.create', [
-            'dosens' => Dosen::with('user')->join('users', 'dosens.user_id', '=', 'users.id')->orderBy('users.nama')->get(),
+            'dosens' => Dosen::with('user')
+                            ->join('users', 'dosens.user_id', '=', 'users.id')
+                            ->select(
+                                'dosens.id as id',
+                                'users.nama as nama'
+                            )
+                            ->orderBy('users.nama')->get(),
         ]);
     }
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'dosen_id' => 'required|exists:dosens,id|unique:dosen_pengujis,dosen_id'
+            'dosen_id' => 'required|unique:dosen_pengujis,dosen_id'
         ]);
         DosenPenguji::create($validated);
         session()->flash('success', 'Data Dosen Penguji berhasil ditambah');

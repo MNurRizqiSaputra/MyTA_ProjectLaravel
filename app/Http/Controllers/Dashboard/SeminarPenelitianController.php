@@ -13,25 +13,25 @@ class SeminarPenelitianController extends Controller
 {
     public function index()
     {
-        if (Auth::user()->dosen && Auth::user()->dosen->dosen_pengujis->pluck('id')) {
-            $dosenPenguji = auth()->user()->dosen->dosen_pengujis;
-            $dosenPengujiId = $dosenPenguji->pluck('id'); // get id dosen penguji yang login
-            $seminarPenelitianId = SeminarPenelitianNilai::whereIn('dosen_penguji_id', $dosenPengujiId)->pluck('seminar_penelitian_id'); // Ambil daftar seminar penelitian yang terkait dengan dosen penguji
+        if (Auth::user()->dosen && Auth::user()->dosen->dosen_penguji) {
+            $dosenPengujiId = auth()->user()->dosen->dosen_penguji->id;
+            $seminarPenelitianId = SeminarPenelitianNilai::where('dosen_penguji_id', $dosenPengujiId)->pluck('seminar_penelitian_id'); // Ambil daftar seminar penelitian yang terkait dengan dosen penguji
             $seminarPenelitians = SeminarPenelitian::whereIn('id', $seminarPenelitianId)->orderByDesc('created_at')->get(); // Tampilkan daftar seminar penelitian yang terkait
-            $pengujiNilai = SeminarPenelitianNilai::where('dosen_penguji_id', $dosenPengujiId)->whereNull('nilai')->pluck('seminar_penelitian_id'); // Ambil dosen penguji yang belum memberikan nilai
+
+            $pengujiBelumNilai = SeminarPenelitianNilai::where('dosen_penguji_id', $dosenPengujiId)->whereNull('nilai')->pluck('seminar_penelitian_id'); // Ambil dosen penguji yang belum memberikan nilai
 
             return view('pages.dashboard.seminar_penelitian.index', [
                 'seminarPenelitians' => $seminarPenelitians,
                 'dosenPengujiId' => $dosenPengujiId,
-                'pengujiNilai' => $pengujiNilai
+                'pengujiBelumNilai' => $pengujiBelumNilai
             ]);
         } else {
             $seminarPenelitians = SeminarPenelitian::orderByDesc('created_at')->get();
-            $pengujiNilai = SeminarPenelitianNilai::whereNull('nilai')->pluck('seminar_penelitian_id');
+            $pengujiBelumNilai = SeminarPenelitianNilai::whereNull('nilai')->pluck('seminar_penelitian_id');
 
             return view('pages.dashboard.seminar_penelitian.index', [
                 'seminarPenelitians' => $seminarPenelitians,
-                'pengujiNilai' => $pengujiNilai
+                'pengujiBelumNilai' => $pengujiBelumNilai
 
             ]);
         }
@@ -75,21 +75,19 @@ class SeminarPenelitianController extends Controller
 
     public function create()
     {
-        $mahasiswa = auth()->user()->mahasiswa;
-        $tugasAkhir = $mahasiswa->tugas_akhir;
-        $seminarProposal = $tugasAkhir->seminar_proposal;
+        $tugasAkhirMahasiswa = Auth::user()->mahasiswa->tugas_akhir;
+        $seminarProposal = $tugasAkhirMahasiswa->seminar_proposal;
 
-        if ($seminarProposal) {
+        if ($seminarProposal->nilai_akhir) {
             $dosenPengujiBelumNilai = $seminarProposal->seminar_proposal_nilais()->whereNull('nilai')->with('dosen_penguji')->get();
 
-            if ($dosenPengujiBelumNilai) {
-                session()->flash('error', 'Mohon Maaf, masih terdapat Dosen Penguji yang belum menilai Seminar Proposal Anda');
-                return redirect()->back();
-            }
-            else {
+
+            if ($dosenPengujiBelumNilai->isEmpty()) {
                 return view('pages.dashboard.seminar_penelitian.create', [
-                    'tugasAkhir' => $tugasAkhir
+                    'tugasAkhir' => $tugasAkhirMahasiswa
                 ]);
+            } else {
+                return redirect()->back()->with('error', 'Mohon Maaf, Masih terdapat Dosen Penguji yang belum menilai Seminar Proposal Anda');
             }
         } else {
             session()->flash('error', 'Mohon Maaf, anda belum memiliki Seminar Proposal');
@@ -102,7 +100,8 @@ class SeminarPenelitianController extends Controller
         $request->validate([
             'tempat' => 'nullable',
             'tanggal' => 'nullable',
-            'waktu' => 'nullable',
+            'waktu_mulai' => 'nullable',
+            'waktu_selesai' => 'nullable',
             'tugas_akhir_id' => 'required|exists:tugas_akhirs,id'
         ]);
 
@@ -124,9 +123,30 @@ class SeminarPenelitianController extends Controller
     {
         $validate = $request->validate([
             'tanggal' => 'required|date',
-            'waktu' => 'required',
+            'waktu_mulai' => 'required',
+            'waktu_selesai' => 'required',
             'tempat' => 'required',
         ]);
+
+        $tanggal = $request->tanggal;
+        $tempat = $request->tempat;
+
+        $bentrok = SeminarPenelitian::where('id', '!=', $seminarPenelitian->id)
+                    ->where('tempat', $tempat)
+                    ->where('tanggal', $tanggal)
+                    ->where(function($query) use ($validate){
+                        $query->where(function ($query) use ($validate) {
+                            $query->whereBetween('waktu_mulai', [$validate['waktu_mulai'], $validate['waktu_selesai']])
+                                ->orWhereBetween('waktu_selesai', [$validate['waktu_mulai'], $validate['waktu_selesai']]);
+                        })
+                        ->orWhere(function ($query) use ($validate) {
+                            $query->where('waktu_mulai', '<=', $validate['waktu_mulai'])
+                                ->where('waktu_selesai', '>=', $validate['waktu_selesai']);
+                        });
+                    })->exists();
+        if ($bentrok) {
+            return redirect()->back()->with('error', 'Maaf, terdapat bentrok dengan acara lain pada waktu dan tempat tersebut.');
+        }
 
         $seminarPenelitian->update($validate);
 

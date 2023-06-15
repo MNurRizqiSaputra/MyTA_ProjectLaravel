@@ -246,11 +246,11 @@
             <label for="nilai_akhir" class="form-label">Nilai akhir</label>
             @php
                 $mahasiswaLogin = Auth::user()->mahasiswa ? Auth::user()->mahasiswa->tugas_akhir->seminar_penelitian->id : null;
-                $dosenPengujiLogin = Auth::user()->dosen ? Auth::user()->dosen->dosen_pengujis->pluck('id')->first() : null;
+                $dosenPengujiLogin = Auth::user()->dosen ? Auth::user()->dosen->dosen_penguji->id : null;
                 $nilaiPenelitianDosenPengujiLogin = $seminarPenelitian->seminar_penelitian_nilais->where('dosen_penguji_id', $dosenPengujiLogin)->value('nilai');
             @endphp
 
-            @if ($mahasiswaLogin || ($dosenPengujiLogin && $nilaiPenelitianDosenPengujiLogin))
+            @if ($mahasiswaLogin || ($dosenPengujiLogin && $nilaiPenelitianDosenPengujiLogin) || Auth::user()->role->nama == 'admin')
                 <input type="number" name="nilai_akhir" class="form-control" value="{{ old('nilai_akhir') ?? ($seminarPenelitian->nilai_akhir ?? '') }}" readonly>
             @else
                 <input type="number" name="nilai_akhir" class="form-control" value="" readonly>
@@ -263,12 +263,14 @@
         </div>
     </div>
 
-    @if (Auth::user()->role->nama == 'admin')
+    @if (Auth::user()->role->nama == 'admin' && !$seminarPenelitian->nilai_akhir)
         <button type="submit" id="edit" class="btn btn-primary">{{ $tombol }}</button>
+    @elseif ($seminarPenelitian->nilai_akhir)
+        <input type="hidden" name="">
     @endif
 
     {{-- menampilkan tombol jika login sebagai dosen penguji --}}
-    @if (Auth::user()->dosen && Auth::user()->dosen->dosen_pengujis->count() > 0)
+    @if (Auth::user()->dosen && Auth::user()->dosen->dosen_penguji)
         <a href="{{ route('seminar-penelitian-nilai.nilai', ['seminarPenelitian' => $seminarPenelitian->id]) }}" class="btn btn-primary">Berikan Nilai</a>
     @endif
 </div>

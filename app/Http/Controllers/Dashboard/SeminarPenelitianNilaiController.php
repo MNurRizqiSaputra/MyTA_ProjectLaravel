@@ -17,7 +17,7 @@ class SeminarPenelitianNilaiController extends Controller
 
     public function nilai(SeminarPenelitian $seminarPenelitian)
     {
-        $dosenPengujiId = auth()->user()->dosen->dosen_pengujis->pluck('id');
+        $dosenPengujiId = auth()->user()->dosen->dosen_penguji->id;
         $seminarPenelitianNilai = $seminarPenelitian->seminar_penelitian_nilais()->where('dosen_penguji_id', $dosenPengujiId)->first();
 
         return view('pages.dashboard.seminar_penelitian.nilai', [
@@ -28,7 +28,7 @@ class SeminarPenelitianNilaiController extends Controller
 
     public function update(Request $request, SeminarPenelitian $seminarPenelitian)
     {
-        $dosenPengujiId = auth()->user()->dosen->dosen_pengujis->pluck('id');
+        $dosenPengujiId = auth()->user()->dosen->dosen_penguji->id;
 
         $validated = $request->validate([
             'dosen_penguji_id' => 'required',
