@@ -63,12 +63,14 @@ Route::prefix("dashboard")
             Route::get('', [DosenPengujiController::class, 'index'])->name('index'); // all users
             Route::get('create', [DosenPengujiController::class, 'create'])->name('create')->middleware('admin'); // admin
             Route::post('store', [DosenPengujiController::class, 'store'])->name('store')->middleware('admin'); // admin
+            Route::delete('{dosen_penguji}', [DosenPengujiController::class, 'destroy'])->name('destroy')->middleware('admin'); // admin
         });
 
         Route::prefix('dosen-pembimbing')->name('dosen-pembimbing.')->group(function(){
             Route::get('', [DosenPembimbingController::class, 'index'])->name('index'); // all users
             Route::get('create', [DosenPembimbingController::class, 'create'])->name('create')->middleware('admin'); // admin
             Route::post('store', [DosenPembimbingController::class, 'store'])->name('store')->middleware('admin'); // admin
+            Route::delete('{dosen_pembimbing}', [DosenPembimbingController::class, 'destroy'])->name('destroy')->middleware('admin'); // admin
         });
 
         Route::prefix('mahasiswa')->name('mahasiswa.')->group(function(){

@@ -114,7 +114,10 @@ class UserController extends Controller
         }
 
         if ($request->role_id == Role::where('nama', 'mahasiswa')->first()->id){
-            if (!$user->mahasiswa) {
+            if ($user->mahasiswa->tugas_akhir) {
+                return redirect()->back()->with('error', 'Data mahasiswa terkait dengan tugas akhir');
+            }
+            elseif (!$user->mahasiswa) {
                 // Buat data baru pada tabel mahasiswa
                 Mahasiswa::create([
                     'user_id' => $user->id,
@@ -129,13 +132,18 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         // Menghapus user
-        if($user->dosen->dosen_penguji || $user->dosen->dosen_pembimbing){
-            return redirect()->back()->with('error', 'Tidak bisa menghapus data dosen yang sudah terkait sebagai dosen pembimbing atau dosen penguji.');
-        }elseif ($user->dosen){
+        if ($user->dosen){
+            if($user->dosen->dosen_penguji || $user->dosen->dosen_pembimbing){
+                return redirect()->back()->with('error', 'Tidak bisa menghapus data dosen yang sudah terkait sebagai dosen pembimbing atau dosen penguji.');
+            }
             $user->dosen->delete();
             $user->delete();
         } else if ($user->mahasiswa){
+            if($user->mahasiswa->tugas_akhir){
+                return redirect()->back()->with('error', 'Tidak bisa menghapus data dosen yang sudah terkait sebagai dosen pembimbing atau dosen penguji.');
+            }
             $user->mahasiswa->delete();
+            $user->delete();
         } else {
             $user->delete();
         }

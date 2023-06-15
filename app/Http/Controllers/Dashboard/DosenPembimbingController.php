@@ -16,7 +16,7 @@ class DosenPembimbingController extends Controller
                                             ->leftJoin('users', 'dosens.user_id', '=', 'users.id')
                                             ->leftJoin('jurusans', 'dosens.jurusan_id', '=', 'jurusans.id')
                                             ->select(
-                                                'dosens.id as id',
+                                                'dosen_pembimbings.id as id',
                                                 'dosens.nip as nip',
                                                 'users.nama as nama',
                                                 'users.email as email',
@@ -50,5 +50,15 @@ class DosenPembimbingController extends Controller
 
         DosenPembimbing::create($validated);
         return redirect()->route('dosen-pembimbing.index');
+    }
+
+    public function destroy(DosenPembimbing $dosen_pembimbing)
+    {
+        // Menghapus dosen pembimbing
+        if($dosen_pembimbing->tugas_akhirs()->exists()){
+            return redirect()->back()->with('error', 'Tidak bisa menghapus data dosen yang sudah terkait sebagai dosen pembimbing atau dosen penguji.');
+        }
+        $dosen_pembimbing->delete();
+        return redirect()->back()->with('success', 'Pengguna berhasil dihapus.');
     }
 }
