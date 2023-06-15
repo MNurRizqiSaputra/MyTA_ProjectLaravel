@@ -37,21 +37,30 @@ class DosenController extends Controller
     public function update(Request $request, Dosen $dosen)
     {
         // Validasi input data
-        $request->validate([
+        $data = [
             'nip' => 'required|string|size:10|unique:dosens,nip,' . $dosen->id,
             'jurusan_id' => 'required|exists:jurusans,id',
             'nama' => 'required|string',
-            'password' => 'nullable|min:8',
             'tanggal_lahir' => 'required|date',
             'nohp' => 'required|string|max:15',
             'email' => 'required|email|unique:users,email,' . $dosen->user->id,
             'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-        ]);
+        ];
+
+        //jika password tidak kosong, maka update password
+        if (!empty(request()->password)) {
+            $data['password'] = 'nullable|confirmed|min:8';
+        }
+
+        $request->validate($data);
         // Update data pada model User
         $user = $dosen->user;
         $user->nama = $request->nama;
-        $user->password = bcrypt($request->password);
         $user->email = $request->email;
+        //periksa apakah password diubah
+        if(!empty($request->password)) {
+            $user->password = bcrypt($request->password);
+        }
         $user->tanggal_lahir = $request->input('tanggal_lahir');
         $user->save();
 

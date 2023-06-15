@@ -87,7 +87,8 @@ class SeminarPenelitianController extends Controller
                     'tugasAkhir' => $tugasAkhirMahasiswa
                 ]);
             } else {
-                return redirect()->back()->with('error', 'Mohon Maaf, Masih terdapat Dosen Penguji yang belum menilai Seminar Proposal Anda');
+                session()->flash('error', 'Mohon Maaf, masih terdapat Dosen Penguji yang belum menilai Seminar Proposal anda');
+                return redirect()->back();
             }
         } else {
             session()->flash('error', 'Mohon Maaf, anda belum memiliki Seminar Proposal');

@@ -107,7 +107,7 @@ class UserController extends Controller
             $user->update([
                 'nama' => $request->nama,
                 'email' => $request->email,
-                'password' => $password,
+                'password' => $request->$password,
                 'role_id' => $request->role_id,
             ]);
         }

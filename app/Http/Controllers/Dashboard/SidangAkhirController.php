@@ -83,7 +83,8 @@ class SidangAkhirController extends Controller
                     'tugasAkhir' => $tugasAkhirMahasiswa
                 ]);
             } else {
-                return redirect()->back()->with('error', 'Mohon Maaf, Harap lengkapi penilaian Seminar Penelitian Anda');
+                session()->flash('error', 'Mohon Maaf, masih terdapat Dosen Penguji yang belum menilai Seminar Penelitian anda');
+                return redirect()->back();
             }
         } else {
             session()->flash('error', 'Mohon Maaf, Anda belum memiliki Seminar Penelitian');
