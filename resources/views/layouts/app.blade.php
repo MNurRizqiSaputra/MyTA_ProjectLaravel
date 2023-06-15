@@ -23,9 +23,7 @@
 
         <header id="header" class="fixed-top">
         <div class="container d-flex align-items-center">
-        <h1 class="logo me-auto"><a class="text-decoration-none" href="{{ route('frontend.home') }}">
-                M<small style="text-transform: lowercase;">y</small>TA
-            </a></h1>
+        <a href="{{ route('frontend.home') }}" class="logo me-auto"><img src="{{ asset('frontend/assets/img/5 copy.png') }}" alt="" class="img-fluid"></a>
         <nav id="navbar" class="navbar ml-auto">
             <ul>
                 <li><a class="nav-link scrollto active" href="{{ route('frontend.home') }}">Home</a></li>
