@@ -14,7 +14,14 @@
             <a href="{{ route('user.create') }}" class="btn btn-primary mb-2">Tambah</a>
             @endif
             @endauth
+
         </div>
+
+        @if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+        @endif
 
         <table id="example" class="display" style="width:100%">
             <thead>

@@ -30,7 +30,7 @@
                 <td>{{ $dosen->nama ?? '' }}</td>
                 <td>{{ $dosen->email ?? '' }}</td>
                 <td>{{ $dosen->jurusan ?? '' }}</td>
-                <td><a href="{{ route('dosen.show', ['dosen' => $dosen->id]) }}">Edit</a></td>
+                <td><a href="{{ route('dosen.show', ['dosen' => $dosen->id]) }}" class="btn btn-warning">Edit</a></td>
             </tr>
             @endforeach
         </tbody>

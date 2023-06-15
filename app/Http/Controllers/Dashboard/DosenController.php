@@ -17,6 +17,7 @@ class DosenController extends Controller
                         ->leftJoin('jurusans', 'dosens.jurusan_id', '=', 'jurusans.id')
                         ->select(
                             'dosens.id as id',
+                            'dosens.nip as nip',
                             'users.nama as nama',
                             'users.email as email',
                             'jurusans.nama as jurusan',
@@ -40,6 +41,7 @@ class DosenController extends Controller
             'nip' => 'required|string|size:10|unique:dosens,nip,' . $dosen->id,
             'jurusan_id' => 'required|exists:jurusans,id',
             'nama' => 'required|string',
+            'password' => 'nullable|min:8',
             'tanggal_lahir' => 'required|date',
             'nohp' => 'required|string|max:15',
             'email' => 'required|email|unique:users,email,' . $dosen->user->id,
@@ -48,6 +50,7 @@ class DosenController extends Controller
         // Update data pada model User
         $user = $dosen->user;
         $user->nama = $request->nama;
+        $user->password = bcrypt($request->password);
         $user->email = $request->email;
         $user->tanggal_lahir = $request->input('tanggal_lahir');
         $user->save();
@@ -71,6 +74,7 @@ class DosenController extends Controller
 
         $dosen->save();
 
-        return redirect()->route('dosen.show', ['dosen' => $dosen])->with('success', 'Berhasil mengubah data dosen.');
+        session()->flash('success', 'Data Dosen berhasil diperbarui');
+        return redirect()->route('dosen.show', ['dosen' => $dosen]);
     }
 }
