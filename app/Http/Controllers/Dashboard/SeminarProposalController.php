@@ -139,7 +139,8 @@ class SeminarProposalController extends Controller
                         });
                     })->exists();
         if ($bentrok) {
-            return redirect()->back()->with('error', 'Maaf, terdapat bentrok dengan acara lain pada waktu dan tempat tersebut.');
+            session()->flash('error', 'Maaf, terdapat bentrok dengan Seminar/Sidang lain pada waktu dan tempat tersebut');
+            return redirect()->back();
         }
 
         $seminarProposal->update($validate);

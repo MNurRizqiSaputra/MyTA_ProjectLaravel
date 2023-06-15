@@ -11,16 +11,6 @@
             <h2 class="content-title">Sidang Akhir</h2>
         </div>
 
-        @if(session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-        @else
-        <div class="alert alert-danger">
-            {{ session('error') }}
-        </div>
-        @endif
-
         <table id="example" class="display" style="width:100%">
             <thead>
               <tr>

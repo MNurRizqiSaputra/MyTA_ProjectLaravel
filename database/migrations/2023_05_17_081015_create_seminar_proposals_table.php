@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('seminar_proposals', function (Blueprint $table) {
             $table->id();
-            $table->string('tempat');
-            $table->date('tanggal');
-            $table->time('waktu');
+            $table->string('tempat')->nullable();
+            $table->date('tanggal')->nullable();
+            $table->time('waktu_mulai')->nullable();
+            $table->time('waktu_selesai')->nullable();
             $table->integer('nilai_akhir')->nullable();
             $table->foreignId('tugas_akhir_id')->constrained()->cascadeOnUpdate();
             $table->timestamps();
