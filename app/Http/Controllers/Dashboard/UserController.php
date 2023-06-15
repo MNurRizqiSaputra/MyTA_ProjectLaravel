@@ -114,7 +114,7 @@ class UserController extends Controller
         }
 
         if ($request->role_id == Role::where('nama', 'mahasiswa')->first()->id){
-            if ($user->mahasiswa->tugas_akhir) {
+            if (isset($user->mahasiswa->tugas_akhir)) {
                 return redirect()->back()->with('error', 'Data mahasiswa terkait dengan tugas akhir');
             }
             elseif (!$user->mahasiswa) {

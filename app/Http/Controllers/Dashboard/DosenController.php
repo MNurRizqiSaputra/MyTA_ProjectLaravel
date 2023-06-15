@@ -38,7 +38,7 @@ class DosenController extends Controller
     {
         // Validasi input data
         $request->validate([
-            'nip' => 'required|integer|size:10|unique:dosens,nip,' . $dosen->id,
+            'nip' => 'required|size:10|alpha_num|unique:dosens,nip,' . $dosen->id,
             'jurusan_id' => 'required|exists:jurusans,id',
             'nama' => 'required|string',
             'tanggal_lahir' => 'required|date',
