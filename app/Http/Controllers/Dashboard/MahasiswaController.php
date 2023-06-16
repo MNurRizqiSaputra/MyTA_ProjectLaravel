@@ -45,7 +45,7 @@ class MahasiswaController extends Controller
         $mahasiswa = Mahasiswa::findOrFail($id);
         // Validasi input data
         $request->validate([
-            'nim' => 'required|string|max:10|unique:mahasiswas,nim,' . $mahasiswa->id,
+            'nim' => 'required|size:10|alpha_num|unique:mahasiswas,nim,' . $mahasiswa->id,
             'jurusan_id' => 'required|exists:jurusans,id',
             'nama' => 'required|string',
             'password' => 'nullable|confirmed|min:8',
