@@ -86,7 +86,8 @@ class SidangAkhirController extends Controller
                 return redirect()->back()->with('error', 'Mohon Maaf, Harap lengkapi penilaian Seminar Penelitian Anda');
             }
         } else {
-            return redirect()->back()->with('error', 'Mohon Maaf, Anda belum memiliki Seminar Penelitian');
+            session()->flash('error', 'Mohon Maaf, Anda belum memiliki Seminar Penelitian');
+            return redirect()->back();
         }
     }
 
@@ -102,14 +103,16 @@ class SidangAkhirController extends Controller
 
         $tugasAkhir = TugasAkhir::find($request->tugas_akhir_id);
         if ($tugasAkhir->sidang_akhir) {
-            return redirect()->back()->with('error', 'Mohon Maaf, Anda sudah menambahkan sidang akhir');
+            session()->flash('error', 'Mohon Maaf, Anda sudah menambahkan sidang akhir');
+            return redirect()->back();
         }
 
         $sidangAkhir = SidangAkhir::create([
             'tugas_akhir_id' => $request->tugas_akhir_id
         ]);
 
-        return redirect()->route('sidang-akhir.show', ['sidangAkhir' => $sidangAkhir->id])->with('success', 'Sidang Akhir berhasil ditambahkan.');
+        session()->flash('success', 'Sidang Akhir berhasil ditambahkan');
+        return redirect()->route('sidang-akhir.show', ['sidangAkhir' => $sidangAkhir->id]);
     }
 
     public function update(Request $request, SidangAkhir $sidangAkhir)
@@ -155,7 +158,8 @@ class SidangAkhirController extends Controller
             $sidangAkhirNilai->save();
         }
 
-        return redirect()->route('sidang-akhir.show', ['sidangAkhir' => $sidangAkhir->id])->with('success', 'Data Sidang Akhir berhasil diperbarui.');
+        session()->flash('success', 'Data Sidang Akhir berhasil diperbarui');
+        return redirect()->route('sidang-akhir.show', ['sidangAkhir' => $sidangAkhir->id]);
 
     }
 }

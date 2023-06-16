@@ -81,6 +81,7 @@ class SeminarPenelitianController extends Controller
         if (isset($seminarProposal->nilai_akhir)) {
             $dosenPengujiBelumNilai = $seminarProposal->seminar_proposal_nilais()->whereNull('nilai')->with('dosen_penguji')->get();
 
+
             if ($dosenPengujiBelumNilai->isEmpty()) {
                 return view('pages.dashboard.seminar_penelitian.create', [
                     'tugasAkhir' => $tugasAkhirMahasiswa
@@ -89,7 +90,8 @@ class SeminarPenelitianController extends Controller
                 return redirect()->back()->with('error', 'Mohon Maaf, Masih terdapat Dosen Penguji yang belum menilai Seminar Proposal Anda');
             }
         } else {
-            return redirect()->back()->with('error', 'Mohon Maaf, Anda belum memiliki Seminar Proposal');
+            session()->flash('error', 'Mohon Maaf, anda belum memiliki Seminar Proposal');
+            return redirect()->back();
         }
     }
 
@@ -105,14 +107,16 @@ class SeminarPenelitianController extends Controller
 
         $tugasAkhir = TugasAkhir::find($request->tugas_akhir_id);
         if ($tugasAkhir->seminar_penelitian) {
-            return redirect()->back()->with('error', 'Mohon Maaf, Anda sudah menambahkan sidang penelitian');
+            session()->flash('error', 'Mohon Maaf, anda sudah menambahkan Seminar Penelitian');
+            return redirect()->back();
         }
 
         $seminarPenelitian = SeminarPenelitian::create([
             'tugas_akhir_id' => $request->tugas_akhir_id
         ]);
 
-        return redirect()->route('seminar-penelitian.show', ['seminarPenelitian' => $seminarPenelitian->id])->with('success', 'Seminar Penelitian berhasil ditambahkan.');
+        session()->flash('success', 'Seminar Penelitian berhasil ditambahkan');
+        return redirect()->route('seminar-penelitian.show', ['seminarPenelitian' => $seminarPenelitian->id]);
     }
 
     public function update(Request $request, SeminarPenelitian $seminarPenelitian)
@@ -158,6 +162,7 @@ class SeminarPenelitianController extends Controller
             $seminarPenelitianNilai->save();
         }
 
-        return redirect()->route('seminar-penelitian.show', ['seminarPenelitian' => $seminarPenelitian->id])->with('success', 'Data Seminar Proposal berhasil diperbarui.');
+        session()->flash('success', 'Data Seminar Proposal berhasil diperbarui');
+        return redirect()->route('seminar-penelitian.show', ['seminarPenelitian' => $seminarPenelitian->id]);
     }
 }

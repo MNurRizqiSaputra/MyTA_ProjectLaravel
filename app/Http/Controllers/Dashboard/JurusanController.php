@@ -26,6 +26,7 @@ class JurusanController extends Controller
         ]);
 
         Jurusan::create($validated);
+        session()->flash('success', 'Data Jurusan berhasil ditambah');
         return redirect()->route('jurusan.index');
     }
 
@@ -42,12 +43,14 @@ class JurusanController extends Controller
             'nama' => 'required|string|unique:jurusans,nama'
         ]);
         $jurusan->update($validated);
+        session()->flash('success', 'Data Jurusan berhasil diperbarui');
         return redirect()->route('jurusan.index');
     }
 
     public function destroy(Jurusan $jurusan)
     {
         $jurusan->delete();
+        session()->flash('success', 'Data Jurusan berhasil dihapus');
         return redirect()->route('jurusan.index');
     }
 }

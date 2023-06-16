@@ -53,6 +53,7 @@ class SeminarProposalNilaiController extends Controller
             ]);
         }
 
-        return redirect()->route('seminar-proposal.show', ['seminarProposal' => $seminarProposal->id])->with('success', 'Seminar Proposal berhasil dinilai.');
+        session()->flash('success', 'Seminar Proposal berhasil dinilai');
+        return redirect()->route('seminar-proposal.show', ['seminarProposal' => $seminarProposal->id]);
     }
 }

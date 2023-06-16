@@ -19,17 +19,17 @@ class DatabaseSeeder extends Seeder
 
         $this->call(JurusanSeeder::class);
         $this->call(RoleSeeder::class);
-        $this->call(UserSeeder::class);
-        $this->call(DosenSeeder::class);
-        $this->call(MahasiswaSeeder::class);
-        $this->call(DosenPembimbingSeeder::class);
-        $this->call(DosenPengujiSeeder::class);
-        $this->call(TugasAkhirSeeder::class);
-        $this->call(SeminarProposalSeeder::class);
-        $this->call(SeminarProposalNilaiSeeder::class);
-        $this->call(SeminarPenelitianSeeder::class);
-        $this->call(SeminarPenelitianNilaiSeeder::class);
-        $this->call(SidangAkhirSeeder::class);
-        $this->call(SidangAkhirNilaiSeeder::class);
+        // $this->call(UserSeeder::class);
+        // $this->call(DosenSeeder::class);
+        // $this->call(MahasiswaSeeder::class);
+        // $this->call(DosenPembimbingSeeder::class);
+        // $this->call(DosenPengujiSeeder::class);
+        // $this->call(TugasAkhirSeeder::class);
+        // $this->call(SeminarProposalSeeder::class);
+        // $this->call(SeminarProposalNilaiSeeder::class);
+        // $this->call(SeminarPenelitianSeeder::class);
+        // $this->call(SeminarPenelitianNilaiSeeder::class);
+        // $this->call(SidangAkhirSeeder::class);
+        // $this->call(SidangAkhirNilaiSeeder::class);
     }
 }

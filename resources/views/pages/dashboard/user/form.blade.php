@@ -25,7 +25,7 @@
     <div class="row">
         <div class="col mb-3">
             <label for="password" class="form-label">Password</label>
-            <input type="text" id="password" class="form-control @error('password') is-invalid @enderror" name="password" placeholder="*******" value="{{ old('password') ?? ($user->password ?? '') }}" required>
+            <input type="text" id="password" class="form-control @error('password') is-invalid @enderror" name="password" placeholder="*******" value="">
             @error('password')
                 <span class="invalid-feedback" role="alert">
                     <strong>{{ $message }}</strong>

@@ -97,7 +97,9 @@ class TugasAkhirController extends Controller
             ]);
         }
 
-        return redirect()->route('tugas-akhir.show', ['tugasAkhir' => $tugasAkhir->id])->with('success', 'Berhasil ditambahkan.');
+        session()->flash('message', 'Tugas Akhir berhasil ditambah');
+
+        return redirect()->route('tugas-akhir.show', ['tugasAkhir' => $tugasAkhir->id]);
     }
 
     public function update(Request $request, TugasAkhir $tugasAkhir)
@@ -126,7 +128,9 @@ class TugasAkhirController extends Controller
                 $tugasAkhir->file = $filePath;
             }
             $tugasAkhir->save();
-            return redirect()->route('tugas-akhir.show', ['tugasAkhir' => $tugasAkhir])->with('success', 'Berhasil mengubah data tugas akhir.');
+
+            session()->flash('success', 'Data Tugas Akhir berhasil diperbarui');
+            return redirect()->route('tugas-akhir.show', ['tugasAkhir' => $tugasAkhir]);
         }
         elseif ($user->role->nama == 'admin') {
             // Ambil request form daftar dosen pembimbing
@@ -152,6 +156,7 @@ class TugasAkhirController extends Controller
 
             return redirect()->route('tugas-akhir.show', ['tugasAkhir' => $tugasAkhir])->with('success', 'Berhasil mengubah status persetujuan');
         }
-        return redirect()->back()->with('error', 'Anda tidak memiliki akses untuk mengubah data tugas akhir ini.');
+        session()->flash('fail', 'Anda tidak memiliki akses untuk mengubah data Tugas Akhir');
+        return redirect()->back();
     }
 }

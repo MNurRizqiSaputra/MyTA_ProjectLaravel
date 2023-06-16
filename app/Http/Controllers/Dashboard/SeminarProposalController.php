@@ -85,7 +85,8 @@ class SeminarProposalController extends Controller
                 'tugasAkhir' => $mahasiswa->tugas_akhir
             ]);
         }
-        return redirect()->back()->with('error', 'Mohon Maaf, Tugas Akhir Anda belum disetujui');
+        session()->flash('error', 'Mohon Maaf, Tugas Akhir anda belum disetujui');
+        return redirect()->back();
 
     }
 
@@ -101,14 +102,15 @@ class SeminarProposalController extends Controller
 
         $tugasAkhir = TugasAkhir::find($request->tugas_akhir_id);
         if ($tugasAkhir->seminar_proposal) {
-            return redirect()->back()->with('error', 'Mohon Maaf, Anda sudah menambahkan seminar proposal');
+            session()->flash('error', 'Mohon Maaf, anda sudah menambahkan seminar proposal');
+            return redirect()->back();
         }
 
         $seminarProposal = SeminarProposal::create([
             'tugas_akhir_id' => $request->tugas_akhir_id
         ]);
-        return redirect()->route('seminar-proposal.show', ['seminarProposal' => $seminarProposal->id])
-            ->with('success', 'Seminar Proposal berhasil ditambahkan.');
+        session()->flash('success', 'Seminar Proposal berhasil ditambahkan');
+        return redirect()->route('seminar-proposal.show', ['seminarProposal' => $seminarProposal->id]);
     }
 
     public function update(Request $request, SeminarProposal $seminarProposal)
@@ -154,6 +156,7 @@ class SeminarProposalController extends Controller
             $seminarProposalNilai->save();
         }
 
-        return redirect()->route('seminar-proposal.show', ['seminarProposal' => $seminarProposal->id])->with('success', 'Data Seminar Proposal berhasil diperbarui.');
+        session()->flash('success', 'Data Seminar Proposal berhasil diperbarui');
+        return redirect()->route('seminar-proposal.show', ['seminarProposal' => $seminarProposal->id]);
     }
 }
