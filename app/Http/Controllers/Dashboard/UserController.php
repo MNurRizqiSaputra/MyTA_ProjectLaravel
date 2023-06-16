@@ -84,6 +84,7 @@ class UserController extends Controller
         $request->validate([
             'nama' => 'required',
             'email' => 'required|email|unique:users,email,' . $user->id,
+            'password' => 'nullable|min:8',
             'tanggal_lahir' => 'required|date',
             'role_id' => 'required',
         ]);
@@ -107,7 +108,7 @@ class UserController extends Controller
             $user->update([
                 'nama' => $request->nama,
                 'email' => $request->email,
-                'password' => $request->$password,
+                'password' => $password,
                 'role_id' => $request->role_id,
             ]);
         }
