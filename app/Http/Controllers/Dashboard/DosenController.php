@@ -37,7 +37,7 @@ class DosenController extends Controller
     public function update(Request $request, Dosen $dosen)
     {
         // Validasi input data
-        $request->validate([
+        $data = [
             'nip' => 'required|size:10|alpha_num|unique:dosens,nip,' . $dosen->id,
             'jurusan_id' => 'required|exists:jurusans,id',
             'nama' => 'required|string',
