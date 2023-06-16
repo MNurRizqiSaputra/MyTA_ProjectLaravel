@@ -31,16 +31,15 @@ class UserController extends Controller
         $validated = $request->validate([
             'nama' => 'required',
             'email' => 'required|email|unique:users,email',
-            'password' => 'required',
             'tanggal_lahir' => 'nullable|date',
             'role_id' => 'required|exists:roles,id',
         ]);
 
-        // if($request->has('tanggal_lahir')) {
-        //     $tanggal_lahir = $request->input('tanggal_lahir');
-        //     $data['tanggal_lahir'] = $tanggal_lahir;
-        //     $data['password'] = bcrypt($tanggal_lahir);
-        // }
+        if($request->has('tanggal_lahir')) {
+            $tanggal_lahir = $request->input('tanggal_lahir');
+            $validated['tanggal_lahir'] = $tanggal_lahir;
+            $validated['password'] = bcrypt($tanggal_lahir);
+        }
 
         $user = User::create($validated); // Tambahkan data user
 
