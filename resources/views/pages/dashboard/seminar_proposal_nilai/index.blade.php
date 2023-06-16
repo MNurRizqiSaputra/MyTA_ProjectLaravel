@@ -11,12 +11,6 @@ Nilai Seminar Proposal
             <h2 class="content-title">Nilai Seminar Proposal</h2>
         </div>
 
-        @if(session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-        @endif
-
         <table id="example" class="display" style="width:100%">
             <thead>
               <tr>

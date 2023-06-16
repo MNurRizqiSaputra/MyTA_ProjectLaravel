@@ -20,6 +20,15 @@
                 </ol>
             </nav>
         </div>
+        @if(session('success'))
+        <div class="col-12 alert alert-success">
+            {{ session('success') }}
+        </div>
+        @elseif(session('error'))
+        <div class="col-12 alert alert-danger">
+            {{ session('error') }}
+        </div>
+        @endif
         <div class="col-12">
             <form action="{{ route('seminar-proposal.update', ['seminarProposal' => $seminarProposal->id]) }}" method="POST" enctype="multipart/form-data">
                 @method('PUT')

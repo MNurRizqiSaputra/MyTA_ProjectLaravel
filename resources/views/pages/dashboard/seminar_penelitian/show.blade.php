@@ -21,6 +21,15 @@
             </nav>
         </div>
         <div class="col-12">
+            @if(session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+            @elseif(session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+            @endif
             <form action="{{ route('seminar-penelitian.update', ['seminarPenelitian' => $seminarPenelitian->id]) }}" method="POST" enctype="multipart/form-data">
                 @method('PUT')
                 @include('pages.dashboard.seminar_penelitian.form', ['tombol' => 'Simpan'])

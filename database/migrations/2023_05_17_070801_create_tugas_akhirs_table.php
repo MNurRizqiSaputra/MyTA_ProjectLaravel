@@ -18,7 +18,7 @@ return new class extends Migration
             $table->enum('status_persetujuan', ['Disetujui', 'Tidak Disetujui', 'Pending'])->default('Pending');
             $table->integer('total_nilai')->nullable();
             $table->foreignId('mahasiswa_id')->constrained()->cascadeOnUpdate();
-            $table->foreignId('dosen_pembimbing_id')->constrained()->cascadeOnUpdate();
+            $table->foreignId('dosen_pembimbing_id')->nullable()->constrained()->cascadeOnUpdate();
             $table->timestamps();
             $table->unique('mahasiswa_id'); // Menambahkan indeks unik pada kolom mahasiswa_id
         });

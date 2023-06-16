@@ -44,20 +44,28 @@ class MahasiswaController extends Controller
     {
         $mahasiswa = Mahasiswa::findOrFail($id);
         // Validasi input data
-        $request->validate([
+        $data = [
             'nim' => 'required|size:10|alpha_num|unique:mahasiswas,nim,' . $mahasiswa->id,
             'jurusan_id' => 'required|exists:jurusans,id',
             'nama' => 'required|string',
-            'password' => 'nullable|confirmed|min:8',
             'tanggal_lahir' => 'required|date',
             'nohp' => 'required|string|max:15',
             'email' => 'required|email|unique:users,email,' . $mahasiswa->user->id,
             'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-        ]);
+        ];
+
+        if(!empty(request()->passwword)) {
+            $data['password'] = 'nullable|confirmed|min:8';
+        }
+
+        $request->validate($data);
+
         // Update data pada model User
         $user = $mahasiswa->user;
         $user->nama = $request->nama;
+        if(!empty(request()->password)) {
         $user->password = bcrypt($request->password);
+        }
         $user->email = $request->email;
         $user->tanggal_lahir = $request->input('tanggal_lahir');
         $user->save();
