@@ -15,10 +15,12 @@
             <thead>
               <tr>
                 <th>No</th>
-                <th>Tugas Akhir</th>
+                <th>Mahasiswa</th>
+                <th>Judul</th>
                 <th>Tempat</th>
                 <th>Tanggal</th>
-                <th>Waktu</th>
+                <th>Waktu mulai</th>
+                <th>Waktu selesai</th>
                 <th>Aksi</th>
             </tr>
         </thead>
@@ -49,4 +51,3 @@
     </div>
 </div>
 @endsection
-

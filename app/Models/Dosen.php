@@ -20,13 +20,13 @@ class Dosen extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function dosen_pengujis()
+    public function dosen_penguji()
     {
-        return $this->hasMany(DosenPenguji::class);
+        return $this->hasOne(DosenPenguji::class);
     }
 
-    public function dosen_pembimbings()
+    public function dosen_pembimbing()
     {
-        return $this->hasMany(DosenPembimbing::class);
+        return $this->hasOne(DosenPembimbing::class);
     }
 }

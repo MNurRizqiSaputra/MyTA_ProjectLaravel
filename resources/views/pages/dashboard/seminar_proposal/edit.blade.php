@@ -12,7 +12,7 @@ Edit Seminar Proposal
                         {{-- admin dan dosen penguji --}}
                         @if(Auth::user()->mahasiswa)
                         <p>Seminar Proposal</p>
-                        @elseif (Auth::user()->role->nama == 'admin' || Auth::user()->dosen->dosen_pengujis)
+                        @elseif (Auth::user()->role->nama == 'admin' || Auth::user()->dosen->dosen_penguji->first())
                         <a href="{{ route('seminar-proposal.index') }}">Seminar Proposal</a>
                         @endif
                     </li>

@@ -21,6 +21,6 @@ class dosenOrMahasiswaMiddleware
             return $next($request);
         }
 
-        return redirect('/dashboard/overview');
+        return redirect()->back();
     }
 }

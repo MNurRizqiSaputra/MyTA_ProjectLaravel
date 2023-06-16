@@ -11,9 +11,9 @@
                     <li class="breadcrumb-item">
                         {{-- admin dan dosen penguji --}}
                         @if(Auth::user()->mahasiswa)
-                        <p>Sidang Akhir</p>
-                        @elseif (Auth::user()->role->nama == 'admin' || Auth::user()->dosen->dosen_pengujis)
-                        <a href="{{ route('sidang-akhir.index') }}">Sidang Akhir</a>
+                            <p>Sidang Akhir</p>
+                        @elseif (Auth::user()->role->nama == 'admin' || Auth::user()->dosen->dosen_penguji)
+                            <a href="{{ route('sidang-akhir.index') }}">Sidang Akhir</a>
                         @endif
                     </li>
                     <li class="breadcrumb-item active">Detail Data</li>
@@ -21,9 +21,18 @@
             </nav>
         </div>
         <div class="col-12">
+            @if(session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+            @elseif(session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+            @endif
             <form action="{{ route('sidang-akhir.update', ['sidangAkhir' => $sidangAkhir->id]) }}" method="POST" enctype="multipart/form-data">
                 @method('PUT')
-                @include('pages.dashboard.sidang_akhir.form', ['tombol' => 'Edit'])
+                @include('pages.dashboard.sidang_akhir.form', ['tombol' => 'Simpan'])
             </form>
         </div>
     </div>

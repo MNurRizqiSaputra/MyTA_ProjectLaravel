@@ -11,10 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('seminar_penelitians', function (Blueprint $table) {
-            $table->string('tempat')->nullable()->change();
-            $table->date('tanggal')->nullable()->change();
-            $table->time('waktu')->nullable()->change();
+        Schema::table('dosens', function (Blueprint $table) {
+            $table->string('nohp')->nullable();
         });
     }
 
@@ -23,8 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('seminar_penelitians', function (Blueprint $table) {
-            //
+        Schema::table('dosens', function (Blueprint $table) {
+            $table->dropColumn('nohp');
         });
     }
 };

@@ -5,7 +5,7 @@
             <label for="dosen" class="form-label">Dosen</label>
             <select name="dosen_id" id="dosen_id" class="form-select">
                 @foreach ($dosens as $dosen)
-                    <option value="{{ $dosen->id }}">{{ $dosen->user->nama }}</option>
+                    <option value="{{ $dosen->id }}">{{ $dosen->nama }}</option>
                 @endforeach
             </select>
             @error('dosen_id')

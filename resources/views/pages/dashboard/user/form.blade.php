@@ -37,6 +37,7 @@
         <div class="col mb-3">
             <label for="role_id" class="form-label">Role</label>
             <select name="role_id" id="role_id" class="form-select @error('role_id') is-invalid @enderror">
+                <option value="">--Pilih--</option>
                 @foreach ($roles as $role)
 
                     @if ($role->id == (old('role_id') ?? ($user->role_id ?? '')))

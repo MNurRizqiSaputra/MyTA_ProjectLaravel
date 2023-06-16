@@ -11,9 +11,9 @@
                     <li class="breadcrumb-item">
                         {{-- admin dan dosen penguji --}}
                         @if(Auth::user()->mahasiswa)
-                        <p>Seminar Penelitian</p>
-                        @elseif (Auth::user()->role->nama == 'admin' || Auth::user()->dosen->dosen_pengujis)
-                        <a href="{{ route('seminar-penelitian.index') }}">Seminar Penelitian</a>
+                            <p>Seminar Penelitian</p>
+                        @elseif (Auth::user()->role->nama == 'admin' || Auth::user()->dosen->dosen_penguji)
+                            <a href="{{ route('seminar-penelitian.index') }}">Seminar Penelitian</a>
                         @endif
                     </li>
                     <li class="breadcrumb-item active">Detail Data</li>
@@ -21,9 +21,18 @@
             </nav>
         </div>
         <div class="col-12">
+            @if(session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+            @elseif(session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+            @endif
             <form action="{{ route('seminar-penelitian.update', ['seminarPenelitian' => $seminarPenelitian->id]) }}" method="POST" enctype="multipart/form-data">
                 @method('PUT')
-                @include('pages.dashboard.seminar_penelitian.form', ['tombol' => 'Edit'])
+                @include('pages.dashboard.seminar_penelitian.form', ['tombol' => 'Simpan'])
             </form>
         </div>
     </div>

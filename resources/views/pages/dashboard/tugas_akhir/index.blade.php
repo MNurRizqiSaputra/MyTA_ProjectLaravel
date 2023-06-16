@@ -19,6 +19,7 @@
         @if (Auth::user()->role->nama == 'mahasiswa' && !Auth::user()->mahasiswa->tugas_akhir)
             <p>Tambahkan Tugas Akhir</p>
         @else
+
         <table id="example" class="display" style="width:100%">
             <thead>
               <tr>
@@ -36,7 +37,7 @@
                 <td>{{ $loop->iteration }}</td>
                 <td><a href="{{ route('tugas-akhir.show', ['tugasAkhir' => $tugasAkhir->id]) }}">{{ $tugasAkhir->judul }}</a></td>
                 <td>{{ $tugasAkhir->mahasiswa->user->nama }}</td>
-                <td>{{ $tugasAkhir->dosen_pembimbing->dosen->user->nama }}</td>
+                <td>{{ $tugasAkhir->dosen_pembimbing->dosen->user->nama  ?? ''}}</td>
                 <td>{{ $tugasAkhir->status_persetujuan }}</td>
                 <td>{{ $tugasAkhir->total_nilai }}</td>
             </tr>

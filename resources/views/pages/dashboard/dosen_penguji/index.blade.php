@@ -16,6 +16,12 @@
             @endauth
         </div>
 
+        @if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+        @endif
+
         <table id="example" class="display" style="width:100%">
             <thead>
               <tr>
@@ -24,16 +30,28 @@
                 <th>Nama</th>
                 <th>Email</th>
                 <th>Jurusan</th>
+                @if (Auth::user()->role->nama == 'admin')
+                    <th>Aksi</th>
+                @endif
             </tr>
         </thead>
         <tbody>
             @foreach ($dosen_pengujis as $dosen_penguji)
             <tr>
                 <td>{{ $loop->iteration }}</td>
-                <td>{{ $dosen_penguji->dosen->nip ?? ''}}</td>
-                <td>{{ $dosen_penguji->dosen->user->nama ?? '' }}</td>
-                <td>{{ $dosen_penguji->dosen->user->email ?? '' }}</td>
-                <td>{{ $dosen_penguji->dosen->jurusan->nama ?? '' }}</td>
+                <td>{{ $dosen_penguji->nip ?? ''}}</td>
+                <td>{{ $dosen_penguji->nama ?? '' }}</td>
+                <td>{{ $dosen_penguji->email ?? '' }}</td>
+                <td>{{ $dosen_penguji->jurusan ?? '' }}</td>
+                @if (Auth::user()->role->nama == 'admin')
+                    <td class="d-flex gap-2">
+                        <form action="{{ route('dosen-penguji.destroy', $dosen_penguji->id) }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus pengguna ini?')">Hapus</button>
+                        </form>
+                    </td>
+                @endif
             </tr>
             @endforeach
         </tbody>

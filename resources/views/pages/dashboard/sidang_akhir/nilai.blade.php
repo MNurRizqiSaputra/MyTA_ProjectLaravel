@@ -13,7 +13,7 @@
                         @if(Auth::user()->mahasiswa)
                             <p>Sidang Akhir</p>
 
-                        @elseif (Auth::user()->role->nama == 'admin' || Auth::user()->dosen->dosen_pengujis)
+                        @elseif (Auth::user()->role->nama == 'admin' || Auth::user()->dosen->dosen_penguji)
                             <a href="{{ route('sidang-akhir.index') }}">Sidang Akhir</a>
 
                         @endif
@@ -23,10 +23,11 @@
                         @if(Auth::user()->mahasiswa)
                             <p>Sidang Akhir</p>
 
-                        @elseif (Auth::user()->role->nama == 'admin' || Auth::user()->dosen->dosen_pengujis)
+                        @elseif (Auth::user()->role->nama == 'admin' || Auth::user()->dosen->dosen_penguji)
                             <a href="{{ route('sidang-akhir.show', ['sidangAkhir' => $sidangAkhir->id]) }}">Detail Data</a>
 
                         @endif
+
 
                     </li>
                     <li class="breadcrumb-item active">Nilai</li>

@@ -12,13 +12,13 @@ class SeminarProposalNilaiController extends Controller
     public function index()
     {
         return view('pages.dashboard.seminar_proposal_nilai.index', [
-            'seminar_proposal_nilais' => SeminarProposalNilai::all(),
+            'seminar_proposal_nilais' => SeminarProposalNilai::orderByDesc('created_at')->get(),
         ]);
     }
 
     public function nilai(SeminarProposal $seminarProposal)
     {
-        $dosenPengujiId = auth()->user()->dosen->dosen_pengujis->pluck('id');
+        $dosenPengujiId = auth()->user()->dosen->dosen_penguji->id;
         $seminarProposalNilai = $seminarProposal->seminar_proposal_nilais()->where('dosen_penguji_id', $dosenPengujiId)->first();
 
         return view('pages.dashboard.seminar_proposal.nilai', [
@@ -29,7 +29,7 @@ class SeminarProposalNilaiController extends Controller
 
     public function update(Request $request, SeminarProposal $seminarProposal)
     {
-        $dosenPenguji = auth()->user()->dosen->dosen_pengujis->pluck('id');
+        $dosenPengujiId = auth()->user()->dosen->dosen_penguji->id;
 
         $validated = $request->validate([
             'dosen_penguji_id' => 'required',
@@ -37,17 +37,23 @@ class SeminarProposalNilaiController extends Controller
             'nilai' => 'required|integer'
         ]);
 
-        $seminarProposalNilai = $seminarProposal->seminar_proposal_nilais()->where('dosen_penguji_id', $dosenPenguji)->first();
+        $seminarProposalNilai = $seminarProposal->seminar_proposal_nilais()->where('dosen_penguji_id', $dosenPengujiId)->first();
         $seminarProposalNilai->update($validated);
 
-        // setelah memberi nilai, hitung nilai akhir dari semua nilai seminar
-        $nilaiAkhir = $seminarProposal->seminar_proposal_nilais()->avg('nilai');
+        // membandingkan jumlah nilai seminar proposal yang diberikan oleh semua dosen penguji dengan jumlah total dosen penguji yang seharusnya memberikan nilai.
+        $countNilaiProposal = ($seminarProposal->seminar_proposal_nilais()->count() == $seminarProposal->seminar_proposal_nilais->pluck('dosen_penguji_id')->count());
 
-        // update data nilai akhir seminar proposal
-        $seminarProposal->update([
-            'nilai_akhir' => $nilaiAkhir
-        ]);
+        if ($countNilaiProposal) {
+            $totalNilai = $seminarProposal->seminar_proposal_nilais()->sum('nilai');
+            $nilaiAkhir = $totalNilai / $seminarProposal->seminar_proposal_nilais()->count();
 
-        return redirect()->route('seminar-proposal.show', ['seminarProposal' => $seminarProposal->id])->with('success', 'Seminar Proposal berhasil dinilai.');
+            // update data nilai akhir seminar proposal
+            $seminarProposal->update([
+                'nilai_akhir' => $nilaiAkhir
+            ]);
+        }
+
+        session()->flash('success', 'Seminar Proposal berhasil dinilai');
+        return redirect()->route('seminar-proposal.show', ['seminarProposal' => $seminarProposal->id]);
     }
 }
