@@ -59,8 +59,6 @@ class UserController extends Controller
             ]);
         }
 
-        $user->save();
-
         session()->flash('success', 'Data User berhasil ditambah');
 
         return redirect()->route('user.index');

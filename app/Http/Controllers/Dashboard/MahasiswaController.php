@@ -52,7 +52,7 @@ class MahasiswaController extends Controller
             'nohp' => 'required|string|max:15',
             'email' => 'required|email|unique:users,email,' . $mahasiswa->user->id,
             'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-        ];
+        ]);
 
         if(!empty(request()->passwword)) {
             $data['password'] = 'nullable|confirmed|min:8';
