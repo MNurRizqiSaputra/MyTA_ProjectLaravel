@@ -15,7 +15,17 @@
                 </ol>
             </nav>
         </div>
+
         <div class="col-12">
+            @if(session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+            @elseif(session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+            @endif
             <form action="{{ route('tugas-akhir.update', ['tugasAkhir' => $tugasAkhir->id]) }}" method="POST" enctype="multipart/form-data">
                 @method('PUT')
                 @include('pages.dashboard.tugas_akhir.form', ['tombol' => 'Edit'])

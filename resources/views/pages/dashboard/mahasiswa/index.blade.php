@@ -27,10 +27,10 @@
             <tr>
                 <td>{{ $loop->iteration }}</td>
                 <td>{{ $mahasiswa->nim ?? ''}}</td>
-                <td>{{ $mahasiswa->user->nama ?? '' }}</td>
-                <td>{{ $mahasiswa->user->email ?? '' }}</td>
-                <td>{{ $mahasiswa->jurusan->nama ?? ''}}</td>
-                <td><a href="{{ route('mahasiswa.show', ['mahasiswa' => $mahasiswa->id]) }}">Edit</a></td>
+                <td>{{ $mahasiswa->nama ?? '' }}</td>
+                <td>{{ $mahasiswa->email ?? '' }}</td>
+                <td>{{ $mahasiswa->jurusan ?? ''}}</td>
+                <td><a href="{{ route('mahasiswa.show', ['mahasiswa' => $mahasiswa->id]) }}" class="btn btn-warning">Edit</a></td>
             </tr>
             @endforeach
         </tbody>

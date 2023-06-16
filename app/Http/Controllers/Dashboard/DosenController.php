@@ -12,7 +12,18 @@ class DosenController extends Controller
     public function index()
     {
         return view('pages.dashboard.dosen.index', [
-        'dosens' => Dosen::all(),
+        'dosens' => Dosen::with('user')
+                        ->leftJoin('users', 'dosens.user_id', '=', 'users.id')
+                        ->leftJoin('jurusans', 'dosens.jurusan_id', '=', 'jurusans.id')
+                        ->select(
+                            'dosens.id as id',
+                            'dosens.nip as nip',
+                            'users.nama as nama',
+                            'users.email as email',
+                            'jurusans.nama as jurusan',
+                        )
+                        ->orderBy('users.nama')
+                        ->get(),
         ]);
     }
     public function show(Dosen $dosen)
@@ -26,19 +37,30 @@ class DosenController extends Controller
     public function update(Request $request, Dosen $dosen)
     {
         // Validasi input data
-        $request->validate([
-            'nip' => 'required|string|max:10|unique:dosens,nip,' . $dosen->id,
+        $data = [
+            'nip' => 'required|size:10|alpha_num|unique:dosens,nip,' . $dosen->id,
             'jurusan_id' => 'required|exists:jurusans,id',
             'nama' => 'required|string',
             'tanggal_lahir' => 'required|date',
             'nohp' => 'required|string|max:15',
             'email' => 'required|email|unique:users,email,' . $dosen->user->id,
             'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-        ]);
+        ];
+
+        //jika password tidak kosong, maka update password
+        if (!empty(request()->password)) {
+            $data['password'] = 'nullable|confirmed|min:8';
+        }
+
+        $request->validate($data);
         // Update data pada model User
         $user = $dosen->user;
         $user->nama = $request->nama;
         $user->email = $request->email;
+        //periksa apakah password diubah
+        if(!empty($request->password)) {
+            $user->password = bcrypt($request->password);
+        }
         $user->tanggal_lahir = $request->input('tanggal_lahir');
         $user->save();
 
@@ -61,6 +83,7 @@ class DosenController extends Controller
 
         $dosen->save();
 
-        return redirect()->route('dosen.show', ['dosen' => $dosen])->with('success', 'Berhasil mengubah data dosen.');
+        session()->flash('success', 'Data Dosen berhasil diperbarui');
+        return redirect()->route('dosen.show', ['dosen' => $dosen]);
     }
 }

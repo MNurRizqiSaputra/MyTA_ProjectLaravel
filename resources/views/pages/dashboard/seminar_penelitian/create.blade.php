@@ -17,7 +17,7 @@
         </div>
         <div class="col-12">
             <form action="{{ route('seminar-penelitian.store') }}" method="POST" enctype="multipart/form-data">
-                @include('pages.dashboard.seminar_penelitian.form', ['tombol' => 'Add'])
+                @include('pages.dashboard.seminar_penelitian.form', ['tombol' => 'Tambah'])
             </form>
         </div>
     </div>

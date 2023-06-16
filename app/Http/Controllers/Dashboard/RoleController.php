@@ -10,7 +10,7 @@ class RoleController extends Controller
     public function index()
     {
         return view('pages.dashboard.role.index', [
-            'roles' => Role::all(),
+            'roles' => Role::orderBy('nama')->get(),
         ]);
     }
 
@@ -26,6 +26,7 @@ class RoleController extends Controller
         ]);
 
         Role::create($validated);
+        session()->flash('success', 'Data Role berhasil ditambah');
         return redirect()->route('role.index');
     }
 
@@ -42,12 +43,14 @@ class RoleController extends Controller
             'nama' => 'required|string|unique:roles,nama'
         ]);
         $role->update($validated);
+        session()->flash('success', 'Data Role berhasil diperbarui');
         return redirect()->route('role.index');
     }
 
     public function destroy(Role $role)
     {
         $role->delete();
+        session()->flash('success', 'Data Role berhasil dihapus');
         return redirect()->route('role.index');
     }
 }

@@ -7,7 +7,7 @@
 @section('content')
 <div class="content">
     <div class="row">
-        <div class="col-12">
+        <div class="col-12 d-flex align-items-center justify-content-between">
             <h2 class="content-title">Roles</h2>
             @auth
               @if (Auth::user()->role->nama == 'admin')
@@ -15,6 +15,12 @@
               @endif
             @endauth
         </div>
+
+        @if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+        @endif
 
         <table id="example" class="display" style="width:100%">
             <thead>
@@ -30,7 +36,7 @@
                 <td>{{ $loop->iteration }}</td>
                 <td>{{ $role->nama }}</td>
                 <td>
-                    <a href="{{ route('role.show', ['role' => $role->id]) }}" class="btn btn-warning">Detail</a>
+                    <a href="{{ route('role.show', ['role' => $role->id]) }}" class="btn btn-warning">Edit</a>
                     <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{$role->id}}">Hapus</button>
                 </td>
                 <!-- Modal -->

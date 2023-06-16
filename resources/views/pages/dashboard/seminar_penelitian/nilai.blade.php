@@ -13,7 +13,7 @@
                         @if(Auth::user()->mahasiswa)
                             <p>Seminar Penelitian</p>
 
-                        @elseif (Auth::user()->role->nama == 'admin' || Auth::user()->dosen->dosen_pengujis)
+                        @elseif (Auth::user()->role->nama == 'admin' || Auth::user()->dosen->dosen_penguji)
                             <a href="{{ route('seminar-penelitian.index') }}">Seminar Penelitian</a>
 
                         @endif
@@ -23,7 +23,7 @@
                         @if(Auth::user()->mahasiswa)
                             <p>Seminar Penelitian</p>
 
-                        @elseif (Auth::user()->role->nama == 'admin' || Auth::user()->dosen->dosen_pengujis)
+                        @elseif (Auth::user()->role->nama == 'admin' || Auth::user()->dosen->dosen_penguji)
                             <a href="{{ route('seminar-penelitian.show', ['seminarPenelitian' => $seminarPenelitian->id]) }}">Detail Data</a>
 
                         @endif

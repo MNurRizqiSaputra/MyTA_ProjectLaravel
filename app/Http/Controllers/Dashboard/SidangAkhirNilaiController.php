@@ -14,13 +14,13 @@ class SidangAkhirNilaiController extends Controller
     public function index()
     {
         return view('pages.dashboard.sidang_akhir_nilai.index', [
-            'sidang_akhir_nilais' => SidangAkhirNilai::all(),
+            'sidang_akhir_nilais' => SidangAkhirNilai::orderByDesc('created_at')->get(),
         ]);
     }
 
     public function nilai(SidangAkhir $sidangAkhir)
     {
-        $dosenPengujiId = auth()->user()->dosen->dosen_pengujis->pluck('id');
+        $dosenPengujiId = auth()->user()->dosen->dosen_penguji->id;
         $sidangAkhirNilai = $sidangAkhir->sidang_akhir_nilais()->where('dosen_penguji_id', $dosenPengujiId)->first();
 
         return view('pages.dashboard.sidang_akhir.nilai', [
@@ -31,7 +31,7 @@ class SidangAkhirNilaiController extends Controller
 
     public function update(Request $request, SidangAkhir $sidangAkhir)
     {
-        $dosenPengujiId = auth()->user()->dosen->dosen_pengujis->pluck('id');
+        $dosenPengujiId = auth()->user()->dosen->dosen_penguji->id;
 
         $validated = $request->validate([
             'dosen_penguji_id' => 'required',
@@ -42,18 +42,23 @@ class SidangAkhirNilaiController extends Controller
         $sidangAkhirNilai = $sidangAkhir->sidang_akhir_nilais()->where('dosen_penguji_id', $dosenPengujiId)->first();
         $sidangAkhirNilai->update($validated);
 
-        // setelah memberi nilai, hitung nilai akhir dari semua nilai sidang
-        $nilaiAkhir = $sidangAkhir->sidang_akhir_nilais()->avg('nilai');
+        // membandingkan jumlah nilai sidang akhir yang diberikan oleh semua dosen penguji dengan jumlah total dosen penguji yang seharusnya memberikan nilai.
+        $countNilaiSidangAkhir = ($sidangAkhir->sidang_akhir_nilais()->count() == $sidangAkhir->sidang_akhir_nilais->pluck('dosen_penguji_id')->count());
 
-        // update data nilai akhir sidang akhir
-        $sidangAkhir->update([
-            'nilai_akhir' => $nilaiAkhir
-        ]);
+        if ($countNilaiSidangAkhir) {
+            $totalNilai = $sidangAkhir->sidang_akhir_nilais()->sum('nilai');
+            $nilaiAkhir = $totalNilai / $sidangAkhir->sidang_akhir_nilais->count();
+
+            // update data nilai akhir sidang akhir
+            $sidangAkhir->update([
+                'nilai_akhir' => $nilaiAkhir
+            ]);
+        }
 
         // Panggil metode updateTotalNilai() setelah nilai akhir sidang akhir berhasil diisi
         $this->updateTotalNilai($sidangAkhir->tugas_akhir);
-
-        return redirect()->route('sidang-akhir.show', ['sidangAkhir' => $sidangAkhir->id])->with('success', 'Sidang Akhir berhasil dinilai.');
+        session()->flash('success', 'Sidak Akhir berhasil dinilai');
+        return redirect()->route('sidang-akhir.show', ['sidangAkhir' => $sidangAkhir->id]);
     }
 
     public function updateTotalNilai(TugasAkhir $tugasAkhir)

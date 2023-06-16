@@ -6,54 +6,43 @@ use Exception;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\Dosen;
-use App\Models\Jurusan;
 use App\Models\Mahasiswa;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Hash;
-use App\Http\Requests\CreateRoleRequest;
-use App\Http\Requests\CreateUserRequest;
-use App\Http\Requests\UpdateUserRequest;
-use App\Http\Requests\DeleteUserRequest;
 
 class UserController extends Controller
 {
     public function index()
     {
         return view('pages.dashboard.user.index', [
-            'users' => User::with('role')->get(),
+            'users' => User::with('role')->orderBy('nama')->get(),
         ]);
     }
 
     public function create()
     {
         return view('pages.dashboard.user.create', [
-            'roles' => Role::all(),
+            'roles' => Role::orderBy('nama')->get(),
         ]);
     }
 
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'nama' => 'required',
             'email' => 'required|email|unique:users,email',
-            'tanggal_lahir' => 'required|date',
+            'password' => 'required',
+            'tanggal_lahir' => 'nullable|date',
             'role_id' => 'required|exists:roles,id',
         ]);
 
-        $data = [
-            'nama' => $request->input('nama'),
-            'email' => $request->input('email'),
-            'role_id' => $request->input('role_id'),
-        ];
+        // if($request->has('tanggal_lahir')) {
+        //     $tanggal_lahir = $request->input('tanggal_lahir');
+        //     $data['tanggal_lahir'] = $tanggal_lahir;
+        //     $data['password'] = bcrypt($tanggal_lahir);
+        // }
 
-        if($request->has('tanggal_lahir')) {
-            $data['tanggal_lahir'] = $request->input('tanggal_lahir');
-            $data['password'] = bcrypt($request->input('tanggal_lahir'));
-        }
-
-        // Tambahkan data user
-        $user = User::create($data);
+        $user = User::create($validated); // Tambahkan data user
 
         // Cek role_id
         if ($user->role_id == ($user->role->nama == 'dosen')) {
@@ -61,7 +50,9 @@ class UserController extends Controller
             Dosen::create([
                 'user_id' => $user->id,
             ]);
-        } elseif ($user->role_id == ($user->role->nama == 'mahasiswa')) {
+        }
+
+        if ($user->role_id == ($user->role->nama == 'mahasiswa')) {
             // Tambahkan data mahasiswa
             Mahasiswa::create([
                 'user_id' => $user->id,
@@ -70,14 +61,16 @@ class UserController extends Controller
 
         $user->save();
 
-        return redirect()->route('user.index')->with('success', 'Data user berhasil ditambahkan.');
+        session()->flash('success', 'Data User berhasil ditambah');
+
+        return redirect()->route('user.index');
     }
 
     public function show(User $user)
     {
         return view('pages.dashboard.user.show', [
             'user' => $user,
-            'roles' => Role::all()
+            'roles' => Role::orderBy('nama')->get()
         ]);
     }
 
@@ -86,16 +79,33 @@ class UserController extends Controller
         $request->validate([
             'nama' => 'required',
             'email' => 'required|email|unique:users,email,' . $user->id,
-            'password' => 'nullable|min:8',
+            'tanggal_lahir' => 'required|date',
             'role_id' => 'required',
         ]);
 
-        $user->update([
-            'nama' => $request->nama,
-            'email' => $request->email,
-            'password' => $request->password ? bcrypt($request->password) : $user->password,
-            'role_id' => $request->role_id,
-        ]);
+        if($request->password) {
+            $password = bcrypt($request->password);
+        } else {
+            $password = $user->password;
+        }
+
+        if ($request->tanggal_lahir != $user->tanggal_lahir) {
+            //jika tanggal lahir diupdate maka update tanggal lahir saja
+            $user->update([
+                'nama' => $request->nama,
+                'email' => $request->email,
+                'tanggal_lahir' => $request->tanggal_lahir,
+                'role_id' => $request->role_id,
+            ]);
+        } else {
+            //jika password diupdate maka update password
+            $user->update([
+                'nama' => $request->nama,
+                'email' => $request->email,
+                'password' => $request->$password,
+                'role_id' => $request->role_id,
+            ]);
+        }
 
         if ($request->role_id == Role::where('nama', 'dosen')->first()->id) {
             // Periksa apakah user tersebut sudah memiliki data di tabel dosen
@@ -106,8 +116,13 @@ class UserController extends Controller
                 ]);
                 $user->mahasiswa->delete();
             }
-        }elseif ($request->role_id == Role::where('nama', 'mahasiswa')->first()->id){
-            if (!$user->mahasiswa) {
+        }
+
+        if ($request->role_id == Role::where('nama', 'mahasiswa')->first()->id){
+            if (isset($user->mahasiswa->tugas_akhir)) {
+                return redirect()->back()->with('error', 'Data mahasiswa terkait dengan tugas akhir');
+            }
+            elseif (!$user->mahasiswa) {
                 // Buat data baru pada tabel mahasiswa
                 Mahasiswa::create([
                     'user_id' => $user->id,
@@ -116,26 +131,32 @@ class UserController extends Controller
             }
         }
 
-        return redirect()->back()->with('success', 'Data berhasil diperbarui');
+        session()->flash('success', 'Data User berhasil diperbarui');
+
+        return redirect()->route('user.index');
     }
 
     public function destroy(User $user)
     {
         // Menghapus user
         if ($user->dosen){
+            if($user->dosen->dosen_penguji || $user->dosen->dosen_pembimbing){
+                return redirect()->back()->with('error', 'Tidak bisa menghapus data dosen yang sudah terkait sebagai dosen pembimbing atau dosen penguji.');
+            }
             $user->dosen->delete();
-            // Menghapus data dosen_pengujis terkait
-            $user->dosen->dosen_pengujis->delete();
-            // Menghapus data dosen_pembimbings terkait
-            $user->dosen->dosen_pembimbings->delete();
-            // Menghapus user
             $user->delete();
         } else if ($user->mahasiswa){
+            if($user->mahasiswa->tugas_akhir){
+                return redirect()->back()->with('error', 'Tidak bisa menghapus data dosen yang sudah terkait sebagai dosen pembimbing atau dosen penguji.');
+            }
             $user->mahasiswa->delete();
+            $user->delete();
         } else {
             $user->delete();
         }
 
-        return redirect()->back()->with('success', 'Pengguna berhasil dihapus.');
+        session()->flash('success', 'Data User berhasil dihapus');
+
+        return redirect()->route('user.index');
     }
 }

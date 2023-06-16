@@ -18,6 +18,6 @@ class AdminMiddleware
         if (auth()->user()->role->nama == 'admin') {
             return $next($request);
         }
-        return redirect('/dashboard/overview');
+        return redirect()->back();
     }
 }

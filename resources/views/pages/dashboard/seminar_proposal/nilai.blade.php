@@ -13,9 +13,8 @@
                         @if(Auth::user()->mahasiswa)
                             <p>Seminar Proposal</p>
 
-                        @elseif (Auth::user()->role->nama == 'admin' || Auth::user()->dosen->dosen_pengujis)
+                        @elseif (Auth::user()->role->nama == 'admin' || Auth::user()->dosen->dosen_penguji)
                             <a href="{{ route('seminar-proposal.index') }}">Seminar Proposal</a>
-
                         @endif
                     </li>
                     <li class="breadcrumb-item">
@@ -23,9 +22,8 @@
                         @if(Auth::user()->mahasiswa)
                             <p>Seminar Proposal</p>
 
-                        @elseif (Auth::user()->role->nama == 'admin' || Auth::user()->dosen->dosen_pengujis)
+                        @elseif (Auth::user()->role->nama == 'admin' || Auth::user()->dosen->dosen_penguji)
                             <a href="{{ route('seminar-proposal.show', ['seminarProposal' => $seminarProposal->id]) }}">Detail Data</a>
-
                         @endif
 
                     </li>
