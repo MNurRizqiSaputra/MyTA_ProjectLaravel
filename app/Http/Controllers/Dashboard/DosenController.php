@@ -45,7 +45,7 @@ class DosenController extends Controller
             'nohp' => 'required|string|max:15',
             'email' => 'required|email|unique:users,email,' . $dosen->user->id,
             'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-        ]);
+        ];
 
         //jika password tidak kosong, maka update password
         if (!empty(request()->password)) {
