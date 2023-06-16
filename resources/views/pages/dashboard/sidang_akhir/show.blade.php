@@ -21,6 +21,15 @@
             </nav>
         </div>
         <div class="col-12">
+            @if(session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+            @elseif(session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+            @endif
             <form action="{{ route('sidang-akhir.update', ['sidangAkhir' => $sidangAkhir->id]) }}" method="POST" enctype="multipart/form-data">
                 @method('PUT')
                 @include('pages.dashboard.sidang_akhir.form', ['tombol' => 'Simpan'])

@@ -17,7 +17,7 @@
         </div>
         <div class="col-12">
             <form action="{{ route('tugas-akhir.store') }}" method="POST" enctype="multipart/form-data">
-                @include('pages.dashboard.tugas_akhir.form', ['tombol' => 'Add'])
+                @include('pages.dashboard.tugas_akhir.form', ['tombol' => 'Tambah'])
             </form>
         </div>
     </div>

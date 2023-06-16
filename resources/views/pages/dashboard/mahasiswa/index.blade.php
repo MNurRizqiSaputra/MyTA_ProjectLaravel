@@ -30,7 +30,7 @@
                 <td>{{ $mahasiswa->nama ?? '' }}</td>
                 <td>{{ $mahasiswa->email ?? '' }}</td>
                 <td>{{ $mahasiswa->jurusan ?? ''}}</td>
-                <td><a href="{{ route('mahasiswa.show', ['mahasiswa' => $mahasiswa->id]) }}">Edit</a></td>
+                <td><a href="{{ route('mahasiswa.show', ['mahasiswa' => $mahasiswa->id]) }}" class="btn btn-warning">Edit</a></td>
             </tr>
             @endforeach
         </tbody>

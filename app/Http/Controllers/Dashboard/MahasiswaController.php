@@ -53,10 +53,20 @@ class MahasiswaController extends Controller
             'email' => 'required|email|unique:users,email,' . $mahasiswa->user->id,
             'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
+
+        if(!empty(request()->passwword)) {
+            $data['password'] = 'nullable|confirmed|min:8';
+        }
+
+        $request->validate($data);
+
         // Update data pada model User
         $user = $mahasiswa->user;
-        $user->nama = $request->input('nama');
-        $user->email = $request->input('email');
+        $user->nama = $request->nama;
+        if(!empty(request()->password)) {
+        $user->password = bcrypt($request->password);
+        }
+        $user->email = $request->email;
         $user->tanggal_lahir = $request->input('tanggal_lahir');
         $user->save();
 
@@ -79,6 +89,7 @@ class MahasiswaController extends Controller
 
         $mahasiswa->save();
 
-        return redirect()->route('mahasiswa.show', ['mahasiswa' => $mahasiswa])->with('success', 'Berhasil mengubah data mahasiswa.');
+        session()->flash('success', 'Data Mahasiswa berhasil diperbarui');
+        return redirect()->route('mahasiswa.show', ['mahasiswa' => $mahasiswa]);
     }
 }

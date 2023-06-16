@@ -46,10 +46,21 @@ class DosenController extends Controller
             'email' => 'required|email|unique:users,email,' . $dosen->user->id,
             'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
+
+        //jika password tidak kosong, maka update password
+        if (!empty(request()->password)) {
+            $data['password'] = 'nullable|confirmed|min:8';
+        }
+
+        $request->validate($data);
         // Update data pada model User
         $user = $dosen->user;
         $user->nama = $request->nama;
         $user->email = $request->email;
+        //periksa apakah password diubah
+        if(!empty($request->password)) {
+            $user->password = bcrypt($request->password);
+        }
         $user->tanggal_lahir = $request->input('tanggal_lahir');
         $user->save();
 
@@ -72,6 +83,7 @@ class DosenController extends Controller
 
         $dosen->save();
 
-        return redirect()->route('dosen.show', ['dosen' => $dosen])->with('success', 'Berhasil mengubah data dosen.');
+        session()->flash('success', 'Data Dosen berhasil diperbarui');
+        return redirect()->route('dosen.show', ['dosen' => $dosen]);
     }
 }

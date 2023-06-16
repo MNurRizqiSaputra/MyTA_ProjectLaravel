@@ -24,17 +24,6 @@
     </div>
     <div class="row">
         <div class="col mb-3">
-            <label for="password" class="form-label">Password</label>
-            <input type="text" id="password" class="form-control @error('password') is-invalid @enderror" name="password" placeholder="*******" value="{{ old('password') ?? ($user->password ?? '') }}" required>
-            @error('password')
-                <span class="invalid-feedback" role="alert">
-                    <strong>{{ $message }}</strong>
-                </span>
-            @enderror
-        </div>
-    </div>
-    <div class="row">
-        <div class="col mb-3">
             <label for="tanggal_lahir" class="form-label">Tanggal Lahir</label>
             <input type="date" id="tanggal_lahir" class="form-control @error('tanggal_lahir') is-invalid @enderror" name="tanggal_lahir" value="{{ old('tanggal_lahir') ?? ($user->tanggal_lahir ?? '') }}" required>
             @error('tanggal_lahir')

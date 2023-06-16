@@ -19,6 +19,7 @@
         @if (Auth::user()->role->nama == 'mahasiswa' && !Auth::user()->mahasiswa->tugas_akhir)
             <p>Tambahkan Tugas Akhir</p>
         @else
+
         <table id="example" class="display" style="width:100%">
             <thead>
               <tr>

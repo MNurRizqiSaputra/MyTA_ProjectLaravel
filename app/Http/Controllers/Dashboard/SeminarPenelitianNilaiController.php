@@ -51,6 +51,7 @@ class SeminarPenelitianNilaiController extends Controller
                 'nilai_akhir' => $nilaiAkhir
             ]);
         }
-        return redirect()->route('seminar-penelitian.show', ['seminarPenelitian' => $seminarPenelitian->id])->with('success', 'Seminar Penelitian berhasil dinilai.');
+        session()->flash('success', 'Seminar Penelitian berhasil dinilai');
+        return redirect()->route('seminar-penelitian.show', ['seminarPenelitian' => $seminarPenelitian->id]);
     }
 }
