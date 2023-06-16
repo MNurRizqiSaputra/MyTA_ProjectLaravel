@@ -15,7 +15,7 @@ class DosenPengujiController extends Controller
                                         ->leftJoin('users', 'dosens.user_id', '=', 'users.id')
                                         ->leftJoin('jurusans', 'dosens.jurusan_id', '=', 'jurusans.id')
                                             ->select(
-                                                'dosens.id as id',
+                                                'dosen_pengujis.id as id',
                                                 'dosens.nip as nip',
                                                 'users.nama as nama',
                                                 'users.email as email',
@@ -46,5 +46,14 @@ class DosenPengujiController extends Controller
         DosenPenguji::create($validated);
         session()->flash('success', 'Data Dosen Penguji berhasil ditambah');
         return redirect()->route('dosen-penguji.index');
+    }
+
+    function destroy(DosenPenguji $dosenPenguji){
+        if($dosenPenguji->seminar_penelitians()->exists() || $dosenPenguji->seminar_proposals()->exists() || $dosenPenguji->sidang_akhirs()->exists()){
+            return redirect()->back()->with('error', 'Tidak bisa menghapus data dosen yang sudah terkait.');
+        } else {
+            $dosenPenguji->delete();
+            return redirect()->back()->with('success', 'Pengguna berhasil dihapus.');
+        }
     }
 }

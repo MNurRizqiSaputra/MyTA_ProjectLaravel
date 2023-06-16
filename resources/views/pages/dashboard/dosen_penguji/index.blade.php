@@ -30,6 +30,9 @@
                 <th>Nama</th>
                 <th>Email</th>
                 <th>Jurusan</th>
+                @if (Auth::user()->role->nama == 'admin')
+                    <th>Aksi</th>
+                @endif
             </tr>
         </thead>
         <tbody>
@@ -40,6 +43,15 @@
                 <td>{{ $dosen_penguji->nama ?? '' }}</td>
                 <td>{{ $dosen_penguji->email ?? '' }}</td>
                 <td>{{ $dosen_penguji->jurusan ?? '' }}</td>
+                @if (Auth::user()->role->nama == 'admin')
+                    <td class="d-flex gap-2">
+                        <form action="{{ route('dosen-penguji.destroy', $dosen_penguji->id) }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus pengguna ini?')">Hapus</button>
+                        </form>
+                    </td>
+                @endif
             </tr>
             @endforeach
         </tbody>

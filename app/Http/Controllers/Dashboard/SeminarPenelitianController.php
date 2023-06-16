@@ -78,7 +78,7 @@ class SeminarPenelitianController extends Controller
         $tugasAkhirMahasiswa = Auth::user()->mahasiswa->tugas_akhir;
         $seminarProposal = $tugasAkhirMahasiswa->seminar_proposal;
 
-        if ($seminarProposal->nilai_akhir) {
+        if (isset($seminarProposal->nilai_akhir)) {
             $dosenPengujiBelumNilai = $seminarProposal->seminar_proposal_nilais()->whereNull('nilai')->with('dosen_penguji')->get();
 
 
