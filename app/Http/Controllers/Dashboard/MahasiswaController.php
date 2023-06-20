@@ -45,14 +45,14 @@ class MahasiswaController extends Controller
         $mahasiswa = Mahasiswa::findOrFail($id);
         // Validasi input data
         $data = [
-            'nim' => 'required|string|max:10|unique:mahasiswas,nim,' . $mahasiswa->id,
+            'nim' => 'required|size:10|alpha_num|unique:mahasiswas,nim,' . $mahasiswa->id,
             'jurusan_id' => 'required|exists:jurusans,id',
             'nama' => 'required|string',
             'tanggal_lahir' => 'required|date',
             'nohp' => 'required|string|max:15',
             'email' => 'required|email|unique:users,email,' . $mahasiswa->user->id,
             'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-        ];
+        ]);
 
         if(!empty(request()->passwword)) {
             $data['password'] = 'nullable|confirmed|min:8';
