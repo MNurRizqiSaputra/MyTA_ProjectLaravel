@@ -89,7 +89,7 @@ class TugasAkhirController extends Controller
             // $path = $request->file('file')->store('tugas-akhir', 'public');
             $file = $request->file('file');
             $fileName = time() . '_' . $file->getClientOriginalName();
-            $filePath = $file->storeAs('public/tugas-akhir/' . $mahasiswa->id, $fileName);
+            $filePath = $file->storeAs('tugas-akhir/' . $mahasiswa->id, $fileName);
 
             // Buat data tugas akhir baru
             $tugasAkhir = TugasAkhir::create([
@@ -125,7 +125,7 @@ class TugasAkhirController extends Controller
 
                 $file = $request->file('file');
                 $fileName = time() . '_' . $file->getClientOriginalName();
-                $filePath = $file->storeAs('public/tugas-akhir/' . $user->mahasiswa->id, $fileName);
+                $filePath = $file->storeAs('tugas-akhir/' . $user->mahasiswa->id, $fileName);
 
                 $tugasAkhir->file = $filePath;
             }
@@ -134,6 +134,7 @@ class TugasAkhirController extends Controller
             session()->flash('success', 'Data Tugas Akhir berhasil diperbarui');
             return redirect()->route('tugas-akhir.show', ['tugasAkhir' => $tugasAkhir]);
         }
+
         elseif ($user->role->nama == 'admin') {
             // Ambil request form daftar dosen pembimbing
             $selectedDosenPembimbing = $request->input('dosen_pembimbing_', []);
@@ -164,4 +165,5 @@ class TugasAkhirController extends Controller
         session()->flash('error', 'Anda tidak memiliki akses untuk mengubah data Tugas Akhir');
         return redirect()->back();
     }
+
 }
