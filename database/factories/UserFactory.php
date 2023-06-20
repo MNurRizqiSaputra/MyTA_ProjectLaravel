@@ -19,12 +19,12 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'nama' => $this->faker->name(),
-            'email' => $this->faker->unique()->safeEmail(),
+            'nama' => 'Admin',
+            'email' => 'adming@gmail.com',
             'email_verified_at' => now(),
-            'password' => '$2y$10$ELkUYZlfIkmI2MN5jPVUeO/82PfFGvO3qBFqfjIQ023WkbycRRONO', // password
+            'password' => bcrypt('qwer1234'), // password
             'tanggal_lahir' => '2001-12-12',
-            'role_id' => fake()->numberBetween(1, Role::count()),
+            'role_id' => 3,
             'remember_token' => Str::random(10),
         ];
     }

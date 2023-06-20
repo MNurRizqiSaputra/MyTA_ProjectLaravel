@@ -15,12 +15,15 @@
 
     <div class="row">
         <div class="col mb-3">
-            <label for="file" class="form-label">File</label>
-            <input type="file" id="file" class="form-control @error('file') is-invalid @enderror" name="file">
+            <label for="file" class="form-label">File : </label>     
+            @auth
+                @if ((!isset($tugasAkhir) || !$tugasAkhir->id) || (Auth::user()->mahasiswa && Auth::user()->mahasiswa->tugas_akhir && Auth::user()->mahasiswa->id === ($tugasAkhir->mahasiswa_id ?? null)))
+                    <input type="file" id="file" class="form-control @error('file') is-invalid @enderror" name="file">
+                @endif
+            @endauth
 
             @if (isset($tugasAkhir->file))
-                <label for="file" class="form-label mt-3">Lihat File Sebelumnya</label>
-                <a href="{{ Storage::url($tugasAkhir->file) }}">Buka File</a>
+                <a href="/{{'storage/app/' . $tugasAkhir->file }}" download class="btn btn-primary">Download</a>
             @endif
 
             @error('file')
@@ -114,7 +117,7 @@
 
     <div class="row">
         <div class="col mb-3">
-            <label for="file" class="form-label">File</label>
+            <label for="file" class="form-label">File : </label>
             @auth
                 @if ((!isset($tugasAkhir) || !$tugasAkhir->id) || (Auth::user()->mahasiswa && Auth::user()->mahasiswa->tugas_akhir && Auth::user()->mahasiswa->id === ($tugasAkhir->mahasiswa_id ?? null)))
                     <input type="file" id="file" class="form-control @error('file') is-invalid @enderror" name="file">
@@ -122,8 +125,7 @@
             @endauth
 
             @if (isset($tugasAkhir->file))
-                <label for="file" class="form-label mt-3">Lihat File Sebelumnya</label>
-                <a href="{{ Storage::url($tugasAkhir->file) }}">Buka File</a>
+                <a class="btn-sm btn-primary text-decoration-none" href="/{{'storage/app/' . $tugasAkhir->file }}" download >Download</a>
             @endif
 
             @error('file')
