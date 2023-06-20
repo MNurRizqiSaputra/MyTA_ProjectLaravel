@@ -3,14 +3,8 @@
 <div class="p-2">
     <div class="row">
         <div class="col mb-3">
-            <label for="judul" class="form-label">Judul</label>
-            @auth
-                @if ((!isset($tugasAkhir) || !$tugasAkhir->id) || (Auth::user()->mahasiswa && Auth::user()->mahasiswa->tugas_akhir && Auth::user()->mahasiswa->id === ($tugasAkhir->mahasiswa_id ?? null)))
-                    <input type="text" id="judul" class="form-control @error('judul') is-invalid @enderror" name="judul" placeholder="Judul" value="{{ old('judul') ?? ($tugasAkhir->judul ?? '') }}" required>
-                @else
-                    <input type="text" id="judul" class="form-control @error('judul') is-invalid @enderror" name="judul" placeholder="Judul" value="{{ old('judul') ?? ($tugasAkhir->judul ?? '') }}" readonly>
-                @endif
-            @endauth
+            <label for="judul" class="form-label">Judul :</label>
+            <input type="text" id="judul" class="form-control @error('judul') is-invalid @enderror" name="judul" placeholder="Judul" value="{{ old('judul') ?? ($tugasAkhir->judul ?? '') }}" required>
             @error('judul')
                 <span class="invalid-feedback" role="alert">
                     <strong>{{ $message }}</strong>
@@ -21,15 +15,11 @@
 
     <div class="row">
         <div class="col mb-3">
-            <label for="file" class="form-label">File</label>
-            @auth
-                @if ((!isset($tugasAkhir) || !$tugasAkhir->id) || (Auth::user()->mahasiswa && Auth::user()->mahasiswa->tugas_akhir && Auth::user()->mahasiswa->id === ($tugasAkhir->mahasiswa_id ?? null)))
-                    <input type="file" id="file" class="form-control @error('file') is-invalid @enderror" name="file">
-                @endif
-            @endauth
+            <label for="file" class="form-label">File :</label>
+            <input type="file" id="file" class="form-control @error('file') is-invalid @enderror" name="file">
 
             @if (isset($tugasAkhir->file))
-                <label for="file" class="form-label mt-3">Lihat File Sebelumnya</label>
+                <label for="file" class="form-label mt-3">Lihat File Sebelumnya :</label>
                 <a href="{{ Storage::url($tugasAkhir->file) }}">Buka File</a>
             @endif
 
@@ -50,7 +40,7 @@
 
     <div class="row">
         <div class="col mb-3">
-            <label for="status_persetujuan" class="form-label">Status Persetujuan</label>
+            <label for="status_persetujuan" class="form-label">Status Persetujuan :</label>
             @auth
 
                 @if (Auth::user()->role->nama == 'admin' || Auth::user()->mahasiswa && Auth::user()->mahasiswa->id === ($tugasAkhir->mahasiswa_id ?? null))
@@ -78,7 +68,7 @@
 
     <div class="row">
         <div class="col mb-3">
-            <label for="total_nilai" class="form-label">Total Nilai</label>
+            <label for="total_nilai" class="form-label">Total Nilai :</label>
 
             <input class="form-control" type="number" name="total_nilai" id="total_nilai" value="{{ old('total_nilai') ?? ($tugasAkhir->total_nilai ?? '') }}" required readonly>
 
@@ -106,7 +96,7 @@
 <div class="p-2">
     <div class="row">
         <div class="col mb-3">
-            <label for="judul" class="form-label">Judul</label>
+            <label for="judul" class="form-label">Judul :</label>
             @auth
                 @if ((!isset($tugasAkhir) || !$tugasAkhir->id) || (Auth::user()->mahasiswa && Auth::user()->mahasiswa->tugas_akhir && Auth::user()->mahasiswa->id === ($tugasAkhir->mahasiswa_id ?? null)))
                     <input type="text" id="judul" class="form-control @error('judul') is-invalid @enderror" name="judul" placeholder="Judul" value="{{ old('judul') ?? ($tugasAkhir->judul ?? '') }}" required>
@@ -124,16 +114,17 @@
 
     <div class="row">
         <div class="col mb-3">
-            <label for="file" class="form-label">File</label>
+            <label for="file" class="form-label">File :</label>
             @auth
                 @if ((!isset($tugasAkhir) || !$tugasAkhir->id) || (Auth::user()->mahasiswa && Auth::user()->mahasiswa->tugas_akhir && Auth::user()->mahasiswa->id === ($tugasAkhir->mahasiswa_id ?? null)))
-                    <input type="file" id="file" class="form-control @error('file') is-invalid @enderror" name="file">
+                    <input type="file" id="file" class="form-control @error('file') is-invalid @enderror" name="file" value="{{ basename($tugasAkhir->file) }}">
                 @endif
             @endauth
 
             @if (isset($tugasAkhir->file))
-                <label for="file" class="form-label mt-3">Lihat File Sebelumnya</label>
-                <a href="{{ Storage::url($tugasAkhir->file) }}">Buka File</a>
+                <label for="file" class="form-label mt-3">Lihat File Sebelumnya :</label>
+                <input type="text" class="form-control mb-1" name="file" id="file" value="{{ basename($tugasAkhir->file) }}" readonly>
+                <a class="btn btn-primary" href="{{ Storage::url($tugasAkhir->file) }}">Buka File</a>
             @endif
 
             @error('file')
@@ -157,7 +148,7 @@
                 @endforeach
             @elseif (Auth::user()->dosen || Auth::user()->mahasiswa)
                 @if ($selectedDosenPembimbing)
-                    <label for="" class="form-label">{{ $selectedDosenPembimbing->dosen->user->nama }}</label>
+                    <input type="text" class="form-control" name="dosen_pembimbing" id="dosen_pembimbing" value="{{ $selectedDosenPembimbing->dosen->user->nama }}" readonly>
                 @else
                     <br><label for="" class="form-label">Tidak ada data</label>
                 @endif
@@ -167,7 +158,7 @@
 
     <div class="row">
         <div class="col mb-3">
-            <label for="status_persetujuan" class="form-label">Status Persetujuan</label>
+            <label for="status_persetujuan" class="form-label">Status Persetujuan :</label>
             @auth
 
                 @if (Auth::user()->role->nama == 'admin' || Auth::user()->mahasiswa && Auth::user()->mahasiswa->id === ($tugasAkhir->mahasiswa_id ?? null))
@@ -195,7 +186,7 @@
 
     <div class="row">
         <div class="col mb-3">
-            <label for="total_nilai" class="form-label">total nilai</label>
+            <label for="total_nilai" class="form-label">Total Nilai :</label>
 
             <input class="form-control" type="number" name="total_nilai" id="total_nilai" value="{{ old('total_nilai') ?? ($tugasAkhir->total_nilai ?? '') }}" required readonly>
 
