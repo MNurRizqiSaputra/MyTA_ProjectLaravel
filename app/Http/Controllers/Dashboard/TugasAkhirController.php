@@ -72,7 +72,7 @@ class TugasAkhirController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'judul' => 'required|string|min:3',
+            'judul' => 'required|string|min:3|unique:tugas_akhirs,judul',
             'file' => 'required|mimes:pdf',
         ]);
 
