@@ -83,7 +83,7 @@ class MahasiswaController extends Controller
             }
 
             $fileName = time() . '_' . $request->file('foto')->getClientOriginalName();
-            $path = $request->file('foto')->storeAs('public/fotos/mahasiswa/', $fileName);
+            $path = $request->file('foto')->storeAs('fotos/mahasiswa/', $fileName);
             $mahasiswa->foto = $path;
         }
 
