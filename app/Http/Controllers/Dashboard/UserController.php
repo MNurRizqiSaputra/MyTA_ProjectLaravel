@@ -31,16 +31,15 @@ class UserController extends Controller
         $validated = $request->validate([
             'nama' => 'required',
             'email' => 'required|email|unique:users,email',
-            'password' => 'required',
             'tanggal_lahir' => 'nullable|date',
             'role_id' => 'required|exists:roles,id',
         ]);
 
-        // if($request->has('tanggal_lahir')) {
-        //     $tanggal_lahir = $request->input('tanggal_lahir');
-        //     $data['tanggal_lahir'] = $tanggal_lahir;
-        //     $data['password'] = bcrypt($tanggal_lahir);
-        // }
+        if($request->has('tanggal_lahir')) {
+            $tanggal_lahir = $request->input('tanggal_lahir');
+            $validated['tanggal_lahir'] = $tanggal_lahir;
+            $validated['password'] = bcrypt($tanggal_lahir);
+        }
 
         $user = User::create($validated); // Tambahkan data user
 
@@ -58,8 +57,6 @@ class UserController extends Controller
                 'user_id' => $user->id,
             ]);
         }
-
-        $user->save();
 
         session()->flash('success', 'Data User berhasil ditambah');
 
@@ -79,6 +76,7 @@ class UserController extends Controller
         $request->validate([
             'nama' => 'required',
             'email' => 'required|email|unique:users,email,' . $user->id,
+            'password' => 'nullable|min:8',
             'tanggal_lahir' => 'required|date',
             'role_id' => 'required',
         ]);
@@ -102,7 +100,7 @@ class UserController extends Controller
             $user->update([
                 'nama' => $request->nama,
                 'email' => $request->email,
-                'password' => $request->$password,
+                'password' => $password,
                 'role_id' => $request->role_id,
             ]);
         }

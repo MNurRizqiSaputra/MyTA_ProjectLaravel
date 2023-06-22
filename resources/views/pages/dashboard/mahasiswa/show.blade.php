@@ -66,7 +66,7 @@
                         @enderror
                     </div>
                     <div class="mb-3 col-md-6">
-                        <label for="password" class="form-label">Password</label>
+                        <label for="password" class="form-label">New Password</label>
                         <input class="form-control @error('password') is-invalid @enderror" type="password" id="password" name="password" value="" placeholder="********" autocomplete="new-password">
                         @error('password')
                             <span class="invalid-feedback" role="alert">
