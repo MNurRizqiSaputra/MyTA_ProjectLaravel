@@ -455,3 +455,14 @@ aside #toggle-navbar {
   justify-content: center;
   align-items: center;
 }
+
+.sidebar-icon {
+  filter: brightness(0) invert(5); /* Mengubah ikon menjadi putih */
+}
+
+.sidebar-item:not(.active) .sidebar-icon {
+  filter: grayscale(50%); /* Mengembalikan ikon ke warna hitam */
+}
+
+
+
