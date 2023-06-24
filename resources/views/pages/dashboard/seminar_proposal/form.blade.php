@@ -148,6 +148,11 @@
         <div class="col mb-3">
             <label for="file" class="form-label">File</label>
             <input type="text" class="form-control" value="{{ basename($seminarProposal->tugas_akhir->file) }}" readonly>
+            <p>Lihat file :
+                @if (isset($seminarProposal->tugas_akhir->file))
+                <a href="{{ Storage::url($seminarProposal->tugas_akhir->file) }}">Buka File</a>
+            @endif
+            </p>
         </div>
     </div>
 
