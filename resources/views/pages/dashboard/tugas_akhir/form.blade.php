@@ -122,8 +122,8 @@
             @endauth
 
             @if (isset($tugasAkhir->file))
-                <label for="file" class="form-label mt-3">Lihat File Sebelumnya</label>
-                <a href="{{ Storage::url($tugasAkhir->file) }}">Buka File</a>
+                <input type="text" class="form form-control mb-2" name="file_tugasAkhir" id="file_tugasAkhir" value="{{ basename($tugasAkhir->file) }}" readonly>
+                <a href="{{ Storage::url($tugasAkhir->file) }}" class="btn btn-primary">Buka File</a>
             @endif
 
             @error('file')
@@ -197,16 +197,21 @@
         </div>
     </div>
 
+    <center>
     @auth
         @if (!isset(Auth::user()->mahasiswa->tugas_akhir) && $tugasAkhir->status_persetujuan == 'Disetujui')
             <input type="hidden" name="">
         @elseif ((Auth::user()->dosen && Auth::user()->dosen->dosen_pembimbing->id) || (Auth::user()->mahasiswa && Auth::user()->mahasiswa->tugas_akhir) || Auth::user()->role->nama == 'admin')
             <button type="submit" id="edit" class="btn btn-primary">{{ $tombol }}</button>
+            @if (Auth::user()->role->nama == 'admin')
+                <a href="{{ route('tugas-akhir.index') }}" class="btn btn-secondary">Cancel</a>
+            @endif
         @elseif (Auth::user()->mahasiswa)
             <button type="submit" id="tambah" class="btn btn-primary">{{ $tombol }}</button>
         @elseif(!Auth::user()->mahasiswa)
             <input type="hidden" name="">
         @endif
     @endauth
+    </center>
 </div>
 @endif

@@ -8,7 +8,7 @@
 <div class="content">
     <div class="row">
         <div class="col-12 d-flex align-items-center justify-content-between">
-            <h2 class="content-title">Roles</h2>
+            <h2 class="content-title">Data Roles</h2>
             @auth
               @if (Auth::user()->role->nama == 'admin')
                 <a href="{{ route('role.create') }}" class="btn btn-primary mb-2">Tambah</a>

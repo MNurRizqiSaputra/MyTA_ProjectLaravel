@@ -22,6 +22,10 @@
         <div class="col mb-3">
             <label for="file" class="form-label">File</label>
             <input type="text" class="form-control" value="{{ basename($tugasAkhir->file) }}" readonly>
+            <details>
+                <summary>Attention!</summary>
+                    <h8 style="font-style:italic; color:red;" >Silakan unggah ulang file jika terdapat pembaruan dalam menu Tugas Akhir</h8>
+            </details> 
         </div>
     </div>
 
@@ -120,7 +124,7 @@
         </div>
     </div>
 
-    <button type="submit" id="add" class="btn btn-primary">{{ $tombol }}</button>
+    <center><button type="submit" id="add" class="btn btn-primary">{{ $tombol }}</button></center>
 </div>
 
 @elseif (request()->is('dashboard/sidang-akhir/detail/' . $sidangAkhir->id))
@@ -237,7 +241,7 @@
             @else
                 @foreach ($dosenSidangAkhirs as $dosenSidangAkhir)
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="dosen_penguji_[]"  value="{{ $dosenSidangAkhir->id }}" {{ in_array($dosenSidangAkhir->dosen_penguji->id, $selectedDosenSidangAkhir) ? 'checked' : '' }}>
+                        <input class="form-check-input" type="checkbox" name="dosen_penguji_[]"  value="{{ $dosenSidangAkhir->id }}" {{ in_array($dosenSidangAkhir->dosen_penguji->id, $selectedDosenSidangAkhir) ? 'checked' : '' }} disabled>
 
                         <label class="form-check-label" for="dosen_penguji_{{ $dosenSidangAkhir->id }}">{{ $dosenSidangAkhir->dosen_penguji->dosen->user->nama }}</label>
                     </div>
@@ -275,8 +279,11 @@
     @endif
 
     {{-- menampilkan tombol jika login sebagai dosen penguji --}}
+    <center>
     @if (Auth::user()->dosen && Auth::user()->dosen->dosen_penguji)
         <a href="{{ route('sidang-akhir-nilai.nilai', ['sidangAkhir' => $sidangAkhir->id]) }}" class="btn btn-primary">Berikan Nilai</a>
+        <a href="{{ route('sidang-akhir.index') }}" class="btn btn-secondary">Kembali</a>
     @endif
+    </center>
 </div>
 @endif

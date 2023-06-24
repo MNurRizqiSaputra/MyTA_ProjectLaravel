@@ -77,7 +77,7 @@ class DosenController extends Controller
             }
 
             $fileName = time() . '_' . $request->file('foto')->getClientOriginalName();
-            $path = $request->file('foto')->storeAs('public/fotos/dosen/', $fileName);
+            $path = $request->file('foto')->storeAs('fotos/dosen/', $fileName);
             $dosen->foto = $path;
         }
 
