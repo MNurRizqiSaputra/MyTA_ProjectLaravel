@@ -8,6 +8,7 @@ use App\Models\SidangAkhir;
 use App\Models\SidangAkhirNilai;
 use App\Models\TugasAkhir;
 use Illuminate\Http\Request;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class SidangAkhirNilaiController extends Controller
 {
@@ -57,7 +58,7 @@ class SidangAkhirNilaiController extends Controller
 
         // Panggil metode updateTotalNilai() setelah nilai akhir sidang akhir berhasil diisi
         $this->updateTotalNilai($sidangAkhir->tugas_akhir);
-        session()->flash('success', 'Sidak Akhir berhasil dinilai');
+        Alert::success('Success', 'Sidang Akhir berhasil dinilai');
         return redirect()->route('sidang-akhir.show', ['sidangAkhir' => $sidangAkhir->id]);
     }
 

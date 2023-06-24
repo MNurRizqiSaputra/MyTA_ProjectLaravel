@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use App\Models\Role;
 use Illuminate\Http\Request;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class RoleController extends Controller
 {
@@ -26,7 +27,7 @@ class RoleController extends Controller
         ]);
 
         Role::create($validated);
-        session()->flash('success', 'Data Role berhasil ditambah');
+        Alert::success('Success', 'Data role berhasil ditambah');
         return redirect()->route('role.index');
     }
 
@@ -43,14 +44,14 @@ class RoleController extends Controller
             'nama' => 'required|string|unique:roles,nama'
         ]);
         $role->update($validated);
-        session()->flash('success', 'Data Role berhasil diperbarui');
+        Alert::success('Success', 'Data role berhasil diperbarui');
         return redirect()->route('role.index');
     }
 
     public function destroy(Role $role)
     {
         $role->delete();
-        session()->flash('success', 'Data Role berhasil dihapus');
+        Alert::success('Success', 'Data role berhasil dihapus');
         return redirect()->route('role.index');
     }
 }
