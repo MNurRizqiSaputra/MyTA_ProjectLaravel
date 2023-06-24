@@ -30,6 +30,7 @@
             @include('includes.dashboard.nav')
 
             @yield('content')
+            @include('sweetalert::alert')
         </div>
     </div>
 

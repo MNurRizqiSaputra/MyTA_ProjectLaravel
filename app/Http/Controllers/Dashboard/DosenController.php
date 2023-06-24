@@ -6,6 +6,7 @@ use App\Models\Dosen;
 use App\Models\Jurusan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class DosenController extends Controller
 {
@@ -83,7 +84,7 @@ class DosenController extends Controller
 
         $dosen->save();
 
-        session()->flash('success', 'Data Dosen berhasil diperbarui');
+        Alert::success('Success', 'Data dosen berhasil diperbarui');
         return redirect()->route('dosen.show', ['dosen' => $dosen]);
     }
 }

@@ -9,6 +9,7 @@ use App\Models\Dosen;
 use App\Models\Mahasiswa;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class UserController extends Controller
 {
@@ -58,7 +59,7 @@ class UserController extends Controller
             ]);
         }
 
-        session()->flash('success', 'Data User berhasil ditambah');
+        Alert::success('Success', 'Data user berhasil ditambah');
 
         return redirect()->route('user.index');
     }
@@ -129,7 +130,7 @@ class UserController extends Controller
             }
         }
 
-        session()->flash('success', 'Data User berhasil diperbarui');
+        Alert::success('Success', 'Data user berhasil diperbarui');
 
         return redirect()->route('user.index');
     }
@@ -153,7 +154,7 @@ class UserController extends Controller
             $user->delete();
         }
 
-        session()->flash('success', 'Data User berhasil dihapus');
+        Alert::success('Success', 'Data user berhasil dihapus');
 
         return redirect()->route('user.index');
     }

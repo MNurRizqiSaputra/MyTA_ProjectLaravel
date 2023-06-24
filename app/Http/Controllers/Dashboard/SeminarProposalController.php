@@ -9,6 +9,7 @@ use App\Models\SeminarProposalNilai;
 use App\Models\TugasAkhir;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class SeminarProposalController extends Controller
 {
@@ -85,7 +86,7 @@ class SeminarProposalController extends Controller
                 'tugasAkhir' => $mahasiswa->tugas_akhir
             ]);
         }
-        session()->flash('error', 'Mohon Maaf, Tugas Akhir anda belum disetujui');
+        Alert::error('Gagal', 'Tugas Akhir anda belum disetujui');
         return redirect()->back();
 
     }
@@ -109,7 +110,7 @@ class SeminarProposalController extends Controller
         $seminarProposal = SeminarProposal::create([
             'tugas_akhir_id' => $request->tugas_akhir_id
         ]);
-        session()->flash('success', 'Seminar Proposal berhasil ditambahkan');
+        Alert::success('Success', 'Seminar Proposal berhasil ditambahkan');
         return redirect()->route('seminar-proposal.show', ['seminarProposal' => $seminarProposal->id]);
     }
 
@@ -139,7 +140,7 @@ class SeminarProposalController extends Controller
                         });
                     })->exists();
         if ($bentrok) {
-            session()->flash('error', 'Maaf, terdapat bentrok dengan Seminar/Sidang lain pada waktu dan tempat tersebut');
+            Alert::error('Gagal', 'Terdapat bentrok dengan jadwal lain');
             return redirect()->back();
         }
 
@@ -157,7 +158,7 @@ class SeminarProposalController extends Controller
             $seminarProposalNilai->save();
         }
 
-        session()->flash('success', 'Data Seminar Proposal berhasil diperbarui');
+        Alert::success('Success', 'Seminar Proposal berhasil diperbarui');
         return redirect()->route('seminar-proposal.show', ['seminarProposal' => $seminarProposal->id]);
     }
 }

@@ -8,6 +8,7 @@ use App\Models\SidangAkhirNilai;
 use App\Models\TugasAkhir;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class SidangAkhirController extends Controller
 {
@@ -83,10 +84,11 @@ class SidangAkhirController extends Controller
                     'tugasAkhir' => $tugasAkhirMahasiswa
                 ]);
             } else {
-                session()->flash('error', 'Mohon Maaf, masih terdapat Dosen Penguji yang belum menilai Seminar Penelitian anda');
+                Alert::error('Gagal', 'Dosen Penguji belum menilai Seminar Penelitian anda');
                 return redirect()->back();
             }
         } else {
+            Alert::error('Gagal', 'Anda belum memiliki Seminar Penelitian');
             session()->flash('error', 'Mohon Maaf, Anda belum memiliki Seminar Penelitian');
             return redirect()->back();
         }
@@ -104,7 +106,7 @@ class SidangAkhirController extends Controller
 
         $tugasAkhir = TugasAkhir::find($request->tugas_akhir_id);
         if ($tugasAkhir->sidang_akhir) {
-            session()->flash('error', 'Mohon Maaf, Anda sudah menambahkan sidang akhir');
+            Alert::error('Gagal', 'Anda sudah menambahkan sidang akhir');
             return redirect()->back();
         }
 
@@ -112,7 +114,7 @@ class SidangAkhirController extends Controller
             'tugas_akhir_id' => $request->tugas_akhir_id
         ]);
 
-        session()->flash('success', 'Sidang Akhir berhasil ditambahkan');
+        Alert::success('Success', 'Sidang Akhir berhasil ditambahkan');
         return redirect()->route('sidang-akhir.show', ['sidangAkhir' => $sidangAkhir->id]);
     }
 
@@ -142,7 +144,8 @@ class SidangAkhirController extends Controller
                         });
                     })->exists();
         if ($bentrok) {
-            return redirect()->back()->with('error', 'Maaf, terdapat bentrok dengan acara lain pada waktu dan tempat tersebut.');
+            Alert::error('Gagal', 'Terdapat bentrol dengan jadwal lain');
+            return redirect()->back();
         }
 
         $sidangAkhir->update($validate);
@@ -159,7 +162,7 @@ class SidangAkhirController extends Controller
             $sidangAkhirNilai->save();
         }
 
-        session()->flash('success', 'Data Sidang Akhir berhasil diperbarui');
+        Alert::success('Success', 'Sidang Akhir berhasil diperbarui');
         return redirect()->route('sidang-akhir.show', ['sidangAkhir' => $sidangAkhir->id]);
 
     }
