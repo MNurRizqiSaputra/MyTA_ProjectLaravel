@@ -20,11 +20,11 @@ class UserFactory extends Factory
     {
         return [
             'nama' => 'Admin',
-            'email' => 'adming@gmail.com',
+            'email' => 'admin@gmail.com',
             'email_verified_at' => now(),
             'password' => bcrypt('qwer1234'), // password
             'tanggal_lahir' => '2001-12-12',
-            'role_id' => 3,
+            'role_id' => fake()->numberBetween(1, Role::count()),
             'remember_token' => Str::random(10),
         ];
     }

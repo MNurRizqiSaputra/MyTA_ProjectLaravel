@@ -15,7 +15,7 @@
 
     <div class="row">
         <div class="col mb-3">
-            <label for="file" class="form-label">File : </label>     
+            <label for="file" class="form-label">File : </label>
             @auth
                 @if ((!isset($tugasAkhir) || !$tugasAkhir->id) || (Auth::user()->mahasiswa && Auth::user()->mahasiswa->tugas_akhir && Auth::user()->mahasiswa->id === ($tugasAkhir->mahasiswa_id ?? null)))
                     <input type="file" id="file" class="form-control @error('file') is-invalid @enderror" name="file">
@@ -125,7 +125,8 @@
             @endauth
 
             @if (isset($tugasAkhir->file))
-                <a class="btn-sm btn-primary text-decoration-none" href="/{{'storage/app/' . $tugasAkhir->file }}" download >Download</a>
+                <input type="text" class="form form-control mb-2" name="file_tugasAkhir" id="file_tugasAkhir" value="{{ basename($tugasAkhir->file) }}" readonly>
+                <a href="{{ Storage::url($tugasAkhir->file) }}" class="btn btn-primary">Buka File</a>
             @endif
 
             @error('file')
@@ -199,16 +200,21 @@
         </div>
     </div>
 
+    <center>
     @auth
         @if (!isset(Auth::user()->mahasiswa->tugas_akhir) && $tugasAkhir->status_persetujuan == 'Disetujui')
             <input type="hidden" name="">
         @elseif ((Auth::user()->dosen && Auth::user()->dosen->dosen_pembimbing->id) || (Auth::user()->mahasiswa && Auth::user()->mahasiswa->tugas_akhir) || Auth::user()->role->nama == 'admin')
             <button type="submit" id="edit" class="btn btn-primary">{{ $tombol }}</button>
+            @if (Auth::user()->role->nama == 'admin')
+                <a href="{{ route('tugas-akhir.index') }}" class="btn btn-secondary">Cancel</a>
+            @endif
         @elseif (Auth::user()->mahasiswa)
             <button type="submit" id="tambah" class="btn btn-primary">{{ $tombol }}</button>
         @elseif(!Auth::user()->mahasiswa)
             <input type="hidden" name="">
         @endif
     @endauth
+    </center>
 </div>
 @endif

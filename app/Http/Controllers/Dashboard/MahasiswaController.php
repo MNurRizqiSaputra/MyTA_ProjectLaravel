@@ -9,6 +9,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class MahasiswaController extends Controller
 {
@@ -52,7 +53,7 @@ class MahasiswaController extends Controller
             'nohp' => 'required|string|max:15',
             'email' => 'required|email|unique:users,email,' . $mahasiswa->user->id,
             'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-        ]);
+        ];
 
         if(!empty(request()->passwword)) {
             $data['password'] = 'nullable|confirmed|min:8';
@@ -83,13 +84,13 @@ class MahasiswaController extends Controller
             }
 
             $fileName = time() . '_' . $request->file('foto')->getClientOriginalName();
-            $path = $request->file('foto')->storeAs('public/fotos/mahasiswa/', $fileName);
+            $path = $request->file('foto')->storeAs('fotos/mahasiswa/', $fileName);
             $mahasiswa->foto = $path;
         }
 
         $mahasiswa->save();
 
-        session()->flash('success', 'Data Mahasiswa berhasil diperbarui');
+        Alert::success('Success', 'Data mahasiswa berhasil diperbarui');
         return redirect()->route('mahasiswa.show', ['mahasiswa' => $mahasiswa]);
     }
 }

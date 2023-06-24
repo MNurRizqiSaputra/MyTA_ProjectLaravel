@@ -213,33 +213,27 @@
 
                     <div class="col-lg-3" data-aos="zoom-in" data-aos-delay="100">
                         <div class="member d-flex align-items-start justify-content-center">
-                            <div class="pic"><img src="{{ asset('frontend/assets/img/team/team-1.jpg') }}" class="img-fluid" alt="">
-                                <div class="member-info">
-                                    <h4>Rama Alfin Baehaqi</h4>
-                                    <span>Hokage</span>
-                                    <div class="social">
-                                        <a href=""><i class="ri-twitter-fill"></i></a>
-                                        <a href=""><i class="ri-facebook-fill"></i></a>
-                                        <a href=""><i class="ri-instagram-fill"></i></a>
-                                        <a href=""> <i class="ri-linkedin-box-fill"></i> </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <div class="col-lg-3" data-aos="zoom-in" data-aos-delay="100">
-                        <div class="member d-flex align-items-start justify-content-center">
-                            <div class="pic"><img src="{{ asset('frontend/assets/img/team/team-1.jpg') }}" class="img-fluid" alt="">
+                            <div class="pic"><img src="{{ asset('frontend/assets/img/team/putra.png') }}" class="img-fluid" alt="">
                                 <div class="member-info">
                                     <h4>Muhammad Nur Rizqi Saputra</h4>
-                                    <span>Jonin</span>
+                                    <span>Project Manager</span>
                                     <div class="social">
-                                        <a href=""><i class="ri-twitter-fill"></i></a>
-                                        <a href=""><i class="ri-facebook-fill"></i></a>
-                                        <a href=""><i class="ri-instagram-fill"></i></a>
-                                        <a href=""> <i class="ri-linkedin-box-fill"></i> </a>
+                                        <a href="https://www.instagram.com/mnrs_putra/" target="_blank"><i class="ri-instagram-fill"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-lg-3" data-aos="zoom-in" data-aos-delay="100">
+                        <div class="member d-flex align-items-start justify-content-center">
+                            <div class="pic"><img src="{{ asset('frontend/assets/img/team/rama.png') }}" class="img-fluid" alt="">
+                                <div class="member-info">
+                                    <h4>Rama Alfin Baehaqi</h4>
+                                    <span>Backend</span>
+                                    <div class="social">
+                                        <a href="https://www.instagram.com/ramaalfin/" target="_blank"><i class="ri-instagram-fill"></i></a>
                                     </div>
                                 </div>
                             </div>
@@ -248,15 +242,12 @@
 
                     <div class="col-lg-3" data-aos="zoom-in" data-aos-delay="100">
                         <div class="member d-flex align-items-start justify-content-center">
-                            <div class="pic"><img src="{{ asset('frontend/assets/img/team/team-1.jpg') }}" class="img-fluid" alt="">
+                            <div class="pic"><img src="{{ asset('frontend/assets/img/team/iqi.png') }}" class="img-fluid" alt="">
                                 <div class="member-info">
                                     <h4>Rizqy Arniza</h4>
-                                    <span>Chunin</span>
+                                    <span>Frontend</span>
                                     <div class="social">
-                                        <a href=""><i class="ri-twitter-fill"></i></a>
-                                        <a href=""><i class="ri-facebook-fill"></i></a>
-                                        <a href=""><i class="ri-instagram-fill"></i></a>
-                                        <a href=""> <i class="ri-linkedin-box-fill"></i> </a>
+                                        <a href="https://www.instagram.com/itsiq_/" target="_blank"><i class="ri-instagram-fill"></i></a>
                                     </div>
                                 </div>
                             </div>
@@ -268,12 +259,9 @@
                             <div class="pic"><img src="{{ asset('frontend/assets/img/team/team-1.jpg') }}" class="img-fluid" alt="">
                                 <div class="member-info">
                                     <h4>Andi Purnomo</h4>
-                                    <span>Anbu</span>
+                                    <span>Documentation</span>
                                     <div class="social">
-                                        <a href=""><i class="ri-twitter-fill"></i></a>
-                                        <a href=""><i class="ri-facebook-fill"></i></a>
-                                        <a href=""><i class="ri-instagram-fill"></i></a>
-                                        <a href=""> <i class="ri-linkedin-box-fill"></i> </a>
+                                        <a href="#!"><i class="ri-instagram-fill"></i></a>
                                     </div>
                                 </div>
                             </div>

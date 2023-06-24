@@ -6,6 +6,7 @@ use App\Models\Dosen;
 use App\Models\Jurusan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class DosenController extends Controller
 {
@@ -77,13 +78,13 @@ class DosenController extends Controller
             }
 
             $fileName = time() . '_' . $request->file('foto')->getClientOriginalName();
-            $path = $request->file('foto')->storeAs('public/fotos/dosen/', $fileName);
+            $path = $request->file('foto')->storeAs('fotos/dosen/', $fileName);
             $dosen->foto = $path;
         }
 
         $dosen->save();
 
-        session()->flash('success', 'Data Dosen berhasil diperbarui');
+        Alert::success('Success', 'Data dosen berhasil diperbarui');
         return redirect()->route('dosen.show', ['dosen' => $dosen]);
     }
 }

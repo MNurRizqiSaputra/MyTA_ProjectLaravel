@@ -22,6 +22,10 @@
         <div class="col mb-3">
             <label for="file" class="form-label">File</label>
             <input type="text" class="form-control" value="{{ basename($tugasAkhir->file) }}" readonly>
+            <details>
+                <summary>Attention!</summary>
+                    <h8 style="font-style:italic; color:red;" >Silakan unggah ulang file jika terdapat pembaruan dalam menu Tugas Akhir</h8>
+            </details>
         </div>
     </div>
 
@@ -120,7 +124,7 @@
         </div>
     </div>
 
-    <button type="submit" id="add" class="btn btn-primary">{{ $tombol }}</button>
+    <center><button type="submit" id="add" class="btn btn-primary">{{ $tombol }}</button></center>
 </div>
 
 @elseif (request()->is('dashboard/seminar-penelitian/detail/' . $seminarPenelitian->id))
@@ -143,7 +147,12 @@
     <div class="row">
         <div class="col mb-3">
             <label for="file" class="form-label">File</label>
-            <input type="text" class="form-control" value="{{ basename($seminarPenelitian->tugas_akhir->file) }}" readonly>
+            <input type="text" class="form-control mb-2" value="{{ basename($seminarPenelitian->tugas_akhir->file) }}" readonly>
+            <p>Lihat file :
+                @if (isset($seminarPenelitian->tugas_akhir->file))
+                <a href="{{ Storage::url($seminarPenelitian->tugas_akhir->file) }}" class="btn btn-primary">Buka File</a>
+            @endif
+            </p>
         </div>
     </div>
 
@@ -232,7 +241,7 @@
             @else
                 @foreach ($dosenSeminarPenelitians as $dosenSeminarPenelitian)
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="dosen_penguji_[]"  value="{{ $dosenSeminarPenelitian->id }}" {{ in_array($dosenSeminarPenelitian->dosen_penguji->id, $selectedDosenPenelitian) ? 'checked' : '' }}>
+                        <input class="form-check-input" type="checkbox" name="dosen_penguji_[]"  value="{{ $dosenSeminarPenelitian->id }}" {{ in_array($dosenSeminarPenelitian->dosen_penguji->id, $selectedDosenPenelitian) ? 'checked' : '' }} disabled>
 
                         <label class="form-check-label" for="dosen_penguji_{{ $dosenSeminarPenelitian->id }}">{{ $dosenSeminarPenelitian->dosen_penguji->dosen->user->nama }}</label>
                     </div>
@@ -270,9 +279,12 @@
     @endif
 
     {{-- menampilkan tombol jika login sebagai dosen penguji --}}
+    <center>
     @if (Auth::user()->dosen && Auth::user()->dosen->dosen_penguji)
         <a href="{{ route('seminar-penelitian-nilai.nilai', ['seminarPenelitian' => $seminarPenelitian->id]) }}" class="btn btn-primary">Berikan Nilai</a>
+        <a href="{{ route('seminar-penelitian.index') }}" class="btn btn-secondary">Kembali</a>
     @endif
+    </center>
 </div>
 @endif
 

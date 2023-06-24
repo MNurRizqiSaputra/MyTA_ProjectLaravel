@@ -5,7 +5,7 @@
 @section('content')
 <div class="content">
     <div class="row">
-        <div class="col-12">
+        <div class="col-12 bg-light text-dark border border-light">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb ms-2 mb-4">
                     <li class="breadcrumb-item">
@@ -15,12 +15,17 @@
                 </ol>
             </nav>
         </div>
-        <div class="col-12">
-            <form action="{{ route('user.update', ['user' => $user->id]) }}" method="POST">
-                @method('PUT')
-                @include('pages.dashboard.user.form', ['tombol' => 'Simpan'])
-            </form>
+        <div class="card">
+            <div class="card-body">
+                <div class="col-12">
+                    <form action="{{ route('user.update', ['user' => $user->id]) }}" method="POST">
+                        @method('PUT')
+                        @include('pages.dashboard.user.form', ['tombol' => 'Simpan'])
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 </div>
+<br>
 @endsection
