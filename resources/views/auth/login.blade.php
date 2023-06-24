@@ -10,7 +10,7 @@
                 <div class="col-md-9 col-lg-6 col-xl-5">
                     <a href="{{ route('frontend.home') }}"><img src="{{ asset('frontend/assets/img/buatfavicon.png') }}" class="img-fluid rounded" alt="MyTA LOGO"></a>
                 </div>
-                <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+                <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1 py-4 px-3">
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
                         <!-- Email input -->
@@ -38,20 +38,18 @@
                             @enderror
                         </div>
 
-                        <div class="d-flex justify-content-between align-items-center">
-                            <!-- Checkbox -->
-                            <div class="form-check mb-0">
-                                <input class="form-check-input me-2" type="checkbox" value="" id="form2Example3" />
-                                <label class="form-check-label" for="form2Example3">
-                                    Remember me
-                                </label>
-                            </div>
-                            <a href="#!" class="text-body">
-                                <div class="alert alert-warning" role="alert">
-                                    Lupa Password? Hubungi Admin Akademik!
-                                </div>
-                            </a>
+                        <!-- Checkbox -->
+                        <div class="form-check mb-3">
+                            <input class="form-check-input me-2" type="checkbox" value="" id="form2Example3" />
+                            <label class="form-check-label" for="form2Example3">
+                                Remember me
+                            </label>
                         </div>
+                        <a href="#!" class="text-body">
+                            <div class="alert alert-warning" role="alert">
+                                Lupa Password? Hubungi Admin Akademik!
+                            </div>
+                        </a>
 
                         <div class="text-center text-lg-start mt-4 pt-2">
                             <button type="submit" class="btn btn-primary btn-lg"

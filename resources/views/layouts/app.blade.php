@@ -64,7 +64,7 @@
         @yield('content')
     </main>
 
-    <script src="{{ asset('frontend/assets/js/login.js') }}"></script>
+    <script src="{{ asset('frontend/assets/js/main.js') }}"></script>
 
 </body>
 </html>
