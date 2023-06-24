@@ -26,7 +26,13 @@ Nilai Sidang Akhir
                 <td>{{ $loop->iteration }}</td>
                 <td>{{ $sidang_akhir_nilai->sidang_akhir->tugas_akhir->judul }}</td>
                 <td>{{ $sidang_akhir_nilai->dosen_penguji->dosen->user->nama }}</td>
-                <td>{{ $sidang_akhir_nilai->nilai }}</td>
+                <td>
+                    @if (is_null($sidang_akhir_nilai->nilai))
+                            <span class="badge bg-secondary">Belum dinilai</span>
+                    @else
+                            <span class="badge bg-success">{{ $sidang_akhir_nilai->nilai }}</span>
+                    @endif
+                </td>
             </tr>
             @endforeach
         </tbody>
