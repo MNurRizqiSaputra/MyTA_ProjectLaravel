@@ -29,6 +29,7 @@
                         <div class="form-outline mb-3">
                             <input type="password" id="password" name="password" class="form-control form-control-lg @error('password') is-invalid @enderror" placeholder="Password" required autocomplete="current-password">
                             <label class="form-label" for="password">Password</label>
+                            <span style="font-style:italic; color:blue;">Password Default: Tanggal Lahir (yyyy-mm-dd)</span>
 
                             @error('password')
                                 <span class="invalid-feedback" role="alert">
@@ -45,7 +46,11 @@
                                     Remember me
                                 </label>
                             </div>
-                            <a href="#!" class="text-body">Forgot password?</a>
+                            <a href="#!" class="text-body">
+                                <div class="alert alert-warning" role="alert">
+                                    Lupa Password? Hubungi Admin Akademik!
+                                </div>
+                            </a>
                         </div>
 
                         <div class="text-center text-lg-start mt-4 pt-2">

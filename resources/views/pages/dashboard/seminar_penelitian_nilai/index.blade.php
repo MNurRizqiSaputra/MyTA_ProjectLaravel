@@ -26,7 +26,13 @@ Nilai Seminar Penelitian
                 <td>{{ $loop->iteration }}</td>
                 <td>{{ $seminar_penelitian_nilai->seminar_penelitian->tugas_akhir->judul }}</td>
                 <td>{{ $seminar_penelitian_nilai->dosen_penguji->dosen->user->nama ?? ''}}</td>
-                <td>{{ $seminar_penelitian_nilai->nilai }}</td>
+                <td>
+                    @if (is_null($seminar_penelitian_nilai->nilai))
+                        <span class="badge bg-secondary">Belum dinilai</span>
+                    @else
+                        <span class="badge bg-success">{{ $seminar_penelitian_nilai->nilai }}</span>
+                    @endif
+                </td>
             </tr>
             @endforeach
         </tbody>

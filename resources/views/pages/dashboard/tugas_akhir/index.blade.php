@@ -29,7 +29,7 @@
                 <th>Dosen Pembimbing</th>
                 <th>Status Persetujuan</th>
                 <th>Total Nilai</th>
-                <th>Action</th>
+                <th>Aksi</th>
             </tr>
         </thead>
         <tbody>
@@ -39,7 +39,15 @@
                 <td>{{ $tugasAkhir->judul }}</td>
                 <td>{{ $tugasAkhir->mahasiswa->user->nama }}</td>
                 <td>{{ $tugasAkhir->dosen_pembimbing->dosen->user->nama  ?? ''}}</td>
-                <td>{{ $tugasAkhir->status_persetujuan }}</td>
+                <td>
+                    @if ($tugasAkhir->status_persetujuan == 'Pending')
+                        <span style="color:brown;">{{ $tugasAkhir->status_persetujuan }}</span>
+                    @elseif ($tugasAkhir->status_persetujuan == 'Disetujui')
+                        <span style="color:green;">{{ $tugasAkhir->status_persetujuan }}</span>
+                    @elseif ($tugasAkhir->status_persetujuan == 'Tidak Disetujui')
+                        <span style="color:red;">{{ $tugasAkhir->status_persetujuan }}</span>
+                    @endif
+                </td>
                 <td>{{ $tugasAkhir->total_nilai }}</td>
                 <td><a href="{{ route('tugas-akhir.show', ['tugasAkhir' => $tugasAkhir->id]) }}" class="btn btn-primary rounded border-0">Detail</a></td>
             </tr>
