@@ -23,7 +23,8 @@
             @endauth
 
             @if (isset($tugasAkhir->file))
-                <a href="/{{'storage/app/' . $tugasAkhir->file }}" download class="btn btn-primary">Download</a>
+                <input type="text" class="form form-control mb-2" name="file_tugasAkhir" id="file_tugasAkhir" value="{{ basename($tugasAkhir->file) }}" readonly>
+                <a href="{{ Storage::url($tugasAkhir->file) }}" class="btn btn-primary">Buka File</a>
             @endif
 
             @error('file')
@@ -188,7 +189,7 @@
 
     <div class="row">
         <div class="col mb-3">
-            <label for="total_nilai" class="form-label">total nilai</label>
+            <label for="total_nilai" class="form-label">Total Nilai</label>
 
             <input class="form-control" type="number" name="total_nilai" id="total_nilai" value="{{ old('total_nilai') ?? ($tugasAkhir->total_nilai ?? '') }}" required readonly>
 

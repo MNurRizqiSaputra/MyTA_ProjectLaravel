@@ -89,7 +89,6 @@ class SidangAkhirController extends Controller
             }
         } else {
             Alert::error('Gagal', 'Anda belum memiliki Seminar Penelitian');
-            session()->flash('error', 'Mohon Maaf, Anda belum memiliki Seminar Penelitian');
             return redirect()->back();
         }
     }

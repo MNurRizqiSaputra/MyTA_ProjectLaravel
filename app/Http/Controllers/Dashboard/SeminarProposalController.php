@@ -103,7 +103,7 @@ class SeminarProposalController extends Controller
 
         $tugasAkhir = TugasAkhir::find($request->tugas_akhir_id);
         if ($tugasAkhir->seminar_proposal) {
-            session()->flash('error', 'Mohon Maaf, anda sudah menambahkan seminar proposal');
+            Alert::error('Gagal', 'Mohon Maaf, anda sudah menambahkan seminar proposal');
             return redirect()->back();
         }
 
