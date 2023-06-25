@@ -161,17 +161,10 @@ class SeminarPenelitianController extends Controller
             $tugasAkhir = TugasAkhir::find($seminarPenelitian->tugas_akhir_id);
 
             // Cek apakah dosen penguji sudah menjadi dosen pembimbing
-            if ($tugasAkhir->dosen_pembimbing_id == $dosenPengujiId) {
+            if ($tugasAkhir->dosen_pembimbing_id != $dosenPengujiId) {
                 Alert::error('Gagal', 'Dosen yang dipilih sudah menjadi Dosen Pembimbing');
                 return redirect()->route('seminar-penelitian.show', ['seminarPenelitian' => $seminarPenelitian->id]);
-            }
-
-            // Cek apakah dosen sudah menjadi dosen penguji
-            $dosenPenguji = $seminarPenelitian->seminar_penelitian_nilais()
-                ->where('dosen_penguji_id', $dosenPengujiId)
-                ->exists();
-
-            if (!$dosenPenguji) {
+            } else {
                 $seminarPenelitianNilai = SeminarPenelitianNilai::firstOrNew([
                     'seminar_penelitian_id' => $seminarPenelitian->id,
                     'dosen_penguji_id' => $dosenPengujiId,

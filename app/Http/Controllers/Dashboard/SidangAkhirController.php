@@ -157,17 +157,10 @@ class SidangAkhirController extends Controller
             $tugasAkhir = TugasAkhir::find($sidangAkhir->tugas_akhir_id);
 
             // Cek apakah dosen penguji sudah menjadi dosen pembimbing
-            if ($tugasAkhir->dosen_pembimbing_id == $dosenPengujiId) {
+            if ($tugasAkhir->dosen_pembimbing_id != $dosenPengujiId) {
                 Alert::error('Gagal', 'Dosen yang dipilih sudah menjadi Dosen Pembimbing');
                 return redirect()->route('sidang-akhir.show', ['sidangAkhir' => $sidangAkhir->id]);
-            }
-
-            // Cek apakah dosen sudah menjadi dosen penguji
-            $dosenPenguji = $sidangAkhir->sidang_akhir_nilais()
-                ->where('dosen_penguji_id', $dosenPengujiId)
-                ->exists();
-
-            if (!$dosenPenguji) {
+            } else {
                 $sidangAkhirNilai = SidangAkhirNilai::firstOrNew([
                     'sidang_akhir_id' => $sidangAkhir->id,
                     'dosen_penguji_id' => $dosenPengujiId,
