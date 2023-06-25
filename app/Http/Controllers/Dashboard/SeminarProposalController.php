@@ -153,8 +153,8 @@ class SeminarProposalController extends Controller
         foreach ($selectedDosenPengujiIds as $dosenPengujiId) {
             $tugasAkhir = TugasAkhir::find($seminarProposal->tugas_akhir_id);
 
-            // cek apakah dosen penguji sudah menjadi dosen pembimbing
-            if ($tugasAkhir->dosen_pembimbing_id != $dosenPengujiId) {
+            // Cek apakah dosen penguji sudah menjadi dosen pembimbing
+            if ($tugasAkhir->dosen_pembimbing_id == $dosenPengujiId) {
                 Alert::error('Gagal', 'Dosen yang dipilih sudah menjadi Dosen Pembimbing');
                 return redirect()->route('seminar-proposal.show', ['seminarProposal' => $seminarProposal->id]);
             }
