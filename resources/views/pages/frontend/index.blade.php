@@ -256,7 +256,7 @@
 
                     <div class="col-lg-3" data-aos="zoom-in" data-aos-delay="100">
                         <div class="member d-flex align-items-start justify-content-center">
-                            <div class="pic"><img src="{{ asset('frontend/assets/img/team/team-1.jpg') }}" class="img-fluid" alt="">
+                            <div class="pic"><img src="{{ asset('frontend/assets/img/team/andi.png') }}" class="img-fluid" alt="">
                                 <div class="member-info">
                                     <h4>Andi Purnomo</h4>
                                     <span>Documentation</span>
