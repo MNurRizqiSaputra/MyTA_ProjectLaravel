@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use App\Models\Jurusan;
 use Illuminate\Http\Request;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class JurusanController extends Controller
 {
@@ -26,7 +27,8 @@ class JurusanController extends Controller
         ]);
 
         Jurusan::create($validated);
-        session()->flash('success', 'Data Jurusan berhasil ditambah');
+
+        Alert::success('Success', 'Data jurusan berhasil ditambah');
         return redirect()->route('jurusan.index');
     }
 
@@ -43,14 +45,16 @@ class JurusanController extends Controller
             'nama' => 'required|string|unique:jurusans,nama'
         ]);
         $jurusan->update($validated);
-        session()->flash('success', 'Data Jurusan berhasil diperbarui');
+
+        Alert::success('Success', 'Data jurusan berhasil diperbarui');
         return redirect()->route('jurusan.index');
     }
 
     public function destroy(Jurusan $jurusan)
     {
         $jurusan->delete();
-        session()->flash('success', 'Data Jurusan berhasil dihapus');
+
+        Alert::success('Success', 'Data jurusan berhasil dihapus');
         return redirect()->route('jurusan.index');
     }
 }

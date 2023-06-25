@@ -5,20 +5,8 @@
 @section('content')
 <div class="content">
     <div class="row">
-        <div class="col-12">
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb ms-2 mb-4">
-                    <li class="breadcrumb-item">
-                        {{-- admin dan dosen penguji --}}
-                        @if(Auth::user()->mahasiswa)
-                            <p>Seminar Proposal</p>
-                        @elseif (Auth::user()->role->nama == 'admin' || Auth::user()->dosen->dosen_penguji)
-                            <a href="{{ route('seminar-proposal.index') }}">Seminar Proposal</a>
-                        @endif
-                    </li>
-                    <li class="breadcrumb-item active">Detail Data</li>
-                </ol>
-            </nav>
+        <div class="col-12 bg-light text-dark border border-light">
+            <h3 style="text-align:center;">DETAIL SEMINAR PROPOSAL</h3>
         </div>
         @if(session('success'))
         <div class="col-12 alert alert-success">
@@ -29,12 +17,17 @@
             {{ session('error') }}
         </div>
         @endif
-        <div class="col-12">
-            <form action="{{ route('seminar-proposal.update', ['seminarProposal' => $seminarProposal->id]) }}" method="POST" enctype="multipart/form-data">
-                @method('PUT')
-                @include('pages.dashboard.seminar_proposal.form', ['tombol' => 'Simpan'])
-            </form>
+        <div class="card">
+            <div class="card-body">
+                <div class="col-12">
+                    <form action="{{ route('seminar-proposal.update', ['seminarProposal' => $seminarProposal->id]) }}" method="POST" enctype="multipart/form-data">
+                        @method('PUT')
+                        @include('pages.dashboard.seminar_proposal.form', ['tombol' => 'Simpan'])
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 </div>
+<br>
 @endsection

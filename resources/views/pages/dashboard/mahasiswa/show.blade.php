@@ -3,7 +3,7 @@
     Profile Mahasiswa
 @endsection
 @section('content')
-    <div class="card mb-4">
+    <div class="card mb-4 ">
         <h5 class="card-header">Profile Mahasiswa</h5>
         <!-- Account -->
         <form action="{{ route('mahasiswa.update', $mahasiswa->id) }}" method="POST" enctype="multipart/form-data">

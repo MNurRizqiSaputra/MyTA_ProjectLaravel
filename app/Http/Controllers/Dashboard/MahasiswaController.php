@@ -9,6 +9,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class MahasiswaController extends Controller
 {
@@ -89,7 +90,7 @@ class MahasiswaController extends Controller
 
         $mahasiswa->save();
 
-        session()->flash('success', 'Data Mahasiswa berhasil diperbarui');
+        Alert::success('Success', 'Data mahasiswa berhasil diperbarui');
         return redirect()->route('mahasiswa.show', ['mahasiswa' => $mahasiswa]);
     }
 }

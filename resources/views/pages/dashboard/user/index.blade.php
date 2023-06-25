@@ -8,7 +8,7 @@
 <div class="content">
     <div class="row">
         <div class="col-12 d-flex align-items-center justify-content-between">
-            <h2 class="content-title">Users</h2>
+            <h2 class="content-title">Data Users</h2>
             @auth
             @if (Auth::user()->role->nama == 'admin')
             <a href="{{ route('user.create') }}" class="btn btn-primary mb-2">Tambah</a>
@@ -16,12 +16,6 @@
             @endauth
 
         </div>
-
-        @if(session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-        @endif
 
         <table id="example" class="display" style="width:100%">
             <thead>

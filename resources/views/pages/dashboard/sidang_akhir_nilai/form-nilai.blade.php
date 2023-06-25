@@ -26,10 +26,10 @@
     <div class="row">
         <div class="col mb-3">
             <label for="nilai" class="form-label">Nilai</label>
-            <input type="number" class="form-control" name="nilai" value="{{ old('nilai') ?? ($sidangAkhirNilai->nilai ?? '') }}">
+            <input type="number" class="form-control" name="nilai" value="{{ old('nilai') ?? ($sidangAkhirNilai->nilai ?? '') }}" placeholder="Berikan nilai">
         </div>
     </div>
 
 
-    <button type="submit" id="add" class="btn btn-primary">{{ $tombol }}</button>
+    <center><button type="submit" id="add" class="btn btn-primary">{{ $tombol }}</button></center>
 </div>

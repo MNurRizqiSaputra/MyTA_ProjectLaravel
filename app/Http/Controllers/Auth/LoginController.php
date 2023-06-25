@@ -46,7 +46,7 @@ class LoginController extends Controller
         $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {
-            if (auth()->check() && auth()->user()->role_id == 3) {
+            if (auth()->check() && auth()->user()->role_id == 1) {
                 $this->redirectTo = RouteServiceProvider::DASHBOARD;
             }
             return redirect()->to($this->redirectTo);

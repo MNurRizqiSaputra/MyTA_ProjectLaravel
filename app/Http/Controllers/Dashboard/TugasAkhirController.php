@@ -7,6 +7,7 @@ use App\Models\TugasAkhir;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class TugasAkhirController extends Controller
 {
@@ -58,8 +59,7 @@ class TugasAkhirController extends Controller
                 'selectedDosenPembimbing' => $selectedDosenPembimbing
             ]);
         }
-
-        session()->flash('error', 'Anda tidak memiliki izin untuk mengakses Tugas Akhir ini');
+        Alert::error('Gagal', 'Anda tidak memiliki izin untuk mengakses Tugas Akhir ini');
         return redirect()->route('tugas-akhir.index');
     }
 
@@ -98,9 +98,7 @@ class TugasAkhirController extends Controller
                 'mahasiswa_id' => $mahasiswa->id,
             ]);
         }
-
-        session()->flash('success', 'Tugas Akhir berhasil ditambah');
-
+        Alert::success('Success', 'Tugas Akhir berhasil ditambahkan');
         return redirect()->route('tugas-akhir.show', ['tugasAkhir' => $tugasAkhir->id]);
     }
 
@@ -130,8 +128,7 @@ class TugasAkhirController extends Controller
                 $tugasAkhir->file = $filePath;
             }
             $tugasAkhir->save();
-
-            session()->flash('success', 'Data Tugas Akhir berhasil diperbarui');
+            Alert::success('Success', 'Tugas Akhir berhasil diperbarui');
             return redirect()->route('tugas-akhir.show', ['tugasAkhir' => $tugasAkhir]);
         }
 
@@ -149,7 +146,7 @@ class TugasAkhirController extends Controller
                     ]);
                 }
             }
-            session()->flash('success', 'Data Tugas Akhir berhasil diperbarui');
+            Alert::success('Success', 'Tugas Akhir berhasil diperbarui');
             return redirect()->route('tugas-akhir.show', ['tugasAkhir' => $tugasAkhir]);
         }
         elseif ($user->dosen->dosen_pembimbing->id === $tugasAkhir->dosen_pembimbing_id) {
@@ -159,10 +156,10 @@ class TugasAkhirController extends Controller
             $tugasAkhir->status_persetujuan = $request->status_persetujuan;
             $tugasAkhir->save();
 
-            session()->flash('success', 'Berhasil mengubah status persetujuan');
+            Alert::success('Success', 'Berhasil mengubah Status Persetujuan');
             return redirect()->route('tugas-akhir.show', ['tugasAkhir' => $tugasAkhir]);
         }
-        session()->flash('error', 'Anda tidak memiliki akses untuk mengubah data Tugas Akhir');
+        Alert::success('Success', 'Anda tidak memiliki akses untuk mengubah data Tugas Akhir');
         return redirect()->back();
     }
 
