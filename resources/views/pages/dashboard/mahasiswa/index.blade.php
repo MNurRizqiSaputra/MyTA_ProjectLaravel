@@ -7,8 +7,8 @@
 @section('content')
 <div class="content">
     <div class="row">
-        <div class="col-12">
-            <h2 class="content-title">Mahasiswa</h2>
+        <div class="col-12 d-flex align-items-center justify-content-between">
+            <h2 class="content-title">Data Mahasiswa</h2>
         </div>
 
         <table id="example" class="display" style="width:100%">
