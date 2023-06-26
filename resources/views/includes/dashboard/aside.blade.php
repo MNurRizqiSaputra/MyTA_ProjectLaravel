@@ -1,8 +1,11 @@
 <aside class="sidebar">
     <a href="#" class="sidebar-logo">
         <div class="d-flex justify-content-start align-items-center">
-        <img src="{{ asset('dashboard/assets/img/global/buatfavicon.png') }}" alt="" style="width: 150px; height: 120px; border-radius: 10%;">
+            <img src="{{ asset('dashboard/assets/img/global/buatfavicon.png') }}" alt="" style="width: 150px; height: 120px; border-radius: 10%;">
         </div>
+        <button id="toggle-navbar" onclick="toggleNavbar()">
+            <img src="{{ asset('dashboard/assets/img/global/navbar-times.svg') }}" alt="">
+        </button>
     </a>
 
     <h5 class="sidebar-title">General</h5>
@@ -17,7 +20,7 @@
     <!-- Bagian Overview -->
     <a href="{{ route('dashboard') }}" class="sidebar-item {{ request()->is('dashboard/overview') ? 'active' : '' }}" onclick="toggleActive(this)">
         <img src="{{ asset('dashboard/assets/img/global/overview.png') }}" width="24" height="24" class="sidebar-icon">
-        
+
         <span style="margin-left: 8px;">Overview</span>
     </a>
 
@@ -134,7 +137,7 @@
         {{-- arahkan ke halaman index --}}
         @if ( Auth::user()->role->nama == 'admin' || (Auth::user()->dosen && Auth::user()->dosen->dosen_penguji()->first()))
         <a href="{{ route('seminar-penelitian.index') }}" class="sidebar-item {{ request()->is('dashboard/seminar-penelitian') ? 'active' : '' }}" onclick="toggleActive(this)">
-            <img src="{{ asset('dashboard/assets/img/global/Sempen.png') }}" width="24" height="24" class="sidebar-icon"> 
+            <img src="{{ asset('dashboard/assets/img/global/Sempen.png') }}" width="24" height="24" class="sidebar-icon">
 
             <span style="margin-left: 8px;">Seminar Penelitian</span>
         </a>

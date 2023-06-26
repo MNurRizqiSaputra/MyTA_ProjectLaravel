@@ -6,6 +6,7 @@ use App\Models\Dosen;
 use App\Models\DosenPembimbing;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class DosenPembimbingController extends Controller
 {
@@ -49,7 +50,7 @@ class DosenPembimbingController extends Controller
         ]);
 
         DosenPembimbing::create($validated);
-        session()->flash('success', 'Data Dosen Pembimbing berhasil ditambah');
+        Alert::success('Success', 'Data dosen pembimbing berhasil ditambah');
         return redirect()->route('dosen-pembimbing.index');
     }
 
@@ -60,6 +61,7 @@ class DosenPembimbingController extends Controller
             return redirect()->back()->with('error', 'Tidak bisa menghapus data dosen yang sudah terkait sebagai dosen pembimbing atau dosen penguji.');
         }
         $dosen_pembimbing->delete();
-        return redirect()->back()->with('success', 'Pengguna berhasil dihapus.');
+        Alert::success('Success', 'Data dosen pembimbing berhasil dihapus');
+        return redirect()->route('dosen-pembimbing.index');
     }
 }

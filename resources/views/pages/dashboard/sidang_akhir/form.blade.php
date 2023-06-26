@@ -25,7 +25,7 @@
             <details>
                 <summary>Attention!</summary>
                     <h8 style="font-style:italic; color:red;" >Silakan unggah ulang file jika terdapat pembaruan dalam menu Tugas Akhir</h8>
-            </details> 
+            </details>
         </div>
     </div>
 
@@ -147,10 +147,10 @@
     <div class="row">
         <div class="col mb-3">
             <label for="file" class="form-label">File</label>
-            <input type="text" class="form-control" value="{{ basename($sidangAkhir->tugas_akhir->file) }}" readonly>
+            <input type="text" class="form-control mb-2" value="{{ basename($sidangAkhir->tugas_akhir->file) }}" readonly>
             <p>Lihat file :
                 @if (isset($sidangAkhir->tugas_akhir->file))
-                <a href="{{ Storage::url($sidangAkhir->tugas_akhir->file) }}">Buka File</a>
+                <a href="{{ Storage::url($sidangAkhir->tugas_akhir->file) }}" class="btn btn-primary">Buka File</a>
             @endif
             </p>
         </div>

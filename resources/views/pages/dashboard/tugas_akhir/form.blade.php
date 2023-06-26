@@ -15,12 +15,16 @@
 
     <div class="row">
         <div class="col mb-3">
-            <label for="file" class="form-label">File</label>
-            <input type="file" id="file" class="form-control @error('file') is-invalid @enderror" name="file">
+            <label for="file" class="form-label">File : </label>
+            @auth
+                @if ((!isset($tugasAkhir) || !$tugasAkhir->id) || (Auth::user()->mahasiswa && Auth::user()->mahasiswa->tugas_akhir && Auth::user()->mahasiswa->id === ($tugasAkhir->mahasiswa_id ?? null)))
+                    <input type="file" id="file" class="form-control @error('file') is-invalid @enderror" name="file">
+                @endif
+            @endauth
 
             @if (isset($tugasAkhir->file))
-                <label for="file" class="form-label mt-3">Lihat File Sebelumnya</label>
-                <a href="{{ Storage::url($tugasAkhir->file) }}">Buka File</a>
+                <input type="text" class="form form-control mb-2" name="file_tugasAkhir" id="file_tugasAkhir" value="{{ basename($tugasAkhir->file) }}" readonly>
+                <a href="{{ Storage::url($tugasAkhir->file) }}" class="btn btn-primary">Buka File</a>
             @endif
 
             @error('file')
@@ -114,7 +118,7 @@
 
     <div class="row">
         <div class="col mb-3">
-            <label for="file" class="form-label">File</label>
+            <label for="file" class="form-label">File : </label>
             @auth
                 @if ((!isset($tugasAkhir) || !$tugasAkhir->id) || (Auth::user()->mahasiswa && Auth::user()->mahasiswa->tugas_akhir && Auth::user()->mahasiswa->id === ($tugasAkhir->mahasiswa_id ?? null)))
                     <input type="file" id="file" class="form-control @error('file') is-invalid @enderror" name="file">
@@ -185,7 +189,7 @@
 
     <div class="row">
         <div class="col mb-3">
-            <label for="total_nilai" class="form-label">total nilai</label>
+            <label for="total_nilai" class="form-label">Total Nilai</label>
 
             <input class="form-control" type="number" name="total_nilai" id="total_nilai" value="{{ old('total_nilai') ?? ($tugasAkhir->total_nilai ?? '') }}" required readonly>
 
