@@ -3,6 +3,9 @@
         <div class="d-flex justify-content-start align-items-center">
         <img src="{{ asset('dashboard/assets/img/global/buatfavicon.png') }}" alt="" style="width: 150px; height: 120px; border-radius: 10%;">
         </div>
+        <button id="toggle-navbar" onclick="toggleNavbar()">
+            <img src="{{ asset('dashboard/assets/img/global/navbar-times.svg') }}" alt="">
+        </button>
     </a>
 
     <h5 class="sidebar-title">General</h5>
