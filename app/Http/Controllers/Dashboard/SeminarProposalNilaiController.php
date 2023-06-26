@@ -6,6 +6,7 @@ use App\Models\SeminarProposal;
 use App\Models\SeminarProposalNilai;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class SeminarProposalNilaiController extends Controller
 {
@@ -53,7 +54,7 @@ class SeminarProposalNilaiController extends Controller
             ]);
         }
 
-        session()->flash('success', 'Seminar Proposal berhasil dinilai');
+        Alert::success('Success', 'Seminar Proposal berhasil dinilai');
         return redirect()->route('seminar-proposal.show', ['seminarProposal' => $seminarProposal->id]);
     }
 }

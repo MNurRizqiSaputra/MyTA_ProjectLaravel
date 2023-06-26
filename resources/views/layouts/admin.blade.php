@@ -26,10 +26,11 @@
         </div>
 
 
-        <div class="col-12 col-xl-9">
+        <div class="col-12 col-xl-8">
             @include('includes.dashboard.nav')
 
             @yield('content')
+            @include('sweetalert::alert')
         </div>
     </div>
 

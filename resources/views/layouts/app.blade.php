@@ -33,29 +33,8 @@
             <nav id="navbar" class="navbar ml-auto">
                 <ul>
                     <li><a class="nav-link scrollto" href="{{ route('frontend.home') }}">Home</a></li>
-                    @if (Auth::check())
-                    <li>
-                        <div class="dropdown">
-                            <a class="getstarted scrollto dropdown-toggle overflow-hidden" href="#" role="button" id="dropdownMenuProfile" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">
-                                Hello! {{ Auth::user()->nama }}
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuProfile">
-                                <li>
-                                    <a class="" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="bx bx-power-off"></i>{{ __('Logout') }}
-                                    </a>
-
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                        @csrf
-                                    </form>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-                    @else
-                    <li><a href="{{ route('login') }}" class="getstarted scrollto">Login</a></li>
-                    @endif
                 </ul>
-                <i class="bi bi-list mobile-nav-toggle"></i>
+                {{-- <i class="bi bi-list mobile-nav-toggle"></i> --}}
             </nav>
         </div>
     </header>
@@ -63,8 +42,6 @@
     <main class="py-4">
         @yield('content')
     </main>
-
-    <script src="{{ asset('frontend/assets/js/login.js') }}"></script>
 
 </body>
 </html>

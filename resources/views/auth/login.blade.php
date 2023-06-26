@@ -14,7 +14,7 @@
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
                         <!-- Email input -->
-                        <div class="form-outline mb-4">
+                        <div class="form-outline mb-4 mt-2">
                             <input type="email" id="email" name="email" class="form-control form-control-lg @error('email') is-invalid @enderror" placeholder="youremail@example.com" value="{{ old('email') }}" required autocomplete="email">
                             <label class="form-label" for="email">Email address</label>
 
@@ -29,7 +29,7 @@
                         <div class="form-outline mb-3">
                             <input type="password" id="password" name="password" class="form-control form-control-lg @error('password') is-invalid @enderror" placeholder="Password" required autocomplete="current-password">
                             <label class="form-label" for="password">Password</label>
-                            <span style="font-style:italic; color:blue;">Password Default: Tanggal Lahir (yyyy-mm-dd)</span>
+                            <span style="font-style:italic; color:gray;">Default: Tanggal Lahir (YYYY-MM-DD)</span>
 
                             @error('password')
                                 <span class="invalid-feedback" role="alert">
@@ -54,7 +54,7 @@
                         </div>
 
                         <div class="text-center text-lg-start mt-4 pt-2">
-                            <button type="submit" class="btn btn-primary btn-lg"
+                            <button type="submit" class="btn btn-primary btn-lg mb-1"
                                 style="padding-left: 2.5rem; padding-right: 2.5rem;">{{ __('Login') }}</button>
                             {{-- <p class="small fw-bold mt-2 pt-1 mb-0">Don't have an account? <a href="#!" class="link-primary">Register</a></p> --}}
                         </div>

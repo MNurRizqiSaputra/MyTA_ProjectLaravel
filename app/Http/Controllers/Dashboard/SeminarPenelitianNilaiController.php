@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use App\Models\SeminarPenelitian;
 use App\Models\SeminarPenelitianNilai;
 use Illuminate\Http\Request;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class SeminarPenelitianNilaiController extends Controller
 {
@@ -51,7 +52,7 @@ class SeminarPenelitianNilaiController extends Controller
                 'nilai_akhir' => $nilaiAkhir
             ]);
         }
-        session()->flash('success', 'Seminar Penelitian berhasil dinilai');
+        Alert::success('Success', 'Seminar Penelitian berhasil dinilai');
         return redirect()->route('seminar-penelitian.show', ['seminarPenelitian' => $seminarPenelitian->id]);
     }
 }

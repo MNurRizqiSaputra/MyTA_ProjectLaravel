@@ -464,5 +464,18 @@ aside #toggle-navbar {
   filter: grayscale(50%); /* Mengembalikan ikon ke warna hitam */
 }
 
+.image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.responsive-image {
+  max-width: 100%;
+  height: 100px;
+  margin: 5px;
+  padding: 5px;
+}
+
 
 
