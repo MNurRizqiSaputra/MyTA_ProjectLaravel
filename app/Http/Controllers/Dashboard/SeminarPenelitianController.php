@@ -158,19 +158,11 @@ class SeminarPenelitianController extends Controller
 
         // Tambahkan data dosen penguji terpilih ke seminar_penelitian_nilai
         foreach ($selectedDosenPengujiIds as $dosenPengujiId) {
-            $tugasAkhir = TugasAkhir::find($seminarPenelitian->tugas_akhir_id);
-
-            // Cek apakah dosen penguji sudah menjadi dosen pembimbing
-            if ($tugasAkhir->dosen_pembimbing_id != $dosenPengujiId) {
-                Alert::error('Gagal', 'Dosen yang dipilih sudah menjadi Dosen Pembimbing');
-                return redirect()->route('seminar-penelitian.show', ['seminarPenelitian' => $seminarPenelitian->id]);
-            } else {
-                $seminarPenelitianNilai = SeminarPenelitianNilai::firstOrNew([
-                    'seminar_penelitian_id' => $seminarPenelitian->id,
-                    'dosen_penguji_id' => $dosenPengujiId,
-                ]);
-                $seminarPenelitianNilai->save();
-            }
+            $seminarPenelitianNilai = SeminarPenelitianNilai::firstOrNew([
+                'seminar_penelitian_id' => $seminarPenelitian->id,
+                'dosen_penguji_id' => $dosenPengujiId,
+            ]);
+            $seminarPenelitianNilai->save();
         }
 
         Alert::success('Success', 'Seminar Penelitian berhasil diperbarui');

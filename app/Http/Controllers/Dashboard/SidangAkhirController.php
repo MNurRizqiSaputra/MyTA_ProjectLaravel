@@ -154,19 +154,11 @@ class SidangAkhirController extends Controller
 
         // Tambahkan data dosen penguji terpilih ke sidang_akhir_nilai
         foreach ($selectedDosenPengujiIds as $dosenPengujiId) {
-            $tugasAkhir = TugasAkhir::find($sidangAkhir->tugas_akhir_id);
-
-            // Cek apakah dosen penguji sudah menjadi dosen pembimbing
-            if ($tugasAkhir->dosen_pembimbing_id != $dosenPengujiId) {
-                Alert::error('Gagal', 'Dosen yang dipilih sudah menjadi Dosen Pembimbing');
-                return redirect()->route('sidang-akhir.show', ['sidangAkhir' => $sidangAkhir->id]);
-            } else {
-                $sidangAkhirNilai = SidangAkhirNilai::firstOrNew([
-                    'sidang_akhir_id' => $sidangAkhir->id,
-                    'dosen_penguji_id' => $dosenPengujiId,
-                ]);
-                $sidangAkhirNilai->save();
-            }
+            $sidangAkhirNilai = SidangAkhirNilai::firstOrNew([
+                'sidang_akhir_id' => $sidangAkhir->id,
+                'dosen_penguji_id' => $dosenPengujiId,
+            ]);
+            $sidangAkhirNilai->save();
         }
 
         Alert::success('Success', 'Sidang Akhir berhasil diperbarui');
