@@ -3,7 +3,7 @@
     Profile Mahasiswa
 @endsection
 @section('content')
-    <div class="card mb-4">
+    <div class="card mb-4 ">
         <h5 class="card-header">Profile Mahasiswa</h5>
         <!-- Account -->
         <form action="{{ route('mahasiswa.update', $mahasiswa->id) }}" method="POST" enctype="multipart/form-data">
@@ -32,7 +32,7 @@
                 <div class="row">
                     <div class="mb-3 col-md-6">
                         <label for="nim" class="form-label">NIM</label>
-                        <input class="form-control" type="number" id="nim" name="nim" value="{{ old('nim') ?? ($mahasiswa->nim ?? '') }}" required>
+                        <input class="form-control @error('nim') is-invalid @enderror" type="number" id="nim" name="nim" value="{{ old('nim') ?? ($mahasiswa->nim ?? '') }}" required>
                         @error('nim')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -41,7 +41,7 @@
                     </div>
                     <div class="mb-3 col-md-6">
                         <label for="nama" class="form-label">Nama Lengkap</label>
-                        <input class="form-control" type="text" id="nama" name="nama" value="{{ old('nama') ?? ($mahasiswa->user->nama ?? '') }}" required>
+                        <input class="form-control @error('nama') is-invalid @enderror" type="text" id="nama" name="nama" value="{{ old('nama') ?? ($mahasiswa->user->nama ?? '') }}" required>
                         @error('nama')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -50,15 +50,15 @@
                     </div>
                     <div class="mb-3 col-md-6">
                         <label for="tanggal_lahir" class="form-label">Tanggal Lahir</label>
-                        <input class="form-control" type="date" id="tanggal_lahir" name="tanggal_lahir" value="{{ old('tanggal_lahir') ?? ($mahasiswa->user->tanggal_lahir ?? '') }}" required>
+                        <input class="form-control @error('tanggal_lahir') is-invalid @enderror" type="date" id="tanggal_lahir" name="tanggal_lahir" value="{{ old('tanggal_lahir') ?? ($mahasiswa->user->tanggal_lahir ?? '') }}" required>
                     </div>
                     <div class="mb-3 col-md-6">
                         <label for="nohp" class="form-label">No HP</label>
-                        <input class="form-control" type="number" id="nohp" name="nohp" value="{{ old('nohp') ?? ($mahasiswa->nohp ?? '') }}" required>
+                        <input class="form-control @error('nohp') is-invalid @enderror" type="number" id="nohp" name="nohp" value="{{ old('nohp') ?? ($mahasiswa->nohp ?? '') }}" required>
                     </div>
                     <div class="mb-3 col-md-6">
                         <label for="email" class="form-label">E-mail</label>
-                        <input class="form-control" type="text" id="email" name="email" value="{{ old('email') ?? ($mahasiswa->user->email ?? '') }}" placeholder="john.doe@example.com" required>
+                        <input class="form-control @error('email') is-invalid @enderror" type="text" id="email" name="email" value="{{ old('email') ?? ($mahasiswa->user->email ?? '') }}" placeholder="john.doe@example.com" required>
                         @error('email')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>

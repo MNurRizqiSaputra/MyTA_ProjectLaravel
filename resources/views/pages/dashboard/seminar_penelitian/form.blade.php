@@ -36,6 +36,7 @@
 
             @if (Auth::user()->role->nama == 'admin')
                 <select id="tempat" name="tempat" class="form-select" required>
+                    <option value="">--Pilih--</option>
                     <option value="Gedung A" {{ $seminarPenelitian->tempat == 'Gedung A' ? 'selected' : '' }}>Gedung A</option>
                     <option value="Gedung B" {{ $seminarPenelitian->tempat == 'Gedung B' ? 'selected' : '' }}>Gedung B</option>
                     <option value="Gedung C" {{ $seminarPenelitian->tempat == 'Gedung C' ? 'selected' : '' }}>Gedung C</option>
@@ -147,10 +148,10 @@
     <div class="row">
         <div class="col mb-3">
             <label for="file" class="form-label">File</label>
-            <input type="text" class="form-control" value="{{ basename($seminarPenelitian->tugas_akhir->file) }}" readonly>
+            <input type="text" class="form-control mb-2" value="{{ basename($seminarPenelitian->tugas_akhir->file) }}" readonly>
             <p>Lihat file :
                 @if (isset($seminarPenelitian->tugas_akhir->file))
-                <a href="{{ Storage::url($seminarPenelitian->tugas_akhir->file) }}">Buka File</a>
+                <a href="{{ Storage::url($seminarPenelitian->tugas_akhir->file) }}" class="btn btn-primary">Buka File</a>
             @endif
             </p>
         </div>
@@ -162,6 +163,7 @@
 
             @if (Auth::user()->role->nama == 'admin')
                 <select id="tempat" name="tempat" class="form-select" required>
+                    <option value="">--Pilih--</option>
                     <option value="Gedung A" {{ $seminarPenelitian->tempat == 'Gedung A' ? 'selected' : '' }}>Gedung A</option>
                     <option value="Gedung B" {{ $seminarPenelitian->tempat == 'Gedung B' ? 'selected' : '' }}>Gedung B</option>
                     <option value="Gedung C" {{ $seminarPenelitian->tempat == 'Gedung C' ? 'selected' : '' }}>Gedung C</option>

@@ -8,6 +8,7 @@ use App\Models\SeminarPenelitianNilai;
 use App\Models\TugasAkhir;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class SeminarPenelitianController extends Controller
 {
@@ -87,11 +88,11 @@ class SeminarPenelitianController extends Controller
                     'tugasAkhir' => $tugasAkhirMahasiswa
                 ]);
             } else {
-                session()->flash('error', 'Mohon Maaf, masih terdapat Dosen Penguji yang belum menilai Seminar Proposal anda');
+                Alert::error('Gagal', 'Mohon Maaf, masih terdapat Dosen Penguji yang belum menilai Seminar Proposal anda');
                 return redirect()->back();
             }
         } else {
-            session()->flash('error', 'Mohon Maaf, anda belum memiliki Seminar Proposal');
+            Alert::error('Gagal', 'Mohon Maaf, anda belum memiliki Seminar Proposal');
             return redirect()->back();
         }
     }
@@ -108,7 +109,7 @@ class SeminarPenelitianController extends Controller
 
         $tugasAkhir = TugasAkhir::find($request->tugas_akhir_id);
         if ($tugasAkhir->seminar_penelitian) {
-            session()->flash('error', 'Mohon Maaf, anda sudah menambahkan Seminar Penelitian');
+            Alert::error('Gagal', 'Anda sudah menambahkan Seminar Penelitian');
             return redirect()->back();
         }
 
@@ -116,7 +117,7 @@ class SeminarPenelitianController extends Controller
             'tugas_akhir_id' => $request->tugas_akhir_id
         ]);
 
-        session()->flash('success', 'Seminar Penelitian berhasil ditambahkan');
+        Alert::success('Success', 'Seminar Penelitian berhasil ditambah');
         return redirect()->route('seminar-penelitian.show', ['seminarPenelitian' => $seminarPenelitian->id]);
     }
 
@@ -146,7 +147,8 @@ class SeminarPenelitianController extends Controller
                         });
                     })->exists();
         if ($bentrok) {
-            return redirect()->back()->with('error', 'Maaf, terdapat bentrok dengan acara lain pada waktu dan tempat tersebut.');
+            Alert::error('Gagal', 'Terdapat bentrok dengan jadwal lain');
+            return redirect()->back();
         }
 
         $seminarPenelitian->update($validate);
@@ -156,14 +158,23 @@ class SeminarPenelitianController extends Controller
 
         // Tambahkan data dosen penguji terpilih ke seminar_penelitian_nilai
         foreach ($selectedDosenPengujiIds as $dosenPengujiId) {
-            $seminarPenelitianNilai = SeminarPenelitianNilai::firstOrNew([
-                'seminar_penelitian_id' => $seminarPenelitian->id,
-                'dosen_penguji_id' => $dosenPengujiId,
-            ]);
-            $seminarPenelitianNilai->save();
+            $tugasAkhir = TugasAkhir::find($seminarPenelitian->tugas_akhir_id);
+            $dosenPenguji = DosenPenguji::where('id', $dosenPengujiId)->value('dosen_id');
+
+            // Cek apakah dosen penguji sudah menjadi dosen pembimbing
+            if ($tugasAkhir->dosen_pembimbing->dosen_id == $dosenPenguji) {
+                Alert::error('Gagal', 'Dosen yang dipilih sudah menjadi Dosen Pembimbing');
+                return redirect()->route('seminar-penelitian.show', ['seminarPenelitian' => $seminarPenelitian->id]);
+            } else {
+                $seminarPenelitianNilai = SeminarPenelitianNilai::firstOrNew([
+                    'seminar_penelitian_id' => $seminarPenelitian->id,
+                    'dosen_penguji_id' => $dosenPengujiId,
+                ]);
+                $seminarPenelitianNilai->save();
+            }
         }
 
-        session()->flash('success', 'Data Seminar Proposal berhasil diperbarui');
+        Alert::success('Success', 'Seminar Penelitian berhasil diperbarui');
         return redirect()->route('seminar-penelitian.show', ['seminarPenelitian' => $seminarPenelitian->id]);
     }
 }

@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Dosen;
 use App\Models\DosenPenguji;
 use Illuminate\Http\Request;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class DosenPengujiController extends Controller
 {
@@ -44,16 +45,18 @@ class DosenPengujiController extends Controller
             'dosen_id' => 'required|unique:dosen_pengujis,dosen_id'
         ]);
         DosenPenguji::create($validated);
-        session()->flash('success', 'Data Dosen Penguji berhasil ditambah');
+        Alert::success('Success', 'Data dosen penguji berhasil ditambah');
         return redirect()->route('dosen-penguji.index');
     }
 
     function destroy(DosenPenguji $dosenPenguji){
         if($dosenPenguji->seminar_penelitians()->exists() || $dosenPenguji->seminar_proposals()->exists() || $dosenPenguji->sidang_akhirs()->exists()){
-            return redirect()->back()->with('error', 'Tidak bisa menghapus data dosen yang sudah terkait.');
+            Alert::error('Gagal', 'Tidak bisa menghapus data dosen yang sudah terkait');
+            return redirect()->back();
         } else {
             $dosenPenguji->delete();
-            return redirect()->back()->with('success', 'Pengguna berhasil dihapus.');
+            Alert::success('Success', 'Data dosen penguji berhasil dihapus');
+            return redirect()->back();
         }
     }
 }

@@ -9,6 +9,7 @@ use App\Models\SeminarProposalNilai;
 use App\Models\TugasAkhir;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class SeminarProposalController extends Controller
 {
@@ -85,7 +86,7 @@ class SeminarProposalController extends Controller
                 'tugasAkhir' => $mahasiswa->tugas_akhir
             ]);
         }
-        session()->flash('error', 'Mohon Maaf, Tugas Akhir anda belum disetujui');
+        Alert::error('Gagal', 'Tugas Akhir anda belum disetujui');
         return redirect()->back();
 
     }
@@ -102,14 +103,14 @@ class SeminarProposalController extends Controller
 
         $tugasAkhir = TugasAkhir::find($request->tugas_akhir_id);
         if ($tugasAkhir->seminar_proposal) {
-            session()->flash('error', 'Mohon Maaf, anda sudah menambahkan seminar proposal');
+            Alert::error('Gagal', 'Mohon Maaf, anda sudah menambahkan seminar proposal');
             return redirect()->back();
         }
 
         $seminarProposal = SeminarProposal::create([
             'tugas_akhir_id' => $request->tugas_akhir_id
         ]);
-        session()->flash('success', 'Seminar Proposal berhasil ditambahkan');
+        Alert::success('Success', 'Seminar Proposal berhasil ditambahkan');
         return redirect()->route('seminar-proposal.show', ['seminarProposal' => $seminarProposal->id]);
     }
 
@@ -139,7 +140,7 @@ class SeminarProposalController extends Controller
                         });
                     })->exists();
         if ($bentrok) {
-            session()->flash('error', 'Maaf, terdapat bentrok dengan Seminar/Sidang lain pada waktu dan tempat tersebut');
+            Alert::error('Gagal', 'Terdapat bentrok dengan jadwal lain');
             return redirect()->back();
         }
 
@@ -150,14 +151,23 @@ class SeminarProposalController extends Controller
 
         // Tambahkan data dosen penguji terpilih ke seminar_proposal_nilai
         foreach ($selectedDosenPengujiIds as $dosenPengujiId) {
-            $seminarProposalNilai = SeminarProposalNilai::firstOrNew([
-                'seminar_proposal_id' => $seminarProposal->id,
-                'dosen_penguji_id' => $dosenPengujiId,
-            ]);
-            $seminarProposalNilai->save();
+            $tugasAkhir = TugasAkhir::find($seminarProposal->tugas_akhir_id);
+            $dosenPenguji = DosenPenguji::where('id', $dosenPengujiId)->value('dosen_id');
+
+            // Cek apakah dosen penguji sudah menjadi dosen pembimbing
+            if ($tugasAkhir->dosen_pembimbing->dosen_id == $dosenPenguji) {
+                Alert::error('Gagal', 'Dosen yang dipilih sudah menjadi Dosen Pembimbing');
+                return redirect()->route('seminar-proposal.show', ['seminarProposal' => $seminarProposal->id]);
+            } else {
+                $seminarProposalNilai = SeminarProposalNilai::firstOrNew([
+                    'seminar_proposal_id' => $seminarProposal->id,
+                    'dosen_penguji_id' => $dosenPengujiId,
+                ]);
+                $seminarProposalNilai->save();
+            }
         }
 
-        session()->flash('success', 'Data Seminar Proposal berhasil diperbarui');
+        Alert::success('Success', 'Seminar Proposal berhasil diperbarui');
         return redirect()->route('seminar-proposal.show', ['seminarProposal' => $seminarProposal->id]);
     }
 }
