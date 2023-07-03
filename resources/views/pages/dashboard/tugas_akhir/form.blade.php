@@ -203,7 +203,7 @@
 
     <center>
     @auth
-        @if (!isset(Auth::user()->mahasiswa->tugas_akhir) && $tugasAkhir->status_persetujuan == 'Disetujui')
+        @if (!isset(Auth::user()->mahasiswa->tugas_akhir) && $tugasAkhir->status_persetujuan == 'Disetujui' || Auth::user()->mahasiswa && Auth::user()->mahasiswa->tugas_akhir->total_nilai)
             <input type="hidden" name="">
         @elseif ((Auth::user()->dosen && Auth::user()->dosen->dosen_pembimbing->id) || (Auth::user()->mahasiswa && Auth::user()->mahasiswa->tugas_akhir) || Auth::user()->role->nama == 'admin')
             <button type="submit" id="edit" class="btn btn-primary">{{ $tombol }}</button>

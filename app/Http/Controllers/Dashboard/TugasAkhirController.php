@@ -86,10 +86,10 @@ class TugasAkhirController extends Controller
         } else {
 
             // Simpan file tugas akhir
-            // $path = $request->file('file')->store('tugas-akhir', 'public');
-            $file = $request->file('file');
-            $fileName = time() . '_' . $file->getClientOriginalName();
-            $filePath = $file->storeAs('tugas-akhir/' . $mahasiswa->id, $fileName);
+            $fileName = $request->judul . '.' . $request->file('file')->getClientOriginalExtension();
+            $filePath = $request->file('file')->storeAs('public/tugas-akhir/' . $mahasiswa->id, $fileName);
+            $filePath = str_replace('public/', '', $filePath);
+            // $filePath = $request->file('file')->store('tugas-akhir', 'public');
 
             // Buat data tugas akhir baru
             $tugasAkhir = TugasAkhir::create([
@@ -121,9 +121,10 @@ class TugasAkhirController extends Controller
                     Storage::delete($tugasAkhir->file);
                 }
 
-                $file = $request->file('file');
-                $fileName = time() . '_' . $file->getClientOriginalName();
-                $filePath = $file->storeAs('tugas-akhir/' . $user->mahasiswa->id, $fileName);
+                $fileName = $request->judul . '.' . $request->file('file')->getClientOriginalExtension();
+                $filePath = $request->file('file')->storeAs('public/tugas-akhir/' . $user->mahasiswa->id, $fileName);
+                $filePath = str_replace('public/', '', $filePath);
+                // $filePath = $request->file('file')->store('tugas-akhir', 'public');
 
                 $tugasAkhir->file = $filePath;
             }

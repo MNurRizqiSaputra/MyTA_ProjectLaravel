@@ -36,6 +36,7 @@
 
             @if (Auth::user()->role->nama == 'admin')
                 <select id="tempat" name="tempat" class="form-select" required>
+                    <option value="">--Pilih--</option>
                     <option value="Gedung A" {{ $sidangAkhir->tempat == 'Gedung A' ? 'selected' : '' }}>Gedung A</option>
                     <option value="Gedung B" {{ $sidangAkhir->tempat == 'Gedung B' ? 'selected' : '' }}>Gedung B</option>
                     <option value="Gedung C" {{ $sidangAkhir->tempat == 'Gedung C' ? 'selected' : '' }}>Gedung C</option>
@@ -162,6 +163,7 @@
 
             @if (Auth::user()->role->nama == 'admin')
                 <select id="tempat" name="tempat" class="form-select" required>
+                    <option value="">--Pilih--</option>
                     <option value="Gedung A" {{ $sidangAkhir->tempat == 'Gedung A' ? 'selected' : '' }}>Gedung A</option>
                     <option value="Gedung B" {{ $sidangAkhir->tempat == 'Gedung B' ? 'selected' : '' }}>Gedung B</option>
                     <option value="Gedung C" {{ $sidangAkhir->tempat == 'Gedung C' ? 'selected' : '' }}>Gedung C</option>
