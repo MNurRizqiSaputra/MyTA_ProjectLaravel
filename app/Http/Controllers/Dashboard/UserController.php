@@ -19,7 +19,7 @@ class UserController extends Controller
             'users' => User::with('role')->orderBy('nama')->get(),
         ]);
     }
-
+    
     public function create()
     {
         return view('pages.dashboard.user.create', [
